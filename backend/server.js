@@ -25,7 +25,9 @@ app.post('/login', (req, res) => {
     res.status(401).json({ message: 'Invalid credentials or user type', status: 'fail' });
   }
 });
-
+app.get('/', (req, res) => {
+  res.send('Welcome to the Bajaj Vendor Portal API');
+});
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
