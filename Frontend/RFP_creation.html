@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Buyer Portal - Create RFP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #a78bfa;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="fiori-title text-2xl">Create RFP</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Amit Kumar</div>
+                  <div id="profileEmail" class="text-sm text-[var(--fiori-gray)]">amit.kumar@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> AMIT001</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> RFP Creator</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <section class="fiori-card">
+      <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3 fiori-title">
+        <i class="fas fa-file-alt text-[var(--fiori-blue)]"></i>
+        <span>Request for Proposal (RFP)</span>
+      </h2>
+      <form class="space-y-6" id="rfp-form" novalidate>
+        <div>
+          <label class="block text-sm font-medium text-[var(--fiori-blue)] mb-1" for="rfp-title">
+            RFP Title
+          </label>
+          <input class="block w-full rounded-md border border-[var(--fiori-border)] px-3 py-2 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] focus:border-[var(--fiori-blue)]" id="rfp-title" name="rfp-title" placeholder="Enter the title of the RFP" required type="text"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-[var(--fiori-blue)] mb-1" for="rfp-description">
+            Description
+          </label>
+          <textarea class="block w-full rounded-md border border-[var(--fiori-border)] px-3 py-2 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] focus:border-[var(--fiori-blue)]" id="rfp-description" name="rfp-description" placeholder="Provide detailed description of the RFP" required rows="4"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-[var(--fiori-blue)] mb-1" for="rfp-deadline">
+            Submission Deadline
+          </label>
+          <input class="block w-full rounded-md border border-[var(--fiori-border)] px-3 py-2 placeholder-blue-400 focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] focus:border-[var(--fiori-blue)]" id="rfp-deadline" name="rfp-deadline" required type="date"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-[var(--fiori-blue)] mb-1" for="rfp-attachments">
+            Attachments
+          </label>
+          <input aria-describedby="rfp-attachments-help" class="block w-full text-[var(--fiori-blue)]" id="rfp-attachments" multiple name="rfp-attachments" type="file"/>
+          <p class="text-xs text-blue-500 mt-1" id="rfp-attachments-help">
+            You can upload multiple files (PDF, DOCX, XLSX).
+          </p>
+        </div>
+        <div class="flex justify-end">
+          <button class="fiori-btn inline-flex items-center px-6 py-2 bg-green-600 hover:bg-green-700 text-white"
+                  type="submit">
+            <i class="fas fa-paper-plane mr-2"></i>
+            Submit RFP
+          </button>
+        </div>
+      </form>
+    </section>
+    <button
+      type="button"
+      onclick="window.location.href='./Buyer_Homepage.html'"
+      class="fiori-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm mx-auto bg-[var(--fiori-blue)] hover:bg-[var(--fiori-blue-dark)] text-white"
+      aria-label="Go back to Buyer Homepage"
+      style="display: flex; align-items: center; justify-content: center;"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2025 Developed By Techcarvings Consultancy Technical Team . All rights reserved.
+  </footer>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Allow multiple roles to submit RFP (including Amit Kumar)
+    const allowedEmails = [
+      "amit.kumar@buyer.com",
+      "priya.sharma@buyer.com",
+      "shashi.kumar@buyer.com"
+    ];
+
+    // Get current user email from profile section
+    function getCurrentUserEmail() {
+      const emailElem = document.getElementById('profileEmail');
+      return emailElem ? emailElem.textContent.trim() : "";
+    }
+
+    document.getElementById('rfp-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const userEmail = getCurrentUserEmail();
+      if (allowedEmails.includes(userEmail)) {
+        alert('RFP submitted successfully! Your request has been sent to the supplier.');
+        document.getElementById('rfp-form').reset();
+      } else {
+        alert('You are not authorized to submit the RFP. Please contact your administrator.');
+      }
+    });
+  });
+  </script>
+</body>
+</html>

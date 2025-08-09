@@ -1,0 +1,345 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>View Credit Note - Buyer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #a78bfa;
+    }
+    #attachments-list {
+      scrollbar-width: thin;
+      scrollbar-color: #7c3aed #ede9fe;
+    }
+    #attachments-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    #attachments-list::-webkit-scrollbar-track {
+      background: #ede9fe;
+    }
+    #attachments-list::-webkit-scrollbar-thumb {
+      background-color: #7c3aed;
+      border-radius: 3px;
+    }
+  </style>
+ </head>
+ <body>
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <nav class="flex gap-4 ml-4">
+          <a href="Buyer_Homepage.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Home</a>
+          <a href="PR_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PR Management</a>
+          <a href="PO_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PO Management</a>
+          <a href="Invoice_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Invoice Management</a>
+          <a href="Reports.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Reports</a>
+          <a href="Notifications.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Notifications</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h2 class="text-3xl font-semibold mb-10 fiori-title text-center">
+    Credit Note Details
+  </h2>
+  <main class="container mx-auto max-w-4xl p-8">
+   <section class="bg-white shadow rounded-lg p-8 fiori-card">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+     <div>
+      <h3 class="text-xl font-semibold mb-4 fiori-title">
+       Invoice Information
+      </h3>
+      <dl class="space-y-4">
+       <div>
+        <dt class="font-semibold text-gray-800">Invoice Number:</dt>
+        <dd id="invoice-number" class="ml-2 text-lg font-medium text-black">INV-1001</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Invoice Date:</dt>
+        <dd id="invoice-date" class="ml-2 text-lg font-medium text-black">2024-05-01</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Customer Name:</dt>
+        <dd id="customer-name" class="ml-2 text-lg font-medium text-black">Acme Corp</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Invoice Amount:</dt>
+        <dd id="invoice-amount" class="ml-2 text-lg font-medium text-black">₹1,200.00</dd>
+       </div>
+      </dl>
+     </div>
+     <div>
+      <h3 class="text-xl font-semibold mb-4 fiori-title">
+       Credit Note Information
+      </h3>
+      <dl class="space-y-4">
+       <div>
+        <dt class="font-semibold text-gray-800">Credit Note Number:</dt>
+        <dd id="credit-note-number" class="ml-2 text-lg font-medium text-black">CN-2024-001</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Credit Note Date:</dt>
+        <dd id="credit-note-date" class="ml-2 text-lg font-medium text-black">2024-06-01</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Credit Amount:</dt>
+        <dd id="credit-amount" class="ml-2 text-lg font-medium text-black">₹300.00</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Reason:</dt>
+        <dd id="reason" class="ml-2 text-lg font-medium text-black">Product Return</dd>
+       </div>
+       <div>
+        <dt class="font-semibold text-gray-800">Additional Notes:</dt>
+        <dd id="notes" class="ml-2 italic text-blue-700 text-lg">
+         Returned 3 defective items.
+        </dd>
+       </div>
+      </dl>
+     </div>
+    </div>
+    <section>
+     <h3 class="text-xl font-semibold mb-6 fiori-title">
+      Attachments
+     </h3>
+     <ul
+       id="attachments-list"
+       class="list-disc list-inside max-h-48 overflow-y-auto text-[var(--fiori-blue)] space-y-2"
+     >
+      <!-- Attachments will be inserted here -->
+     </ul>
+    </section>
+    <div class="mt-12 flex justify-end space-x-6">
+     <button
+       id="download-pdf"
+       class="bg-[var(--fiori-blue)] hover:bg-[var(--fiori-blue-dark)] text-white px-8 py-3 rounded-md flex items-center gap-3 text-lg"
+       title="Download Credit Note as PDF"
+       type="button"
+     >
+      <i class="fas fa-file-pdf"></i>
+      <span>Download PDF</span>
+     </button>
+     <button
+       id="print-note"
+       class="bg-[var(--fiori-blue)] hover:bg-[var(--fiori-blue-dark)] text-white px-8 py-3 rounded-md flex items-center gap-3 text-lg"
+       title="Print Credit Note"
+       type="button"
+     >
+      <i class="fas fa-print"></i>
+      <span>Print</span>
+     </button>
+    </div>
+   </section>
+   <!-- Add this just before the closing </main> tag -->
+   <button
+     type="button"
+     onclick="window.location.href='Buyer_Homepage.html';"
+     class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm mx-auto"
+     aria-label="Go back to Buyer Homepage"
+     style="display: flex; align-items: center; justify-content: center;"
+   >
+     <i class="fas fa-arrow-left"></i>
+     Back
+   </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2025 Developed by Techcarvings Consultancy Technical Team. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Sample credit note data (would come from backend or API in real app)
+    const creditNoteData = {
+      invoiceNumber: "INV-1001",
+      invoiceDate: "2024-05-01",
+      customerName: "Acme Corp",
+      invoiceAmount: 1200.0,
+      creditNoteNumber: "CN-2024-001",
+      creditNoteDate: "2024-06-01",
+      creditAmount: 300.0,
+      reason: "Product Return",
+      notes: "Returned 3 defective items.",
+      attachments: [
+        {
+          name: "Credit_Note_Attachment_1.png",
+          url: "https://placehold.co/600x400/png?text=Credit+Note+Attachment+1",
+        },
+        {
+          name: "Credit_Note_Attachment_2.png",
+          url: "https://placehold.co/600x400/png?text=Credit+Note+Attachment+2",
+        },
+      ],
+    };
+
+    // Populate fields dynamically (in case you want to extend)
+    document.getElementById("invoice-number").textContent =
+      creditNoteData.invoiceNumber;
+    document.getElementById("invoice-date").textContent =
+      creditNoteData.invoiceDate;
+    document.getElementById("customer-name").textContent =
+      creditNoteData.customerName;
+    document.getElementById("invoice-amount").textContent = `₹${creditNoteData.invoiceAmount.toFixed(
+      2
+    )}`;
+    document.getElementById("credit-note-number").textContent =
+      creditNoteData.creditNoteNumber;
+    document.getElementById("credit-note-date").textContent =
+      creditNoteData.creditNoteDate;
+    document.getElementById("credit-amount").textContent = `₹${creditNoteData.creditAmount.toFixed(
+      2
+    )}`;
+    document.getElementById("reason").textContent = creditNoteData.reason;
+    document.getElementById("notes").textContent = creditNoteData.notes;
+
+    // Populate attachments list dynamically
+    const attachmentsList = document.getElementById("attachments-list");
+    attachmentsList.innerHTML = "";
+    creditNoteData.attachments.forEach((att) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = att.url;
+      a.target = "_blank";
+      a.className = "underline hover:text-[var(--fiori-blue)] text-lg";
+      a.textContent = att.name;
+      li.appendChild(a);
+      attachmentsList.appendChild(li);
+    });
+
+    // Print functionality with alert
+    document.getElementById("print-note").addEventListener("click", () => {
+      alert("Credit Note is being sent to printer.");
+      window.print();
+    });
+
+    // Download PDF functionality (basic simulation) with alert
+    document.getElementById("download-pdf").addEventListener("click", () => {
+      alert("Credit Note will be downloaded as a text file (demo purpose).");
+      // For demo, create a simple text file with credit note info
+      const content = `
+Credit Note Number: ${creditNoteData.creditNoteNumber}
+Credit Note Date: ${creditNoteData.creditNoteDate}
+Invoice Number: ${creditNoteData.invoiceNumber}
+Invoice Date: ${creditNoteData.invoiceDate}
+Customer Name: ${creditNoteData.customerName}
+Invoice Amount: ₹${creditNoteData.invoiceAmount.toFixed(2)}
+Credit Amount: ₹${creditNoteData.creditAmount.toFixed(2)}
+Reason: ${creditNoteData.reason}
+Additional Notes: ${creditNoteData.notes}
+Attachments: ${creditNoteData.attachments.map((a) => a.name).join(", ")}
+      `;
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${creditNoteData.creditNoteNumber}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+ </body>
+</html>

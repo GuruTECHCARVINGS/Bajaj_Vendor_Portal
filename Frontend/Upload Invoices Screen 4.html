@@ -1,0 +1,490 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Upload Invoices</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f6f9;
+      color: #355571;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #0a6ed1;
+      border-color: #0a6ed1;
+    }
+    button {
+      background-color: #0a6ed1;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #0854a0;
+    }
+    .fiori-section {
+      background: #fff;
+      border: 1px solid #d1e0ef;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-legend {
+      color: #0a6ed1;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+    }
+    .fiori-label {
+      color: #355571;
+      font-weight: 500;
+    }
+    .fiori-required {
+      color: #0a6ed1;
+    }
+    .fiori-input {
+      border: 1px solid #b8e0ff;
+      color: #355571;
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: #fafdff;
+    }
+    .fiori-input:focus {
+      border-color: #0a6ed1;
+      box-shadow: 0 0 0 2px #b8e0ff;
+    }
+    .fiori-radio:checked {
+      accent-color: #0a6ed1;
+    }
+    .fiori-upload {
+      background: #eaf3fc;
+      border: 2px dashed #b8e0ff;
+      color: #0a6ed1;
+    }
+    .fiori-upload input[type="file"] {
+      color: #355571;
+    }
+    .fiori-footer {
+      border-top: 1px solid #d1e0ef;
+      background: #fff;
+      color: #355571;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col bg-[#f3f6f9]">
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+   <h2 class="text-3xl font-bold mb-8 text-center" style="color:#0a6ed1; letter-spacing:0.01em;">
+    Upload Invoices
+   </h2>
+   <div class="fiori-section">
+    <form class="space-y-8" id="invoice-upload-form" novalidate="">
+     <fieldset class="border border-[#b8e0ff] rounded-xl p-6">
+      <legend class="fiori-legend px-2">Select Invoice Type</legend>
+      <div class="flex flex-col sm:flex-row sm:space-x-10 mt-4">
+       <label class="inline-flex items-center cursor-pointer fiori-label">
+        <input class="form-radio fiori-radio" name="invoiceType" type="radio" value="PO"/>
+        <span class="ml-2">PO Invoice</span>
+       </label>
+       <label class="inline-flex items-center cursor-pointer mt-3 sm:mt-0 fiori-label">
+        <input class="form-radio fiori-radio" name="invoiceType" type="radio" value="nonPO"/>
+        <span class="ml-2">Non PO Invoice</span>
+       </label>
+       <label class="inline-flex items-center cursor-pointer mt-3 sm:mt-0 fiori-label">
+        <input checked class="form-radio fiori-radio" name="invoiceType" type="radio" value="advancePayment"/>
+        <span class="ml-2">Advance Payment Invoice</span>
+       </label>
+      </div>
+     </fieldset>
+
+     <div class="hidden space-y-6" id="PO-section">
+      <h3 class="text-xl font-semibold border-b border-[#b8e0ff] pb-2" id="PO-section-title" style="color:#0a6ed1;">
+       PO Invoice Details
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+       <div>
+        <label class="block fiori-label mb-1" for="poNumber">
+         PO Number <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="poNumber" name="poNumber" placeholder="Enter PO number" type="text"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="poVendorName">
+         PO Description <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="poVendorName" name="poVendorName" placeholder="Enter PO description" type="text"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="poInvoiceNumber">
+         Invoice Number <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="poInvoiceNumber" name="poInvoiceNumber" placeholder="Enter invoice number" type="text"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="poInvoiceDate">
+         Invoice Date <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="poInvoiceDate" name="poInvoiceDate" type="date"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="poInvoiceAmount">
+         Invoice Amount (USD) <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="poInvoiceAmount" min="0" name="poInvoiceAmount" placeholder="0.00" step="0.01" type="number"/>
+       </div>
+      </div>
+      <div>
+       <label class="block fiori-label mb-1" for="poInvoiceFile">
+        Upload Invoice File <span class="fiori-required">*</span>
+       </label>
+       <input accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-[#355571]" id="poInvoiceFile" name="poInvoiceFile" type="file"/>
+       <p class="text-sm text-[#0a6ed1] mt-1">
+        Accepted formats: PDF, JPG, PNG. Max size: 10MB.
+       </p>
+      </div>
+     </div>
+
+     <div class="space-y-6" id="nonPO-section">
+      <h3 class="text-xl font-semibold border-b border-[#b8e0ff] pb-2" id="nonPO-section-title" style="color:#0a6ed1;">
+       Non PO Invoice Details
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+       <div>
+        <label class="block fiori-label mb-1" for="vendorName">
+         PO Description <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="vendorName" name="vendorName" placeholder="Enter PO description" type="text"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="invoiceNumber">
+         Invoice Number <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="invoiceNumber" name="invoiceNumber" placeholder="Enter invoice number" type="text"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="invoiceDate">
+         Invoice Date <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="invoiceDate" name="invoiceDate" type="date"/>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="invoiceAmount">
+         Invoice Amount (USD) <span class="fiori-required">*</span>
+        </label>
+        <input class="w-full fiori-input" id="invoiceAmount" min="0" name="invoiceAmount" placeholder="0.00" step="0.01" type="number"/>
+       </div>
+      </div>
+      <div>
+       <label class="block fiori-label mb-1" for="nonPOInvoiceFile">
+        Upload Invoice File <span class="fiori-required">*</span>
+       </label>
+       <input accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-[#355571]" id="nonPOInvoiceFile" name="nonPOInvoiceFile" type="file"/>
+       <p class="text-sm text-[#0a6ed1] mt-1">
+        Accepted formats: PDF, JPG, PNG. Max size: 10MB.
+       </p>
+      </div>
+     </div>
+
+     <div class="hidden space-y-6" id="advancePayment-subtype-section">
+      <fieldset class="border border-[#b8e0ff] rounded-xl p-6">
+       <legend class="fiori-legend px-2 mb-4">Select Advance Payment Type</legend>
+       <div class="flex flex-col sm:flex-row sm:space-x-10">
+        <label class="inline-flex items-center cursor-pointer fiori-label">
+         <input checked class="form-radio fiori-radio" name="advancePaymentType" type="radio" value="PO"/>
+         <span class="ml-2">PO</span>
+        </label>
+        <label class="inline-flex items-center cursor-pointer mt-3 sm:mt-0 fiori-label">
+         <input class="form-radio fiori-radio" name="advancePaymentType" type="radio" value="nonPO"/>
+         <span class="ml-2">Non PO</span>
+        </label>
+       </div>
+      </fieldset>
+
+      <div class="space-y-6" id="advancePayment-PO-section">
+       <h3 class="text-xl font-semibold border-b border-[#b8e0ff] pb-2" style="color:#0a6ed1;">
+        Advance Payment PO Invoice Details
+       </h3>
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+         <label class="block fiori-label mb-1" for="advancePoNumber">
+          PO Number <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advancePoNumber" name="advancePoNumber" placeholder="Enter PO number" type="text"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advancePoVendorName">
+          PO Description <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advancePoVendorName" name="advancePoVendorName" placeholder="Enter PO description" type="text"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advancePoInvoiceNumber">
+          Invoice Number <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advancePoInvoiceNumber" name="advancePoInvoiceNumber" placeholder="Enter invoice number" type="text"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advancePoInvoiceDate">
+          Invoice Date <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advancePoInvoiceDate" name="advancePoInvoiceDate" type="date"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advancePoInvoiceAmount">
+          Invoice Amount (USD) <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advancePoInvoiceAmount" min="0" name="advancePoInvoiceAmount" placeholder="0.00" step="0.01" type="number"/>
+        </div>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="advancePoInvoiceFile">
+         Upload Invoice File <span class="fiori-required">*</span>
+        </label>
+        <input accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-[#355571]" id="advancePoInvoiceFile" name="advancePoInvoiceFile" type="file"/>
+        <p class="text-sm text-[#0a6ed1] mt-1">
+         Accepted formats: PDF, JPG, PNG. Max size: 10MB.
+        </p>
+       </div>
+      </div>
+
+      <div class="hidden space-y-6" id="advancePayment-nonPO-section">
+       <h3 class="text-xl font-semibold border-b border-[#b8e0ff] pb-2" style="color:#0a6ed1;">
+        Advance Payment Non PO Invoice Details
+       </h3>
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+         <label class="block fiori-label mb-1" for="advanceNonPoVendorName">
+          Vendor Name <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advanceNonPoVendorName" name="advanceNonPoVendorName" placeholder="Enter vendor name" type="text"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advanceNonPoInvoiceNumber">
+          Invoice Number <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advanceNonPoInvoiceNumber" name="advanceNonPoInvoiceNumber" placeholder="Enter invoice number" type="text"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advanceNonPoInvoiceDate">
+          Invoice Date <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advanceNonPoInvoiceDate" name="advanceNonPoInvoiceDate" type="date"/>
+        </div>
+        <div>
+         <label class="block fiori-label mb-1" for="advanceNonPoInvoiceAmount">
+          Invoice Amount (USD) <span class="fiori-required">*</span>
+         </label>
+         <input class="w-full fiori-input" id="advanceNonPoInvoiceAmount" min="0" name="advanceNonPoInvoiceAmount" placeholder="0.00" step="0.01" type="number"/>
+        </div>
+       </div>
+       <div>
+        <label class="block fiori-label mb-1" for="advanceNonPoInvoiceFile">
+         Upload Invoice File <span class="fiori-required">*</span>
+        </label>
+        <input accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-[#355571]" id="advanceNonPoInvoiceFile" name="advanceNonPoInvoiceFile" type="file"/>
+        <p class="text-sm text-[#0a6ed1] mt-1">
+         Accepted formats: PDF, JPG, PNG. Max size: 10MB.
+        </p>
+       </div>
+      </div>
+     </div>
+
+     <div class="flex justify-center">
+      <button class="inline-flex items-center px-6 py-3 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-[#b8e0ff] focus:ring-offset-1 transition" type="submit" style="background-color:#0a6ed1;">
+       <i class="fas fa-upload mr-2"></i>
+       Upload Invoice
+      </button>
+     </div>
+    </form>
+    <div class="flex justify-end mt-8">
+      <button
+        onclick="window.location.href='Vendor_Hompage_Screen_1.html'"
+        class="bg-[#eaf3fc] text-[#0a6ed1] border border-[#b8e0ff] hover:bg-[#d1e0ef] px-6 py-2 rounded font-semibold transition flex items-center gap-2"
+        type="button"
+      >
+        <i class="fas fa-arrow-left"></i>
+        <span>Back</span>
+      </button>
+    </div>
+   </div>
+  </main>
+  <footer class="fiori-footer py-6 mt-12 text-center text-[#355571] text-sm">
+   © 2024 Invoice Upload Portal. All rights reserved.
+  </footer>
+  <script>
+   const invoiceTypeRadios = document.querySelectorAll('input[name="invoiceType"]');
+   const advancePaymentTypeRadios = document.querySelectorAll('input[name="advancePaymentType"]');
+
+   const POSection = document.getElementById("PO-section");
+   const nonPOSection = document.getElementById("nonPO-section");
+   const advancePaymentSection = document.getElementById("advancePayment-subtype-section");
+
+   const advancePaymentPOSection = document.getElementById("advancePayment-PO-section");
+   const advancePaymentNonPOSection = document.getElementById("advancePayment-nonPO-section");
+
+   function toggleSections() {
+     const selectedType = document.querySelector('input[name="invoiceType"]:checked').value;
+
+     if (selectedType === "PO") {
+       POSection.classList.remove("hidden");
+       nonPOSection.classList.add("hidden");
+       advancePaymentSection.classList.add("hidden");
+       advancePaymentPOSection.classList.add("hidden");
+       advancePaymentNonPOSection.classList.add("hidden");
+
+       // Set required attributes for PO inputs
+       document.getElementById("poNumber").setAttribute("required", "required");
+       document.getElementById("poVendorName").setAttribute("required", "required");
+       document.getElementById("poInvoiceNumber").setAttribute("required", "required");
+       document.getElementById("poInvoiceDate").setAttribute("required", "required");
+       document.getElementById("poInvoiceAmount").setAttribute("required", "required");
+       document.getElementById("poInvoiceFile").setAttribute("required", "required");
+
+       // Remove required from nonPO inputs
+       document.getElementById("vendorName").removeAttribute("required");
+       document.getElementById("invoiceNumber").removeAttribute("required");
+       document.getElementById("invoiceDate").removeAttribute("required");
+       document.getElementById("invoiceAmount").removeAttribute("required");
+       document.getElementById("nonPOInvoiceFile").removeAttribute("required");
+
+       // Remove required from advance payment inputs
+       removeAdvancePaymentRequired();
+     } else if (selectedType === "nonPO") {
+       POSection.classList.add("hidden");
+       nonPOSection.classList.remove("hidden");
+       advancePaymentSection.classList.add("hidden");
+       advancePaymentPOSection.classList.add("hidden");
+       advancePaymentNonPOSection.classList.add("hidden");
+
+       // Set required attributes for nonPO inputs
+       document.getElementById("vendorName").setAttribute("required", "required");
+       document.getElementById("invoiceNumber").setAttribute("required", "required");
+       document.getElementById("invoiceDate").setAttribute("required", "required");
+       document.getElementById("invoiceAmount").setAttribute("required", "required");
+       document.getElementById("nonPOInvoiceFile").setAttribute("required", "required");
+
+       // Remove required from PO inputs
+       document.getElementById("poNumber").removeAttribute("required");
+       document.getElementById("poVendorName").removeAttribute("required");
+       document.getElementById("poInvoiceNumber").removeAttribute("required");
+       document.getElementById("poInvoiceDate").removeAttribute("required");
+       document.getElementById("poInvoiceAmount").removeAttribute("required");
+       document.getElementById("poInvoiceFile").removeAttribute("required");
+
+       // Remove required from advance payment inputs
+       removeAdvancePaymentRequired();
+     } else if (selectedType === "advancePayment") {
+       POSection.classList.add("hidden");
+       nonPOSection.classList.add("hidden");
+       advancePaymentSection.classList.remove("hidden");
+
+       // Show advance payment subtype sections based on selected subtype
+       toggleAdvancePaymentSubtype();
+
+       // Remove required from PO and nonPO inputs
+       document.getElementById("poNumber").removeAttribute("required");
+       document.getElementById("poVendorName").removeAttribute("required");
+       document.getElementById("poInvoiceNumber").removeAttribute("required");
+       document.getElementById("poInvoiceDate").removeAttribute("required");
+       document.getElementById("poInvoiceAmount").removeAttribute("required");
+       document.getElementById("poInvoiceFile").removeAttribute("required");
+
+       document.getElementById("vendorName").removeAttribute("required");
+       document.getElementById("invoiceNumber").removeAttribute("required");
+       document.getElementById("invoiceDate").removeAttribute("required");
+       document.getElementById("invoiceAmount").removeAttribute("required");
+       document.getElementById("nonPOInvoiceFile").removeAttribute("required");
+     }
+   }
+
+   function toggleAdvancePaymentSubtype() {
+     const selectedSubtype = document.querySelector('input[name="advancePaymentType"]:checked').value;
+     if (selectedSubtype === "PO") {
+       advancePaymentPOSection.classList.remove("hidden");
+       advancePaymentNonPOSection.classList.add("hidden");
+
+       // Set required for advance PO inputs
+       document.getElementById("advancePoNumber").setAttribute("required", "required");
+       document.getElementById("advancePoVendorName").setAttribute("required", "required");
+       document.getElementById("advancePoInvoiceNumber").setAttribute("required", "required");
+       document.getElementById("advancePoInvoiceDate").setAttribute("required", "required");
+       document.getElementById("advancePoInvoiceAmount").setAttribute("required", "required");
+       document.getElementById("advancePoInvoiceFile").setAttribute("required", "required");
+
+       // Remove required for advance Non PO inputs
+       document.getElementById("advanceNonPoVendorName").removeAttribute("required");
+       document.getElementById("advanceNonPoInvoiceNumber").removeAttribute("required");
+       document.getElementById("advanceNonPoInvoiceDate").removeAttribute("required");
+       document.getElementById("advanceNonPoInvoiceAmount").removeAttribute("required");
+       document.getElementById("advanceNonPoInvoiceFile").removeAttribute("required");
+     } else if (selectedSubtype === "nonPO") {
+       advancePaymentPOSection.classList.add("hidden");
+       advancePaymentNonPOSection.classList.remove("hidden");
+
+       // Set required for advance Non PO inputs
+       document.getElementById("advanceNonPoVendorName").setAttribute("required", "required");
+       document.getElementById("advanceNonPoInvoiceNumber").setAttribute("required", "required");
+       document.getElementById("advanceNonPoInvoiceDate").setAttribute("required", "required");
+       document.getElementById("advanceNonPoInvoiceAmount").setAttribute("required", "required");
+       document.getElementById("advanceNonPoInvoiceFile").setAttribute("required", "required");
+
+       // Remove required for advance PO inputs
+       document.getElementById("advancePoNumber").removeAttribute("required");
+       document.getElementById("advancePoVendorName").removeAttribute("required");
+       document.getElementById("advancePoInvoiceNumber").removeAttribute("required");
+       document.getElementById("advancePoInvoiceDate").removeAttribute("required");
+       document.getElementById("advancePoInvoiceAmount").removeAttribute("required");
+       document.getElementById("advancePoInvoiceFile").removeAttribute("required");
+     }
+   }
+
+   function removeAdvancePaymentRequired() {
+     document.getElementById("advancePoNumber").removeAttribute("required");
+     document.getElementById("advancePoVendorName").removeAttribute("required");
+     document.getElementById("advancePoInvoiceNumber").removeAttribute("required");
+     document.getElementById("advancePoInvoiceDate").removeAttribute("required");
+     document.getElementById("advancePoInvoiceAmount").removeAttribute("required");
+     document.getElementById("advancePoInvoiceFile").removeAttribute("required");
+
+     document.getElementById("advanceNonPoVendorName").removeAttribute("required");
+     document.getElementById("advanceNonPoInvoiceNumber").removeAttribute("required");
+     document.getElementById("advanceNonPoInvoiceDate").removeAttribute("required");
+     document.getElementById("advanceNonPoInvoiceAmount").removeAttribute("required");
+     document.getElementById("advanceNonPoInvoiceFile").removeAttribute("required");
+   }
+
+   invoiceTypeRadios.forEach((radio) =>
+     radio.addEventListener("change", () => {
+       toggleSections();
+     })
+   );
+
+   advancePaymentTypeRadios.forEach((radio) =>
+     radio.addEventListener("change", () => {
+       toggleAdvancePaymentSubtype();
+     })
+   );
+
+   // Initialize on page load
+   toggleSections();
+
+   // Form submission handler (example)
+   const form = document.getElementById("invoice-upload-form");
+   form.addEventListener("submit", (e) => {
+     e.preventDefault();
+
+     // Basic validation handled by browser due to required attributes
+     // Here you can add custom validation or form submission logic
+
+     alert("Invoice uploaded successfully!");
+     form.reset();
+     toggleSections();
+   });
+  </script>
+ </body>
+</html>

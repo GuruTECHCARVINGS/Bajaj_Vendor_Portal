@@ -1,0 +1,426 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Purchase Order Approval</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-form-label {
+      color: var(--fiori-label);
+      font-weight: 600;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">Purchase Order Approval</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">John Doe</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">john.doe@company.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">User ID:</span> BUY1001</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Approver</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow flex justify-center items-start">
+    <div class="max-w-5xl w-full fiori-card">
+      <!-- Back Button -->
+      <button
+        type="button"
+        onclick="window.location.href='PO_Approval and PO_change_navigation.html';"
+        class="fiori-cancel-btn mb-6 flex items-center gap-2 px-5 py-2 text-sm"
+        aria-label="Go back"
+      >
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <h1 class="text-3xl font-extrabold fiori-title mb-8">Purchase Order Approval</h1>
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-y-6 gap-x-12 text-[var(--fiori-gray)] mb-6">
+        <div>
+          <p class="text-base font-normal">PO Number</p>
+          <p class="text-xl font-normal mt-1">1000827</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">PR Number</p>
+          <p class="text-xl font-normal mt-1">1000827</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Approver Name</p>
+          <p class="text-xl font-normal mt-1">John Doe</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Approval Date</p>
+          <p class="text-xl font-normal mt-1">4/24/2024</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">PO Date</p>
+          <p class="text-xl font-normal mt-1">4/24/2024</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Purchase org</p>
+          <p class="text-xl font-normal mt-1">1000</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Supplier</p>
+          <p class="text-xl font-normal mt-1">Acme Inc.</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Account terms</p>
+          <p class="text-xl font-normal mt-1">Net 30</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Payment terms</p>
+          <p class="text-xl font-normal mt-1">Net 30</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Plant</p>
+          <p class="text-xl font-normal mt-1">Main Plant</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Company code</p>
+          <p class="text-xl font-normal mt-1">US01</p>
+        </div>
+      </section>
+      <section class="mb-6">
+        <div class="overflow-x-auto border border-[var(--fiori-border)] rounded-md">
+          <table class="min-w-full border-collapse fiori-table">
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Delivery Date</th>
+                <th>UoM</th>
+                <th>Cost Center</th>
+                <th>Price</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">MAT-0</span>
+                </td>
+                <td class="text-center text-gray-500 text-2xl">
+                  <i class="fas fa-couch"></i>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">Desk Chair</td>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">5</span>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">01-05-2024</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">EA</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">1234</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 5,000.00</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 25,000.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">MAT-1</span>
+                </td>
+                <td class="text-center text-gray-500 text-2xl">
+                  <i class="fas fa-laptop"></i>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">Laptop</td>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">3</span>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">05-05-2024</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">EA</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">5678</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 45,000.00</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 135,000.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">MAT-2</span>
+                </td>
+                <td class="text-center text-gray-500 text-2xl">
+                  <i class="fas fa-print"></i>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">Printer</td>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">2</span>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">10-05-2024</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">EA</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">7890</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 12,000.00</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 24,000.00</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">MAT-3</span>
+                </td>
+                <td class="text-center text-gray-500 text-2xl">
+                  <i class="fas fa-projector"></i>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">Projector</td>
+                <td>
+                  <span class="inline-block border border-gray-300 rounded-md px-3 py-1 text-base font-normal text-[var(--fiori-gray)]">1</span>
+                </td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">15-05-2024</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">EA</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">4321</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 30,000.00</td>
+                <td class="text-base font-normal text-[var(--fiori-gray)]">INR 30,000.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="mb-6">
+        <label for="comments" class="fiori-form-label mb-2 block">Comments</label>
+        <textarea
+          id="comments"
+          rows="4"
+          class="w-full border border-[var(--fiori-border)] rounded-md p-3 text-[var(--fiori-gray)] text-base resize-none focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]"
+        ></textarea>
+      </section>
+      <!-- Approval Workflow Section -->
+      <section class="mb-6">
+        <p class="fiori-form-label mb-2">Approval Workflow</p>
+        <div id="approval-workflow" class="flex flex-col gap-3 sm:flex-row sm:gap-6">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-[#0a6ed1]">John Doe</span>
+            <span id="john-status" class="px-3 py-1 rounded-full text-white bg-yellow-400">Pending</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-[#0a6ed1]">Priya Sharma (Manager)</span>
+            <span id="priya-status" class="px-3 py-1 rounded-full text-white bg-yellow-400">Pending</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-[#0a6ed1]">Amit Kumar</span>
+            <span id="amit-status" class="px-3 py-1 rounded-full text-white bg-yellow-400">Pending</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-[#0a6ed1]">Shashi Kumar</span>
+            <span id="shashi-status" class="px-3 py-1 rounded-full text-white bg-yellow-400">Pending</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">Each approver's status is shown. Only the manager can finalize after all others approve.</p>
+      </section>
+      <section class="flex gap-4">
+        <button
+          type="button"
+          class="fiori-btn text-lg font-semibold px-6 py-2"
+          id="approveBtn"
+        >
+          Approve
+        </button>
+        <button
+          type="button"
+          class="fiori-cancel-btn text-lg font-normal px-6 py-2"
+          id="rejectBtn"
+        >
+          Reject
+        </button>
+      </section>
+    </div>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Approver logic
+    // Simulate current user (change this to test as different users: "john", "priya", "amit", "shashi")
+    let currentUser = "john"; // Set to "priya" for manager, or "amit", "shashi" for other approvers
+
+    // Status map for display
+    const statusMap = {
+      pending: { text: "Pending", color: "bg-yellow-400", emoji: "⏳" },
+      approved: { text: "Approved", color: "bg-green-400", emoji: "✅" },
+      rejected: { text: "Rejected", color: "bg-red-400", emoji: "❌" }
+    };
+
+    // Track each approver's status
+    const approvers = [
+      { id: "john", name: "John Doe", role: "approver" },
+      { id: "priya", name: "Priya Sharma", role: "manager" }, // Decision maker
+      { id: "amit", name: "Amit Kumar", role: "approver" },
+      { id: "shashi", name: "Shashi Kumar", role: "approver" }
+    ];
+    const approverStatus = {
+      john: "pending",
+      priya: "pending",
+      amit: "pending",
+      shashi: "pending"
+    };
+
+    function updateStatus(approver, status) {
+      approverStatus[approver] = status;
+      const statusEl = document.getElementById(`${approver}-status`);
+      statusEl.className = `px-3 py-1 rounded-full text-white ${statusMap[status].color}`;
+      statusEl.innerHTML = `${statusMap[status].emoji} ${statusMap[status].text}`;
+    }
+
+    document.getElementById('approveBtn').addEventListener('click', function() {
+      // Only allow the current user to approve for themselves
+      if (approverStatus[currentUser] !== "pending") {
+        alert("You have already responded.");
+        return;
+      }
+      updateStatus(currentUser, "approved");
+
+      // If current user is the manager (Priya), check if all others have approved
+      if (currentUser === "priya") {
+        // Check if all other approvers have approved
+        const allOthersApproved = approvers
+          .filter(a => a.id !== "priya")
+          .every(a => approverStatus[a.id] === "approved");
+        if (allOthersApproved) {
+          updateStatus("priya", "approved");
+          alert("✅ All approvers have approved. Manager approved. PO is sent!");
+        } else {
+          alert("Please wait for all approvers to approve before manager can finalize.");
+        }
+      } else {
+        alert(`✅ ${approvers.find(a => a.id === currentUser).name} has approved.`);
+      }
+    });
+
+    document.getElementById('rejectBtn').addEventListener('click', function() {
+      // Only allow the current user to reject for themselves
+      if (approverStatus[currentUser] !== "pending") {
+        alert("You have already responded.");
+        return;
+      }
+      updateStatus(currentUser, "rejected");
+      alert(`❌ ${approvers.find(a => a.id === currentUser).name} has rejected. PO will not proceed.`);
+    });
+  </script>
+</body>
+</html>

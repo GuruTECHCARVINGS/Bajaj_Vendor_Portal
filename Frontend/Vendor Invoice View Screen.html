@@ -1,0 +1,309 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Vendor Invoices</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#fdfcfb] min-h-screen p-6">
+  <main class="max-w-6xl mx-auto">
+    <h1 class="text-4xl font-extrabold text-[#1a1f23] mb-8">Vendor Invoices</h1>
+
+    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search by Invoice, PO Number, Supplier..."
+        class="flex-grow w-full sm:w-auto border border-gray-300 rounded-lg py-3 px-4 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+        aria-label="Search invoices"
+      />
+      <button
+        id="proceedBtn"
+        disabled
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-disabled="true"
+      >
+        Proceed for Verification & Approval
+      </button>
+    </div>
+
+    <div class="overflow-x-auto border border-gray-300 rounded-lg shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200" id="invoicesTable" role="table" aria-label="Vendor invoices table">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <input type="checkbox" id="selectAll" class="cursor-pointer" aria-label="Select all invoices"/>
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Invoice
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              PO Number
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Date
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Quantity
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Amount
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Delivery Date
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+            >
+              Supplier
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200" id="tableBody" role="rowgroup">
+          <!-- Rows will be inserted here dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    const invoices = [
+      {
+        invoice: "Invoice-001.pdf",
+        poNumber: "PO-1001",
+        date: "2024-06-01",
+        quantity: 150,
+        amount: "INR 12,000",
+        deliveryDate: "2024-06-10",
+        supplier: "Supplier A",
+      },
+      {
+        invoice: "Invoice-002.pdf",
+        poNumber: "PO-1002",
+        date: "2024-06-02",
+        quantity: 200,
+        amount: "INR 18,000",
+        deliveryDate: "2024-06-12",
+        supplier: "Supplier B",
+      },
+      {
+        invoice: "Invoice-003.pdf",
+        poNumber: "PO-1003",
+        date: "2024-06-03",
+        quantity: 100,
+        amount: "INR 7,500",
+        deliveryDate: "2024-06-15",
+        supplier: "Supplier C",
+      },
+      {
+        invoice: "Invoice-004.pdf",
+        poNumber: "PO-1004",
+        date: "2024-06-04",
+        quantity: 250,
+        amount: "INR 22,500",
+        deliveryDate: "2024-06-20",
+        supplier: "Supplier D",
+      },
+    ];
+
+    const tableBody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const proceedBtn = document.getElementById("proceedBtn");
+    const selectAllCheckbox = document.getElementById("selectAll");
+
+    let filteredInvoices = [...invoices];
+    let selectedInvoices = new Set();
+
+    function renderTable(data) {
+      tableBody.innerHTML = "";
+      if (data.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 8;
+        td.className = "px-6 py-4 text-center text-gray-500";
+        td.textContent = "No invoices found.";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+        return;
+      }
+
+      data.forEach((item) => {
+        const tr = document.createElement("tr");
+
+        // Checkbox cell
+        const checkboxTd = document.createElement("td");
+        checkboxTd.className = "px-6 py-4 whitespace-nowrap";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "cursor-pointer";
+        checkbox.setAttribute("aria-label", `Select ${item.invoice}`);
+        checkbox.checked = selectedInvoices.has(item.invoice);
+        checkbox.addEventListener("change", (e) => {
+          if (e.target.checked) {
+            selectedInvoices.add(item.invoice);
+          } else {
+            selectedInvoices.delete(item.invoice);
+          }
+          updateProceedButton();
+          updateSelectAllCheckbox();
+        });
+        checkboxTd.appendChild(checkbox);
+        tr.appendChild(checkboxTd);
+
+        // Invoice cell with icon
+        const invoiceTd = document.createElement("td");
+        invoiceTd.className = "px-6 py-4 whitespace-nowrap flex items-center space-x-3";
+        const img = document.createElement("img");
+        img.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+        img.alt = `PDF icon for ${item.invoice}`;
+        img.className = "w-8 h-10 flex-shrink-0";
+        img.width = 32;
+        img.height = 40;
+        const span = document.createElement("span");
+        span.className = "font-semibold text-gray-900";
+        span.textContent = item.invoice;
+        invoiceTd.appendChild(img);
+        invoiceTd.appendChild(span);
+        tr.appendChild(invoiceTd);
+
+        // PO Number
+        const poTd = document.createElement("td");
+        poTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        poTd.textContent = item.poNumber;
+        tr.appendChild(poTd);
+
+        // Date
+        const dateTd = document.createElement("td");
+        dateTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        dateTd.textContent = item.date;
+        tr.appendChild(dateTd);
+
+        // Quantity
+        const qtyTd = document.createElement("td");
+        qtyTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        qtyTd.textContent = item.quantity;
+        tr.appendChild(qtyTd);
+
+        // Amount
+        const amountTd = document.createElement("td");
+        amountTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        amountTd.textContent = item.amount;
+        tr.appendChild(amountTd);
+
+        // Delivery Date
+        const deliveryTd = document.createElement("td");
+        deliveryTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        deliveryTd.textContent = item.deliveryDate;
+        tr.appendChild(deliveryTd);
+
+        // Supplier
+        const supplierTd = document.createElement("td");
+        supplierTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        supplierTd.textContent = item.supplier;
+        tr.appendChild(supplierTd);
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function filterInvoices(query) {
+      query = query.toLowerCase();
+      return invoices.filter((inv) => {
+        return (
+          inv.invoice.toLowerCase().includes(query) ||
+          inv.poNumber.toLowerCase().includes(query) ||
+          inv.supplier.toLowerCase().includes(query)
+        );
+      });
+    }
+
+    function updateProceedButton() {
+      proceedBtn.disabled = selectedInvoices.size === 0;
+      proceedBtn.setAttribute("aria-disabled", selectedInvoices.size === 0);
+    }
+
+    function updateSelectAllCheckbox() {
+      if (filteredInvoices.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+        return;
+      }
+      const allSelected = filteredInvoices.every(inv => selectedInvoices.has(inv.invoice));
+      const someSelected = filteredInvoices.some(inv => selectedInvoices.has(inv.invoice));
+      selectAllCheckbox.checked = allSelected;
+      selectAllCheckbox.indeterminate = !allSelected && someSelected;
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      filteredInvoices = filterInvoices(e.target.value);
+      // Remove from selectedInvoices any invoice not in filteredInvoices
+      selectedInvoices.forEach(inv => {
+        if (!filteredInvoices.find(fInv => fInv.invoice === inv)) {
+          selectedInvoices.delete(inv);
+        }
+      });
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    selectAllCheckbox.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        filteredInvoices.forEach(inv => selectedInvoices.add(inv.invoice));
+      } else {
+        filteredInvoices.forEach(inv => selectedInvoices.delete(inv.invoice));
+      }
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    proceedBtn.addEventListener("click", () => {
+      if (selectedInvoices.size === 0) return;
+      const selectedList = Array.from(selectedInvoices);
+      alert("Proceeding invoices for verification and approval:\n" + selectedList.join("\n"));
+      // Here you can add your logic to send these invoices for verification/approval
+
+      // Optionally clear selection after proceeding
+      selectedInvoices.clear();
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    // Initial render
+    renderTable(invoices);
+    updateProceedButton();
+    updateSelectAllCheckbox();
+  </script>
+</body>
+</html>

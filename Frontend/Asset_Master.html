@@ -1,0 +1,417 @@
+<!-- Create a new file: Asset_Master_List.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asset Master List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f3f6f9; color: #355571; }
+    .fiori-header { background: #fff; border-bottom: 1px solid #d1e0ef; box-shadow: 0 2px 8px 0 #eaf3fc; padding: 0.5rem 0; margin-bottom: 2rem; }
+    .fiori-title { color: #0a6ed1; font-weight: 700; letter-spacing: 0.01em; }
+    .fiori-card { background: #fff; border-radius: 1.5rem; box-shadow: 0 4px 24px 0 #eaf3fc, 0 1.5px 6px 0 #d1e0ef; padding: 2rem; }
+    .fiori-btn { background: #0a6ed1; color: #fff; font-weight: 600; border-radius: 0.75rem; padding: 0.5rem 1.5rem; font-size: 1rem; transition: background 0.2s; border: none; }
+    .fiori-btn:hover, .fiori-btn:focus { background: #0854a0; }
+    .fiori-table th { background: #eaf3fc; color: #0a6ed1; font-weight: 600; }
+    .fiori-table td, .fiori-table th { padding: 0.75rem 0.5rem; border-bottom: 1px solid #eaf3fc; }
+    .fiori-table tr:last-child td { border-bottom: none; }
+    .fiori-table { width: 100%; border-collapse: collapse; background: #fff; }
+    .fiori-badge { display: inline-block; padding: 0.25em 0.75em; border-radius: 1rem; font-size: 0.85em; font-weight: 600; }
+    .badge-active { background: #e0f7fa; color: #009688; }
+    .badge-maintenance { background: #fff3e0; color: #ff9800; }
+    .badge-disposed { background: #ffebee; color: #e53935; }
+    .fiori-search { border: 1px solid #d1e0ef; border-radius: 0.75rem; padding: 0.5rem 1rem; width: 300px; }
+    .fiori-modal-bg { background: rgba(0,0,0,0.3); }
+    .fiori-modal { background: #fff; border-radius: 1rem; max-width: 500px; width: 100%; margin: 2rem auto; padding: 2rem; box-shadow: 0 8px 32px 0 #b8e0ff; }
+  </style>
+</head>
+<body>
+  <header class="fiori-header">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-6">
+      <div class="flex items-center gap-4">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">Asset Master</span>
+      </div>
+      <button onclick="window.location.href='Buyer_Homepage.html'" class="fiori-btn flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-4">
+    <div class="fiori-card mb-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <div class="flex items-center gap-2">
+          <input id="searchAsset" type="text" class="fiori-search" placeholder="Search by Asset Number, Description, Type..." oninput="filterAssets()" />
+          <button class="fiori-btn" onclick="openAssetModal()">+ Create Asset</button>
+        </div>
+        <div class="flex gap-2">
+          <select id="filterStatus" class="fiori-search" style="width:180px;" onchange="filterAssets()">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Under Maintenance">Under Maintenance</option>
+            <option value="Disposed">Disposed</option>
+          </select>
+          <select id="filterType" class="fiori-search" style="width:180px;" onchange="filterAssets()">
+            <option value="">All Types</option>
+            <option value="IT Equipment">IT Equipment</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Plant & Machinery">Plant & Machinery</option>
+          </select>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="fiori-table text-sm" id="assetTable">
+          <thead>
+            <tr>
+              <th>Asset Number</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Acquisition Cost (₹)</th>
+              <th>Acquisition Date</th>
+              <th>Status</th>
+              <th>Useful Life (Years)</th>
+              <th>Depreciation Method</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="assetTableBody">
+            <!-- Sample data rows will be rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for Add/Edit Asset -->
+  <div id="assetModalBg" class="fixed inset-0 z-50 hidden fiori-modal-bg flex items-center justify-center">
+    <div class="fiori-modal relative">
+      <button class="absolute top-3 right-3 text-gray-600 hover:text-gray-900" onclick="closeAssetModal()">
+        <i class="fas fa-times fa-lg"></i>
+      </button>
+      <h2 id="assetModalTitle" class="text-xl font-semibold mb-4">Create Asset</h2>
+      <form id="assetForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Asset Number</label>
+          <input type="text" id="modalAssetNumber" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100" readonly />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Description</label>
+          <input type="text" id="modalAssetDesc" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Type</label>
+          <select id="modalAssetType" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Select Type</option>
+            <option value="IT Equipment">IT Equipment</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Plant & Machinery">Plant & Machinery</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Location</label>
+          <input type="text" id="modalAssetLocation" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Acquisition Cost (₹)</label>
+          <input type="number" id="modalAssetCost" min="0" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Acquisition Date</label>
+          <input type="date" id="modalAssetDate" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Status</label>
+          <select id="modalAssetStatus" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="Active">Active</option>
+            <option value="Under Maintenance">Under Maintenance</option>
+            <option value="Disposed">Disposed</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Useful Life (Years)</label>
+          <input type="number" id="modalAssetLife" min="1" max="50" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Depreciation Method</label>
+          <select id="modalAssetDepreciation" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">Select Method</option>
+            <option value="Straight Line">Straight Line</option>
+            <option value="Declining Balance">Declining Balance</option>
+            <option value="Sum of Years Digits">Sum of Years Digits</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" class="fiori-btn bg-gray-300 text-gray-800 hover:bg-gray-400" onclick="closeAssetModal()">Cancel</button>
+          <button type="submit" class="fiori-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sample asset data (add more Bajaj Finserv relevant items)
+    let assets = [
+      {
+        number: "AST-2024-001",
+        desc: "Dell Latitude Laptop",
+        type: "IT Equipment",
+        location: "Pune HQ",
+        cost: 65000,
+        date: "2024-06-01",
+        status: "Active",
+        life: 5,
+        depreciation: "Straight Line"
+      },
+      {
+        number: "AST-2024-002",
+        desc: "Office Desk",
+        type: "Furniture",
+        location: "Mumbai Office",
+        cost: 12000,
+        date: "2023-12-15",
+        status: "Active",
+        life: 10,
+        depreciation: "Declining Balance"
+      },
+      {
+        number: "AST-2024-003",
+        desc: "Toyota Innova",
+        type: "Vehicle",
+        location: "Pune HQ",
+        cost: 1800000,
+        date: "2022-03-10",
+        status: "Under Maintenance",
+        life: 8,
+        depreciation: "Straight Line"
+      },
+      {
+        number: "AST-2024-004",
+        desc: "CNC Machine",
+        type: "Plant & Machinery",
+        location: "Nashik Plant",
+        cost: 2500000,
+        date: "2021-07-20",
+        status: "Disposed",
+        life: 12,
+        depreciation: "Sum of Years Digits"
+      },
+      // Additional Bajaj Finserv relevant assets
+      {
+        number: "AST-2024-005",
+        desc: "HP LaserJet Printer",
+        type: "IT Equipment",
+        location: "Pune HQ",
+        cost: 18000,
+        date: "2024-01-10",
+        status: "Active",
+        life: 4,
+        depreciation: "Straight Line"
+      },
+      {
+        number: "AST-2024-006",
+        desc: "Conference Room Projector",
+        type: "IT Equipment",
+        location: "Mumbai Office",
+        cost: 55000,
+        date: "2023-09-05",
+        status: "Active",
+        life: 6,
+        depreciation: "Declining Balance"
+      },
+      {
+        number: "AST-2024-007",
+        desc: "Honda City Car",
+        type: "Vehicle",
+        location: "Delhi Branch",
+        cost: 1200000,
+        date: "2022-11-18",
+        status: "Active",
+        life: 7,
+        depreciation: "Straight Line"
+      },
+      {
+        number: "AST-2024-008",
+        desc: "Server Rack",
+        type: "IT Equipment",
+        location: "Data Center - Pune",
+        cost: 220000,
+        date: "2023-03-22",
+        status: "Active",
+        life: 8,
+        depreciation: "Straight Line"
+      },
+      {
+        number: "AST-2024-009",
+        desc: "Air Conditioner (Daikin 2 Ton)",
+        type: "Plant & Machinery",
+        location: "Pune HQ",
+        cost: 45000,
+        date: "2023-05-30",
+        status: "Active",
+        life: 10,
+        depreciation: "Declining Balance"
+      },
+      {
+        number: "AST-2024-010",
+        desc: "Reception Sofa Set",
+        type: "Furniture",
+        location: "Mumbai Office",
+        cost: 38000,
+        date: "2022-08-12",
+        status: "Active",
+        life: 12,
+        depreciation: "Straight Line"
+      }
+    ];
+
+    let editIndex = null;
+
+    function renderAssets() {
+      const tbody = document.getElementById('assetTableBody');
+      tbody.innerHTML = '';
+      const search = document.getElementById('searchAsset').value.toLowerCase();
+      const status = document.getElementById('filterStatus').value;
+      const type = document.getElementById('filterType').value;
+      assets.forEach((a, idx) => {
+        if (
+          (search && !(
+            a.number.toLowerCase().includes(search) ||
+            a.desc.toLowerCase().includes(search) ||
+            a.type.toLowerCase().includes(search)
+          )) ||
+          (status && a.status !== status) ||
+          (type && a.type !== type)
+        ) return;
+        tbody.innerHTML += `
+          <tr>
+            <td>${a.number}</td>
+            <td>${a.desc}</td>
+            <td>${a.type}</td>
+            <td>${a.location}</td>
+            <td>₹${a.cost.toLocaleString('en-IN')}</td>
+            <td>${a.date}</td>
+            <td>
+              <span class="fiori-badge ${a.status === 'Active' ? 'badge-active' : a.status === 'Disposed' ? 'badge-disposed' : 'badge-maintenance'}">${a.status}</span>
+            </td>
+            <td>${a.life}</td>
+            <td>${a.depreciation}</td>
+            <td>
+              <button class="text-blue-600 hover:underline mr-2" onclick="editAsset(${idx})"><i class="fas fa-edit"></i></button>
+              <button class="text-red-600 hover:underline" onclick="deleteAsset(${idx})"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function filterAssets() {
+      renderAssets();
+    }
+
+    // Helper to generate next Asset Number (e.g., AST-2024-011)
+    function getNextAssetNumber() {
+      let max = 0;
+      assets.forEach(a => {
+        const num = parseInt(a.number.replace(/^\D+/g, '').replace('-', ''));
+        if (!isNaN(num) && num > max) max = num;
+      });
+      // Pad to 3 digits for the serial part
+      const next = (max + 1).toString().padStart(3, '0');
+      const year = new Date().getFullYear();
+      return `AST-${year}-${next}`;
+    }
+
+    function openAssetModal(editIdx = null) {
+      editIndex = editIdx;
+      document.getElementById('assetModalBg').classList.remove('hidden');
+      document.getElementById('assetModalTitle').textContent = editIdx === null ? "Create Asset" : "Edit Asset";
+      if (editIdx !== null) {
+        const a = assets[editIdx];
+        document.getElementById('modalAssetNumber').value = a.number;
+        document.getElementById('modalAssetDesc').value = a.desc;
+        document.getElementById('modalAssetType').value = a.type;
+        document.getElementById('modalAssetLocation').value = a.location;
+        document.getElementById('modalAssetCost').value = a.cost;
+        document.getElementById('modalAssetDate').value = a.date;
+        document.getElementById('modalAssetStatus').value = a.status;
+        document.getElementById('modalAssetLife').value = a.life;
+        document.getElementById('modalAssetDepreciation').value = a.depreciation;
+      } else {
+        document.getElementById('assetForm').reset();
+        document.getElementById('modalAssetNumber').value = getNextAssetNumber();
+      }
+    }
+
+    function closeAssetModal() {
+      document.getElementById('assetModalBg').classList.add('hidden');
+      editIndex = null;
+    }
+
+    document.getElementById('assetForm').onsubmit = function(e) {
+      e.preventDefault();
+      const asset = {
+        number: document.getElementById('modalAssetNumber').value,
+        desc: document.getElementById('modalAssetDesc').value,
+        type: document.getElementById('modalAssetType').value,
+        location: document.getElementById('modalAssetLocation').value,
+        cost: parseFloat(document.getElementById('modalAssetCost').value),
+        date: document.getElementById('modalAssetDate').value,
+        status: document.getElementById('modalAssetStatus').value,
+        life: parseInt(document.getElementById('modalAssetLife').value),
+        depreciation: document.getElementById('modalAssetDepreciation').value
+      };
+      if (editIndex === null) {
+        assets.unshift(asset); // Add new asset to the top
+        alert(
+          "✅ Asset created successfully!\n\n" +
+          "Asset Number: " + asset.number + "\n" +
+          "Description: " + asset.desc + "\n" +
+          "Type: " + asset.type + "\n" +
+          "Location: " + asset.location + "\n" +
+          "Acquisition Cost: ₹" + asset.cost.toLocaleString('en-IN') + "\n" +
+          "Acquisition Date: " + asset.date + "\n" +
+          "Status: " + asset.status + "\n" +
+          "Useful Life (Years): " + asset.life + "\n" +
+          "Depreciation Method: " + asset.depreciation
+        );
+      } else {
+        assets[editIndex] = asset;
+        alert(
+          "✏️ Asset updated successfully!\n\n" +
+          "Asset Number: " + asset.number + "\n" +
+          "Description: " + asset.desc + "\n" +
+          "Type: " + asset.type + "\n" +
+          "Location: " + asset.location + "\n" +
+          "Acquisition Cost: ₹" + asset.cost.toLocaleString('en-IN') + "\n" +
+          "Acquisition Date: " + asset.date + "\n" +
+          "Status: " + asset.status + "\n" +
+          "Useful Life (Years): " + asset.life + "\n" +
+          "Depreciation Method: " + asset.depreciation
+        );
+      }
+      closeAssetModal();
+      renderAssets();
+    };
+
+    function editAsset(idx) {
+      openAssetModal(idx);
+    }
+
+    function deleteAsset(idx) {
+      if (confirm("Are you sure you want to delete this asset?")) {
+        assets.splice(idx, 1);
+        renderAssets();
+      }
+    }
+
+    // Initial render
+    renderAssets();
+  </script>
+</body>
+</html>

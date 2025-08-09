@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PR Change Approval</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f9fafb] min-h-screen flex items-start justify-center p-6">
+  <main
+    class="bg-white rounded-lg shadow-md max-w-5xl w-full p-8 sm:p-10"
+    role="main"
+  >
+    <h1 class="text-3xl font-semibold text-gray-900 mb-8">
+      PR Change Approval
+    </h1>
+
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12 text-gray-900 mb-6">
+      <div>
+        <p class="text-base font-normal text-gray-700">PR Number</p>
+        <p class="text-xl font-normal mt-1">1000827</p>
+      </div>
+      <div>
+        <p class="text-base font-normal text-gray-700">Change Date</p>
+        <p class="text-xl font-normal mt-1">5/1/2024</p>
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <p class="text-base font-normal text-gray-700 mb-2">Change Details</p>
+      <div class="overflow-x-auto border border-gray-200 rounded-md">
+        <table class="min-w-full border-collapse border border-gray-200">
+          <thead>
+            <tr class="bg-white border-b border-gray-200">
+              <th class="text-purple-900 font-semibold text-lg px-6 py-4 border-r border-gray-200 text-left">
+                Field
+              </th>
+              <th class="text-purple-900 font-semibold text-lg px-6 py-4 border-r border-gray-200 text-left">
+                Original Value
+              </th>
+              <th class="text-purple-900 font-semibold text-lg px-6 py-4 text-left">
+                New Value
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-white border-b border-gray-200">
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                Quantity
+              </td>
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                5
+              </td>
+              <td class="px-6 py-3 text-base font-normal text-gray-900">
+                10
+              </td>
+            </tr>
+            <tr class="bg-white border-b border-gray-200">
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                Delivery Date
+              </td>
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                01-05-2024
+              </td>
+              <td class="px-6 py-3 text-base font-normal text-gray-900">
+                15-05-2024
+              </td>
+            </tr>
+            <tr class="bg-white border-b border-gray-200">
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                Price
+              </td>
+              <td class="px-6 py-3 border-r border-gray-200 text-base font-normal text-gray-900">
+                INR 50.00
+              </td>
+              <td class="px-6 py-3 text-base font-normal text-gray-900">
+                INR 45.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <p class="text-base font-normal text-gray-900 mb-2">Comments</p>
+      <textarea
+        id="changeComments"
+        name="changeComments"
+        rows="3"
+        class="w-full border border-gray-300 rounded-md p-3 text-base font-normal text-gray-900 resize-none"
+      ></textarea>
+    </section>
+
+    <section class="flex gap-4">
+      <button
+        type="button"
+        class="bg-blue-600 text-white text-lg font-semibold rounded-md px-6 py-2 hover:bg-blue-700 transition"
+      >
+        Approve Change
+      </button>
+      <button
+        type="button"
+        class="bg-white border border-gray-300 text-black text-lg font-normal rounded-md px-6 py-2 hover:bg-gray-100 transition"
+      >
+        Reject Change
+      </button>
+    </section>
+  </main>
+</body>
+</html>

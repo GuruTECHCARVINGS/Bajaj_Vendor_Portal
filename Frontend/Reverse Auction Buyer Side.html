@@ -1,0 +1,451 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Live Reverse Auction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-btn:hover:not(:disabled) {
+      background-color: var(--fiori-blue-dark);
+    }
+    ::placeholder {
+      color: #a78bfa;
+    }
+    .auction-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+    .auction-table th, .auction-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .auction-table tr:hover {
+      background: #f3f6f9;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <nav class="flex gap-4 ml-4">
+          <a href="Buyer_Homepage.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Home</a>
+          <a href="PR_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PR Management</a>
+          <a href="PO_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PO Management</a>
+          <a href="Invoice_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Invoice Management</a>
+          <a href="Reports.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Reports</a>
+          <a href="Notifications.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Notifications</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h1 class="text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-2">
+    LIVE REVERSE AUCTION
+  </h1>
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-4 w-full">
+    <section class="fiori-card mb-6">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+        <div>
+          <p class="text-xl font-semibold text-[var(--fiori-blue)] mb-1">RFP</p>
+          <p class="text-[var(--fiori-gray)] text-base max-w-xl">
+            This RFP is for the procurement of office supplies including paper, pens,
+            and other stationery items. Suppliers are invited to submit their bids
+            before the auction ends.
+          </p>
+        </div>
+        <div
+          id="timer"
+          class="bg-[var(--fiori-blue)] rounded-lg px-6 py-3 mt-2 text-white text-3xl font-extrabold leading-none select-none text-center"
+        >
+          05:32
+        </div>
+      </div>
+    </section>
+    <section class="fiori-card mb-6">
+      <table class="w-full auction-table rounded-b-xl border-collapse">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Supplier</th>
+            <th>Bids</th>
+            <th>Time</th>
+            <th>Select Winner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Supplier A</td>
+            <td class="font-semibold bid-amount" data-base="23400" id="bid-1">INR 23,400</td>
+            <td>1 min ago</td>
+            <td>
+              <input
+                type="radio"
+                name="winner"
+                value="Supplier A"
+                class="cursor-pointer"
+                aria-label="Select Supplier A as winner"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Supplier C</td>
+            <td class="font-semibold bid-amount" data-base="24100" id="bid-2">INR 24,100</td>
+            <td>2 min ago</td>
+            <td>
+              <input
+                type="radio"
+                name="winner"
+                value="Supplier C"
+                class="cursor-pointer"
+                aria-label="Select Supplier C as winner"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Supplier B</td>
+            <td class="font-semibold bid-amount" data-base="24500" id="bid-3">INR 24,500</td>
+            <td>4 min ago</td>
+            <td>
+              <input
+                type="radio"
+                name="winner"
+                value="Supplier B"
+                class="cursor-pointer"
+                aria-label="Select Supplier B as winner"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Supplier D</td>
+            <td class="font-semibold bid-amount" data-base="25300" id="bid-4">INR 25,300</td>
+            <td>5 min ago</td>
+            <td>
+              <input
+                type="radio"
+                name="winner"
+                value="Supplier D"
+                class="cursor-pointer"
+                aria-label="Select Supplier D as winner"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4 flex items-center space-x-4">
+        <button
+          id="notifyBtn"
+          disabled
+          class="fiori-btn opacity-50 cursor-not-allowed"
+        >
+          Notify Winner & Losers
+        </button>
+        <p id="notifyMsg" class="text-green-600 font-semibold hidden"></p>
+      </div>
+    </section>
+    <section class="fiori-card">
+      <h2 class="text-xl font-semibold mb-4 text-[var(--fiori-blue)]">Live Bidding Activity</h2>
+      <ul class="space-y-3 max-h-48 overflow-y-auto">
+        <li class="flex justify-between items-center bg-[#eaf3fc] rounded-md px-4 py-3">
+          <div class="flex items-center space-x-3">
+            <img
+              alt="Avatar of Supplier A"
+              class="rounded-full"
+              height="40"
+              src="https://storage.googleapis.com/a1aa/image/0a078a9e-5032-46c5-1ea8-367f1f780da2.jpg"
+              width="40"
+            />
+            <div>
+              <p class="text-[var(--fiori-blue)] font-semibold">Supplier A</p>
+              <p class="text-[var(--fiori-gray)] text-sm">
+                Placed a bid of
+                <span class="font-bold text-black" id="live-bid-1">INR 23,400</span>
+              </p>
+            </div>
+          </div>
+          <span class="text-[var(--fiori-gray)] text-sm">1 min ago</span>
+        </li>
+        <li class="flex justify-between items-center bg-[#eaf3fc] rounded-md px-4 py-3">
+          <div class="flex items-center space-x-3">
+            <img
+              alt="Avatar of Supplier C"
+              class="rounded-full"
+              height="40"
+              src="https://storage.googleapis.com/a1aa/image/e0691390-c18f-4d17-6433-6c2726d5fab5.jpg"
+              width="40"
+            />
+            <div>
+              <p class="text-[var(--fiori-blue)] font-semibold">Supplier C</p>
+              <p class="text-[var(--fiori-gray)] text-sm">
+                Placed a bid of
+                <span class="font-bold text-black" id="live-bid-2">INR 24,100</span>
+              </p>
+            </div>
+          </div>
+          <span class="text-[var(--fiori-gray)] text-sm">2 min ago</span>
+        </li>
+        <li class="flex justify-between items-center bg-[#eaf3fc] rounded-md px-4 py-3">
+          <div class="flex items-center space-x-3">
+            <img
+              alt="Avatar of Supplier B"
+              class="rounded-full"
+              height="40"
+              src="https://storage.googleapis.com/a1aa/image/fa85b891-c125-4f1f-96d9-f78a657b1188.jpg"
+              width="40"
+            />
+            <div>
+              <p class="text-[var(--fiori-blue)] font-semibold">Supplier B</p>
+              <p class="text-[var(--fiori-gray)] text-sm">
+                Placed a bid of
+                <span class="font-bold text-black" id="live-bid-3">INR 24,500</span>
+              </p>
+            </div>
+          </div>
+          <span class="text-[var(--fiori-gray)] text-sm">4 min ago</span>
+        </li>
+        <li class="flex justify-between items-center bg-[#eaf3fc] rounded-md px-4 py-3">
+          <div class="flex items-center space-x-3">
+            <img
+              alt="Avatar of Supplier D"
+              class="rounded-full"
+              height="40"
+              src="https://storage.googleapis.com/a1aa/image/b428d555-db05-450f-76a5-c6c75099ceb3.jpg"
+              width="40"
+            />
+            <div>
+              <p class="text-[var(--fiori-blue)] font-semibold">Supplier D</p>
+              <p class="text-[var(--fiori-gray)] text-sm">
+                Placed a bid of
+                <span class="font-bold text-black" id="live-bid-4">INR 25,300</span>
+              </p>
+            </div>
+          </div>
+          <span class="text-[var(--fiori-gray)] text-sm">5 min ago</span>
+        </li>
+      </ul>
+    </section>
+    <!-- Back Button -->
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm mx-auto"
+      aria-label="Go back to Buyer Homepage"
+      style="display: flex; align-items: center; justify-content: center;"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Timer
+    const timerEl = document.getElementById("timer");
+    let [initMinutes, initSeconds] = timerEl.textContent.split(":").map(Number);
+    let totalSeconds = initMinutes * 60 + initSeconds;
+
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      timerEl.textContent =
+        (minutes < 10 ? "0" + minutes : minutes) +
+        ":" +
+        (seconds < 10 ? "0" + seconds : seconds);
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+      }
+    }
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Live bidding amounts
+    const bids = [
+      { id: "bid-1", liveId: "live-bid-1", base: 23400 },
+      { id: "bid-2", liveId: "live-bid-2", base: 24100 },
+      { id: "bid-3", liveId: "live-bid-3", base: 24500 },
+      { id: "bid-4", liveId: "live-bid-4", base: 25300 },
+    ];
+
+    // Function to format number with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Update bids every 3 seconds with random changes (simulate live bidding)
+    function updateBids() {
+      bids.forEach(({ id, liveId, base }) => {
+        // Random decrement between 0 and 300 (reverse auction, so bids go down)
+        const decrement = Math.floor(Math.random() * 300);
+        const newBid = Math.max(base - decrement, 1000); // minimum bid 1000
+        // Update table bid
+        const bidEl = document.getElementById(id);
+        if (bidEl) {
+          bidEl.textContent = `INR ${formatNumber(newBid)}`;
+        }
+        // Update live bidding activity bid
+        const liveBidEl = document.getElementById(liveId);
+        if (liveBidEl) {
+          liveBidEl.textContent = `INR ${formatNumber(newBid)}`;
+        }
+      });
+    }
+
+    setInterval(updateBids, 3000);
+
+    // Handle winner selection and notify button
+    const winnerRadios = document.querySelectorAll('input[name="winner"]');
+    const notifyBtn = document.getElementById("notifyBtn");
+    const notifyMsg = document.getElementById("notifyMsg");
+    let selectedWinner = null;
+
+    winnerRadios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        selectedWinner = radio.value;
+        notifyBtn.disabled = false;
+        notifyBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        notifyMsg.classList.add("hidden");
+      });
+    });
+
+    notifyBtn.addEventListener("click", () => {
+      if (selectedWinner) {
+        // Notify winner and losers
+        const allSuppliers = Array.from(winnerRadios).map((r) => r.value);
+        const losers = allSuppliers.filter((s) => s !== selectedWinner);
+        notifyMsg.innerHTML = `
+          Notification sent to <strong>${selectedWinner}</strong> (Winner)<br/>
+          Notification sent to losers: <strong>${losers.join(", ")}</strong>
+        `;
+        notifyMsg.classList.remove("hidden");
+        notifyBtn.disabled = true;
+        notifyBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+    });
+  </script>
+ </body>
+</html>

@@ -1,0 +1,833 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Budget Management - SAP &amp; SAP Ariba</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <nav class="flex gap-4 ml-4">
+          <a href="Buyer_Homepage.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Home</a>
+          <a href="PR_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PR Management</a>
+          <a href="PO_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PO Management</a>
+          <a href="Invoice_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Invoice Management</a>
+          <a href="Reports.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Reports</a>
+          <a href="Notifications.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Notifications</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h1 class="text-2xl sm:text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-6">
+    Budget Management
+  </h1>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+   <section class="mb-8">
+    <div class="fiori-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+        Budget Overview
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow p-5 flex items-center space-x-4">
+          <div class="p-3 bg-blue-100 rounded-full">
+            <i class="fas fa-wallet text-blue-600 text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-500">Total Budget</p>
+            <p class="text-xl font-semibold text-gray-900">₹1,250,000</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-5 flex items-center space-x-4">
+          <div class="p-3 bg-green-100 rounded-full">
+            <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-500">Approved Budget</p>
+            <p class="text-xl font-semibold text-gray-900">₹900,000</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-5 flex items-center space-x-4">
+          <div class="p-3 bg-yellow-100 rounded-full">
+            <i class="fas fa-hourglass-half text-yellow-600 text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-500">Pending Approval</p>
+            <p class="text-xl font-semibold text-gray-900">₹250,000</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-5 flex items-center space-x-4">
+          <div class="p-3 bg-red-100 rounded-full">
+            <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-500">Over Budget</p>
+            <p class="text-xl font-semibold text-gray-900">₹100,000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+   </section>
+   <section>
+    <div class="fiori-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+        Budget Details
+      </h2>
+      <div class="overflow-x-auto rounded-lg shadow bg-white">
+        <table class="min-w-full divide-y divide-gray-200 fiori-table">
+          <thead class="bg-gray-50">
+           <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Budget ID
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Department
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Total Amount
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Used Amount
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Remaining
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" scope="col">
+             Status
+            </th>
+            <th class="relative px-6 py-3" scope="col">
+             <span class="sr-only">
+              Actions
+             </span>
+            </th>
+           </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1001
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Marketing
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹300,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹210,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹90,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1001"
+            data-department="Marketing"
+            data-total="₹300,000"
+            data-used="₹210,000"
+            data-remaining="₹90,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1002
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Procurement
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹400,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹350,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-semibold">
+         ₹50,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+          Pending
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1002"
+            data-department="Procurement"
+            data-total="₹400,000"
+            data-used="₹350,000"
+            data-remaining="₹50,000"
+            data-status="Pending"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1003
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         IT
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹200,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹210,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-semibold">
+         -₹10,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+          Over Budget
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1003"
+            data-department="IT"
+            data-total="₹200,000"
+            data-used="₹210,000"
+            data-remaining="-₹10,000"
+            data-status="Over Budget"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1004
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Finance
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹350,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹280,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹70,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1004"
+            data-department="Finance"
+            data-total="₹350,000"
+            data-used="₹280,000"
+            data-remaining="₹70,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1005
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Operations
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹150,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹120,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹30,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1005"
+            data-department="Operations"
+            data-total="₹150,000"
+            data-used="₹120,000"
+            data-remaining="₹30,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1006
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         HR
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹100,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹80,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1006"
+            data-department="HR"
+            data-total="₹100,000"
+            data-used="₹80,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1007
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Legal
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹80,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹60,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1007"
+            data-department="Legal"
+            data-total="₹80,000"
+            data-used="₹60,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1008
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         R&amp;D
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹90,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹70,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1008"
+            data-department="R&D"
+            data-total="₹90,000"
+            data-used="₹70,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1009
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Customer Service
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹70,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹65,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-semibold">
+         ₹5,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+          Pending
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1009"
+            data-department="Customer Service"
+            data-total="₹70,000"
+            data-used="₹65,000"
+            data-remaining="₹5,000"
+            data-status="Pending"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1010
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Quality Assurance
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹60,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹50,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹10,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1010"
+            data-department="Quality Assurance"
+            data-total="₹60,000"
+            data-used="₹50,000"
+            data-remaining="₹10,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1011
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Sales
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹500,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹450,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-semibold">
+         ₹50,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+          Pending
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1011"
+            data-department="Sales"
+            data-total="₹500,000"
+            data-used="₹450,000"
+            data-remaining="₹50,000"
+            data-status="Pending"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1012
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Logistics
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹120,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹100,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1012"
+            data-department="Logistics"
+            data-total="₹120,000"
+            data-used="₹100,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1013
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Administration
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹110,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹90,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1013"
+            data-department="Administration"
+            data-total="₹110,000"
+            data-used="₹90,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1014
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Engineering
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹130,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹110,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">
+         ₹20,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+          Approved
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1014"
+            data-department="Engineering"
+            data-total="₹130,000"
+            data-used="₹110,000"
+            data-remaining="₹20,000"
+            data-status="Approved"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+       <tr class="hover:bg-gray-50">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+         BGT-1015
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+         Customer Success
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹140,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+         ₹130,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-yellow-600 font-semibold">
+         ₹10,000
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+          Pending
+         </span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button
+            aria-label="View details"
+            class="fiori-btn px-4 py-1 text-sm"
+            onclick="showBudgetModal(this)"
+            data-budget-id="BGT-1015"
+            data-department="Customer Success"
+            data-total="₹140,000"
+            data-used="₹130,000"
+            data-remaining="₹10,000"
+            data-status="Pending"
+          >
+            View
+          </button>
+        </td>
+       </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+   </section>
+  </main>
+  <button
+    type="button"
+    onclick="window.location.href='Buyer_Homepage.html';"
+    class="fiori-cancel-btn mt-4 mb-8 flex items-center gap-2 px-5 py-2 text-sm mx-auto"
+    aria-label="Go back to Buyer Homepage"
+    style="display: flex; align-items: center; justify-content: center;"
+  >
+    <i class="fas fa-arrow-left"></i>
+    Back
+  </button>
+  <footer class="fiori-footer">
+   © 2024 SAP Budget Management. All rights reserved.
+  </footer>
+  <!-- Modal for Budget Details -->
+  <div id="budgetModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
+      <button onclick="closeBudgetModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-xl">&times;</button>
+      <h3 class="text-xl font-bold mb-4 text-[var(--fiori-blue)]">Budget Details</h3>
+      <div class="space-y-2">
+        <div><span class="font-semibold">Budget ID:</span> <span id="modalBudgetId"></span></div>
+        <div><span class="font-semibold">Department:</span> <span id="modalDepartment"></span></div>
+        <div><span class="font-semibold">Total Amount:</span> <span id="modalTotal"></span></div>
+        <div><span class="font-semibold">Used Amount:</span> <span id="modalUsed"></span></div>
+        <div><span class="font-semibold">Remaining:</span> <span id="modalRemaining"></span></div>
+        <div><span class="font-semibold">Status:</span> <span id="modalStatus"></span></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    function showBudgetModal(btn) {
+      document.getElementById('modalBudgetId').textContent = btn.getAttribute('data-budget-id');
+      document.getElementById('modalDepartment').textContent = btn.getAttribute('data-department');
+      document.getElementById('modalTotal').textContent = btn.getAttribute('data-total');
+      document.getElementById('modalUsed').textContent = btn.getAttribute('data-used');
+      document.getElementById('modalRemaining').textContent = btn.getAttribute('data-remaining');
+      document.getElementById('modalStatus').textContent = btn.getAttribute('data-status');
+      document.getElementById('budgetModal').classList.remove('hidden');
+    }
+    function closeBudgetModal() {
+      document.getElementById('budgetModal').classList.add('hidden');
+    }
+  </script>
+ </body>
+</html>

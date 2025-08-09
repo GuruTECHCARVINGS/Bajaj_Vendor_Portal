@@ -1,0 +1,359 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+    Main Screen Navigation - PO Approval and PO Change Approval
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-form-label {
+      color: var(--fiori-label);
+      font-weight: 600;
+    }
+    .fiori-section-title {
+      color: var(--fiori-blue);
+      font-weight: 600;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">PO Approval &amp; Change Approval</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow flex flex-col items-center justify-center w-full">
+    <div class="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+      <button aria-label="Navigate to PO Approval"
+  class="group relative rounded-3xl bg-white shadow-2xl hover:shadow-3xl transition-shadow duration-500 p-6 flex flex-col items-center text-center transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 cursor-pointer"
+  id="poApprovalBtn"
+  type="button"
+  onclick="window.location.href='7_PO_Approval.html';">
+  <div class="w-28 h-28 mb-6 rounded-full bg-gradient-to-tr from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+    <img alt="Icon representing PO Approval, showing a clipboard with a checkmark and approval stamp in blue tones" class="w-20 h-20" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/642bd425-2a7f-4c54-db50-beb325ad6a5c.jpg" width="120"/>
+  </div>
+  <h2 class="text-2xl font-extrabold text-blue-900 mb-1 group-hover:text-blue-800 transition-colors duration-300">
+    PO Approval
+  </h2>
+  <p class="text-blue-700 max-w-xs text-xs font-medium">
+    Review and approve Purchase Orders efficiently to keep your workflow moving.
+  </p>
+</button>
+      <button aria-label="Navigate to PO Change Approval"
+  class="group relative rounded-3xl bg-white shadow-2xl hover:shadow-3xl transition-shadow duration-500 p-6 flex flex-col items-center text-center transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 cursor-pointer"
+  id="poChangeApprovalBtn"
+  type="button"
+  onclick="window.location.href='8_PO_Change_Approval.html';">
+  <div class="w-28 h-28 mb-6 rounded-full bg-gradient-to-tr from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+    <img alt="Icon representing PO Change Approval, showing a document with a checkmark and approval stamp in blue tones" class="w-20 h-20" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/1765c897-d7c9-413e-f898-7df598be58d1.jpg" width="120"/>
+  </div>
+  <h2 class="text-2xl font-extrabold text-blue-900 mb-1 group-hover:text-blue-800 transition-colors duration-300">
+    PO Change Approval
+  </h2>
+  <p class="text-blue-700 max-w-xs text-xs font-medium">
+    Review and approve changes to Purchase Orders quickly and accurately.
+  </p>
+</button>
+    </div>
+    <section aria-atomic="true" aria-live="polite" class="max-w-4xl w-full fiori-card hidden" id="contentArea" role="region">
+      <button class="mb-6 text-[var(--fiori-blue)] hover:text-[var(--fiori-blue-dark)] font-semibold focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] rounded transition" id="backBtn" type="button">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back
+      </button>
+      <div class="hidden" id="poApprovalContent">
+        <h1 class="text-3xl font-extrabold text-[var(--fiori-blue)] mb-6">
+          PO Approval
+        </h1>
+        <form class="space-y-6" id="poApprovalForm" novalidate>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poApprovalId">
+              PO ID
+            </label>
+            <input class="fiori-input" id="poApprovalId" name="poApprovalId" required type="text" autocomplete="off"/>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poApprovalDecision">
+              Decision
+            </label>
+            <select class="fiori-input" id="poApprovalDecision" name="poApprovalDecision" required>
+              <option disabled selected value="">
+                Select decision
+              </option>
+              <option value="approved">
+                Approve
+              </option>
+              <option value="rejected">
+                Reject
+              </option>
+            </select>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poApprovalComments">
+              Comments (optional)
+            </label>
+            <textarea class="fiori-input" id="poApprovalComments" name="poApprovalComments" rows="3" autocomplete="off"></textarea>
+          </div>
+          <button class="fiori-btn px-6 py-3" type="submit">
+            Submit PO Approval
+          </button>
+        </form>
+      </div>
+      <div class="hidden" id="poChangeApprovalContent">
+        <h1 class="text-3xl font-extrabold text-[var(--fiori-blue)] mb-6">
+          PO Change Approval
+        </h1>
+        <form class="space-y-6" id="poChangeApprovalForm" novalidate>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poChangeApprovalId">
+              PO Change ID
+            </label>
+            <input class="fiori-input" id="poChangeApprovalId" name="poChangeApprovalId" required type="text" autocomplete="off"/>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poChangeApprovalDecision">
+              Decision
+            </label>
+            <select class="fiori-input" id="poChangeApprovalDecision" name="poChangeApprovalDecision" required>
+              <option disabled selected value="">
+                Select decision
+              </option>
+              <option value="approved">
+                Approve
+              </option>
+              <option value="rejected">
+                Reject
+              </option>
+            </select>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poChangeApprovalComments">
+              Comments (optional)
+            </label>
+            <textarea class="fiori-input" id="poChangeApprovalComments" name="poChangeApprovalComments" rows="3" autocomplete="off"></textarea>
+          </div>
+          <button class="fiori-btn px-6 py-3" type="submit">
+            Submit PO Change Approval
+          </button>
+        </form>
+      </div>
+    </section>
+    <!-- Back Button at the last -->
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Section logic
+    const poApprovalBtn = document.getElementById('poApprovalBtn');
+    const poChangeApprovalBtn = document.getElementById('poChangeApprovalBtn');
+    const contentArea = document.getElementById('contentArea');
+    const poApprovalContent = document.getElementById('poApprovalContent');
+    const poChangeApprovalContent = document.getElementById('poChangeApprovalContent');
+    const backBtn = document.getElementById('backBtn');
+
+    function showSection(sectionToShow) {
+      poApprovalContent.classList.add('hidden');
+      poChangeApprovalContent.classList.add('hidden');
+      sectionToShow.classList.remove('hidden');
+      contentArea.classList.remove('hidden');
+      poApprovalBtn.parentElement.classList.add('hidden');
+      poChangeApprovalBtn.parentElement.classList.add('hidden');
+    }
+
+    poApprovalBtn.addEventListener('click', () => {
+      showSection(poApprovalContent);
+    });
+
+    poChangeApprovalBtn.addEventListener('click', () => {
+      showSection(poChangeApprovalContent);
+    });
+
+    backBtn.addEventListener('click', () => {
+      contentArea.classList.add('hidden');
+      poApprovalContent.classList.add('hidden');
+      poChangeApprovalContent.classList.add('hidden');
+      poApprovalBtn.parentElement.classList.remove('hidden');
+      poChangeApprovalBtn.parentElement.classList.remove('hidden');
+    });
+
+    // PO Approval form submission
+    document.getElementById('poApprovalForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const poId = e.target.poApprovalId.value.trim();
+      const decision = e.target.poApprovalDecision.value;
+      const comments = e.target.poApprovalComments.value.trim();
+
+      if (!poId) {
+        alert('Please enter the PO ID.');
+        return;
+      }
+      if (!decision) {
+        alert('Please select a decision.');
+        return;
+      }
+
+      alert(`PO Approval Submitted!\n\nPO ID: ${poId}\nDecision: ${decision.charAt(0).toUpperCase() + decision.slice(1)}\nComments: ${comments || 'None'}`);
+
+      e.target.reset();
+    });
+
+    // PO Change Approval form submission
+    document.getElementById('poChangeApprovalForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const poChangeId = e.target.poChangeApprovalId.value.trim();
+      const decision = e.target.poChangeApprovalDecision.value;
+      const comments = e.target.poChangeApprovalComments.value.trim();
+
+      if (!poChangeId) {
+        alert('Please enter the PO Change ID.');
+        return;
+      }
+      if (!decision) {
+        alert('Please select a decision.');
+        return;
+      }
+
+      alert(`PO Change Approval Submitted!\n\nPO Change ID: ${poChangeId}\nDecision: ${decision.charAt(0).toUpperCase() + decision.slice(1)}\nComments: ${comments || 'None'}`);
+
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

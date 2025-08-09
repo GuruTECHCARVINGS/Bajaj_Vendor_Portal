@@ -1,0 +1,564 @@
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendor Dashboard - Functional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f3f6f9] min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-[#d1e0ef]">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+    >
+      <div class="flex items-center space-x-3">
+        <img
+          alt="Bajaj Finserv Limited logo"
+          class="h-10 w-auto"
+          height="64"
+          src="data:image/png;base64,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"
+        />
+        <h1 class="text-2xl font-bold text-[#0a6ed1] tracking-tight ml-2" style="letter-spacing:0.01em;">Vendor Dashboard</h1>
+      </div>
+      <nav
+        class="hidden md:flex space-x-6 text-[#355571] font-semibold"
+        aria-label="Primary Navigation"
+      >
+        <a
+          class="hover:text-[#0a6ed1] transition"
+          href="#po-acknowledgement"
+          role="link"
+          tabindex="0"
+          >PO Acknowledgement</a
+        >
+        <a
+          class="hover:text-[#0a6ed1] transition"
+          href="#credit-note"
+          role="link"
+          tabindex="0"
+          >Credit Note</a
+        >
+        <a
+          class="hover:text-[#0a6ed1] transition"
+          href="#invoice-upload"
+          role="link"
+          tabindex="0"
+          >Invoice Upload</a
+        >
+        <a
+          class="hover:text-[#0a6ed1] transition"
+          href="#rfp-bidding"
+          role="link"
+          tabindex="0"
+          >RFP &amp; Bidding</a
+        >
+      </nav>
+      <!-- Profile Icon -->
+      <div class="relative ml-4">
+        <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[#0a6ed1] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[#0a6ed1]">
+          <i class="fas fa-user-circle fa-2x"></i>
+        </button>
+        <!-- Profile Dropdown -->
+        <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[#d1e0ef] rounded-lg shadow-lg z-50">
+          <div class="p-4 border-b border-[#eaf3fc]">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[#0a6ed1]">
+                <i class="fas fa-user fa-2x"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-[#0a6ed1]">Amit Kumar</div>
+                <div class="text-sm text-[#355571]">amit.kumar@vendor.com</div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="text-sm text-[#355571]"><span class="font-semibold">Vendor ID:</span> VND123456</div>
+            <div class="text-sm text-[#355571]"><span class="font-semibold">Company:</span> ABC Supplies Pvt. Ltd.</div>
+            <div class="text-sm text-[#355571]"><span class="font-semibold">Role:</span> Vendor</div>
+          </div>
+          <div class="border-t border-[#eaf3fc]">
+            <button
+              onclick="window.location.href='./login_screen.html'"
+              class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+              type="button"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- End Profile Icon -->
+      <div class="md:hidden">
+        <button
+          aria-label="Open menu"
+          class="text-[#355571] hover:text-[#0a6ed1] focus:outline-none focus:ring-2 focus:ring-[#0a6ed1] rounded"
+          id="mobile-menu-button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <i class="fas fa-bars fa-lg"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <nav
+      class="hidden md:hidden bg-white border-t border-[#d1e0ef]"
+      id="mobile-menu"
+      aria-label="Mobile Navigation"
+    >
+      <a
+        class="block px-4 py-3 text-[#355571] hover:bg-[#eaf3fc] hover:text-[#0a6ed1] font-semibold"
+        href="PO Acknowledgment Screen 2.html"
+        role="link"
+        tabindex="0"
+        >PO Acknowledgement</a
+      >
+      <a
+        class="block px-4 py-3 text-[#355571] hover:bg-[#eaf3fc] hover:text-[#0a6ed1] font-semibold"
+        href="Credit Note Vendor Screen 3.html"
+        role="link"
+        tabindex="0"
+        >Credit Note</a
+      >
+      <a
+        class="block px-4 py-3 text-[#355571] hover:bg-[#eaf3fc] hover:text-[#0a6ed1] font-semibold"
+        href="Upload Invoices Screen 4.html"
+        role="link"
+        tabindex="0"
+        >Invoice Upload</a
+      >
+      <a
+        class="block px-4 py-3 text-[#355571] hover:bg-[#eaf3fc] hover:text-[#0a6ed1] font-semibold"
+        href="Active RFP and Live Bidding VP Screen 5.html"
+        role="link"
+        tabindex="0"
+        >RFP &amp; Bidding</a
+      >
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-10 flex items-center space-x-4">
+      <!-- Removed the logo here -->
+      <span class="text-3xl font-bold text-[#0a6ed1] tracking-tight" style="letter-spacing:0.01em;">
+        Vendor Launchpad
+      </span>
+    </div>
+
+    <!-- Fiori Launchpad Tiles -->
+    <section
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      aria-label="Vendor Dashboard Tiles"
+    >
+      <!-- Tile 1 -->
+      <button
+        class="group flex flex-col items-center justify-center bg-white rounded-xl shadow hover:shadow-lg transition p-6 border border-[#d1e0ef] focus:outline-none focus:ring-4 focus:ring-[#b8e0ff]"
+        onclick="window.location.href='PO Acknowledgment screen 2.html'"
+        style="min-height: 180px;"
+        type="button"
+      >
+        <div class="flex flex-col items-center">
+          <div class="mb-4 p-4 bg-[#eaf3fc] text-[#0a6ed1] rounded-full">
+            <i class="fas fa-truck fa-2x"></i>
+          </div>
+          <span class="text-lg font-bold text-[#355571] group-hover:text-[#0a6ed1] text-center">PO Acknowledgement</span>
+          <span class="mt-2 text-[#6a7d94] text-sm text-center">Confirm receipt and acceptance of Purchase Orders</span>
+        </div>
+      </button>
+
+      <!-- Tile 2 -->
+      <button
+        class="group flex flex-col items-center justify-center bg-white rounded-xl shadow hover:shadow-lg transition p-6 border border-[#d1e0ef] focus:outline-none focus:ring-4 focus:ring-[#ffe3b3]"
+        onclick="window.location.href='./Credit Note Vendor Screen 3.html'"
+        style="min-height: 180px;"
+        type="button"
+      >
+        <div class="flex flex-col items-center">
+          <div class="mb-4 p-4 bg-[#fff7e0] text-[#f7a600] rounded-full">
+            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+          </div>
+          <span class="text-lg font-bold text-[#355571] group-hover:text-[#f7a600] text-center">Credit Note</span>
+          <span class="mt-2 text-[#6a7d94] text-sm text-center">Create and manage credit notes for adjustments and returns</span>
+        </div>
+      </button>
+
+      <!-- Tile 3 -->
+      <button
+        class="group flex flex-col items-center justify-center bg-white rounded-xl shadow hover:shadow-lg transition p-6 border border-[#d1e0ef] focus:outline-none focus:ring-4 focus:ring-[#b3ffe3]"
+        onclick="window.location.href='./Upload Invoices Screen 4.html'"
+        style="min-height: 180px;"
+        type="button"
+      >
+        <div class="flex flex-col items-center">
+          <div class="mb-4 p-4 bg-[#e6fff7] text-[#00b388] rounded-full">
+            <i class="fas fa-file-upload fa-2x"></i>
+          </div>
+          <span class="text-lg font-bold text-[#355571] group-hover:text-[#00b388] text-center">Invoice Upload</span>
+          <span class="mt-2 text-[#6a7d94] text-sm text-center">Upload invoices for Purchase Orders and Non-PO invoices</span>
+        </div>
+      </button>
+
+      <!-- Tile 4 -->
+      <button
+        class="group flex flex-col items-center justify-center bg-white rounded-xl shadow hover:shadow-lg transition p-6 border border-[#d1e0ef] focus:outline-none focus:ring-4 focus:ring-[#f3b3ff]"
+        onclick="window.location.href='Active RFP and Live Bidding VP Screen 5.html'"
+        style="min-height: 180px;"
+        type="button" 
+      >
+        <div class="flex flex-col items-center">
+          <div class="mb-4 p-4 bg-[#f9eafc] text-[#ab218e] rounded-full">
+            <i class="fas fa-gavel fa-2x"></i>
+          </div>
+          <span class="text-lg font-bold text-[#355571] group-hover:text-[#ab218e] text-center">RFP &amp; Bidding</span>
+          <span class="mt-2 text-[#6a7d94] text-sm text-center">Participate in Requests for Proposal and bidding processes</span>
+        </div>
+      </button>
+    </section>
+
+    <!-- Notification Panel after tiles -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+      <div class="bg-white rounded-xl shadow border border-[#d1e0ef] p-6">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-bell text-[#0a6ed1] fa-lg mr-2"></i>
+          <span class="text-xl font-bold text-[#0a6ed1]">Notifications</span>
+        </div>
+        <ul class="space-y-3">
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 bg-[#0a6ed1] rounded-full mt-2 mr-3"></span>
+            <div>
+              <span class="font-semibold text-[#355571]">PO #456789</span>
+              <span class="text-[#6a7d94] ml-2">has been approved. Please acknowledge.</span>
+              <div class="text-xs text-[#b8e0ff] mt-1">2 hours ago</div>
+            </div>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 bg-[#f7a600] rounded-full mt-2 mr-3"></span>
+            <div>
+              <span class="font-semibold text-[#355571]">Credit Note #CN-2024-12</span>
+              <span class="text-[#6a7d94] ml-2">is pending buyer approval.</span>
+              <div class="text-xs text-[#b8e0ff] mt-1">Today, 10:15 AM</div>
+            </div>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 bg-[#ab218e] rounded-full mt-2 mr-3"></span>
+            <div>
+              <span class="font-semibold text-[#355571]">New RFP</span>
+              <span class="text-[#6a7d94] ml-2">for IT Equipment is now live. Participate in bidding.</span>
+              <div class="text-xs text-[#b8e0ff] mt-1">Yesterday, 5:30 PM</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <div id="modals-container" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-[#d1e0ef] py-6">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-[#6a7d94] text-sm"
+    >
+      © 2025 Developed By Techcarvings Consultancy Technical Team. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    mobileMenuButton.addEventListener("click", () => {
+      const expanded =
+        mobileMenuButton.getAttribute("aria-expanded") === "true" || false;
+      mobileMenuButton.setAttribute("aria-expanded", !expanded);
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Modal templates for vendor features
+    const modalTemplates = {
+      poAckModal: {
+        title: "PO Acknowledgement / Confirmation",
+        content: `
+          <form id="poAckForm" class="space-y-4">
+            <div>
+              <label for="poNumber" class="block text-sm font-medium text-gray-700">PO Number</label>
+              <input type="text" id="poNumber" name="poNumber" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label for="ackStatus" class="block text-sm font-medium text-gray-700">Acknowledgement Status</label>
+              <select id="ackStatus" name="ackStatus" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="">Select Status</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+            <div>
+              <label for="ackComments" class="block text-sm font-medium text-gray-700">Comments (optional)</label>
+              <textarea id="ackComments" name="ackComments" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="poAckCancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">Submit Acknowledgement</button>
+            </div>
+          </form>
+        `,
+      },
+      creditNoteModal: {
+        title: "Credit Note",
+        content: `
+          <form id="creditNoteForm" class="space-y-4">
+            <div>
+              <label for="creditNoteNumber" class="block text-sm font-medium text-gray-700">Credit Note Number</label>
+              <input type="text" id="creditNoteNumber" name="creditNoteNumber" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500" />
+            </div>
+            <div>
+              <label for="creditNoteAmount" class="block text-sm font-medium text-gray-700">Amount</label>
+              <input type="number" id="creditNoteAmount" name="creditNoteAmount" min="0" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500" />
+            </div>
+            <div>
+              <label for="creditNoteReason" class="block text-sm font-medium text-gray-700">Reason</label>
+              <textarea id="creditNoteReason" name="creditNoteReason" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"></textarea>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="creditNoteCancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-600">Create Credit Note</button>
+            </div>
+          </form>
+        `,
+      },
+      invoiceUploadModal: {
+        title: "Invoice Upload",
+        content: `
+          <form id="invoiceUploadForm" class="space-y-4" enctype="multipart/form-data">
+            <div>
+              <label for="invoicePoNumber" class="block text-sm font-medium text-gray-700">PO Number (if applicable)</label>
+              <input type="text" id="invoicePoNumber" name="invoicePoNumber" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500" />
+            </div>
+            <div>
+              <label for="invoiceNumber" class="block text-sm font-medium text-gray-700">Invoice Number</label>
+              <input type="text" id="invoiceNumber" name="invoiceNumber" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500" />
+            </div>
+            <div>
+              <label for="invoiceAmount" class="block text-sm font-medium text-gray-700">Amount</label>
+              <input type="number" id="invoiceAmount" name="invoiceAmount" min="0" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500" />
+            </div>
+            <div>
+              <label for="invoiceFile" class="block text-sm font-medium text-gray-700">Upload Invoice (PDF, JPG, PNG)</label>
+              <input type="file" id="invoiceFile" name="invoiceFile" accept=".pdf,.jpg,.jpeg,.png" required class="mt-1 block w-full text-gray-700" />
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="invoiceUploadCancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600">Upload Invoice</button>
+            </div>
+          </form>
+        `,
+      },
+      rfpBiddingModal: {
+        title: "RFP and Bidding",
+        content: `
+          <form id="rfpBiddingForm" class="space-y-4">
+            <div>
+              <label for="rfpTitle" class="block text-sm font-medium text-gray-700">RFP Title</label>
+              <input type="text" id="rfpTitle" name="rfpTitle" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500" />
+            </div>
+            <div>
+              <label for="bidAmount" class="block text-sm font-medium text-gray-700">Bid Amount</label>
+              <input type="number" id="bidAmount" name="bidAmount" min="0" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500" />
+            </div>
+            <div>
+              <label for="bidDetails" class="block text-sm font-medium text-gray-700">Bid Details</label>
+              <textarea id="bidDetails" name="bidDetails" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500"></textarea>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="rfpBiddingCancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-fuchsia-600 text-white rounded hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-fuchsia-600">Submit Bid</button>
+            </div>
+          </form>
+        `,
+      },
+    };
+
+    const modalsContainer = document.getElementById("modals-container");
+
+    // Create modal element
+    function createModal(id, title, content) {
+      const modal = document.createElement("div");
+      modal.setAttribute("role", "dialog");
+      modal.setAttribute("aria-modal", "true");
+      modal.setAttribute("aria-labelledby", `${id}-title`);
+      modal.id = id;
+      modal.className =
+        "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4";
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 relative">
+          <h2 id="${id}-title" class="text-xl font-semibold text-gray-900 mb-4">${title}</h2>
+          <button aria-label="Close modal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 rounded" id="${id}-close-btn">
+            <i class="fas fa-times fa-lg"></i>
+          </button>
+          <div>${content}</div>
+        </div>
+      `;
+      return modal;
+    }
+
+    // Open modal by id
+    function openModal(id) {
+      if (document.getElementById(id)) return; // Already open
+      const { title, content } = modalTemplates[id];
+      const modal = createModal(id, title, content);
+      modalsContainer.appendChild(modal);
+
+      const closeBtn = modal.querySelector(`#${id}-close-btn`);
+      closeBtn.focus();
+
+      closeBtn.addEventListener("click", () => closeModal(id));
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal(id);
+      });
+
+      setupModalLogic(id, modal);
+    }
+
+    // Close modal by id
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    // Setup modal logic for forms
+    function setupModalLogic(id, modal) {
+      switch (id) {
+        case "poAckModal":
+          {
+            const form = modal.querySelector("#poAckForm");
+            const cancelBtn = modal.querySelector("#poAckCancelBtn");
+            cancelBtn.addEventListener("click", () => closeModal(id));
+            form.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const poNumber = formData.get("poNumber");
+              const ackStatus = formData.get("ackStatus");
+              const ackComments = formData.get("ackComments");
+              if (!poNumber || !ackStatus) {
+                alert("Please fill all required fields.");
+                return;
+              }
+              alert(
+                `PO #${poNumber} has been ${ackStatus.toLowerCase()}.${
+                  ackComments ? " Comments: " + ackComments : ""
+                }`
+              );
+              closeModal(id);
+            });
+          }
+          break;
+        case "creditNoteModal":
+          {
+            const form = modal.querySelector("#creditNoteForm");
+            const cancelBtn = modal.querySelector("#creditNoteCancelBtn");
+            cancelBtn.addEventListener("click", () => closeModal(id));
+            form.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const creditNoteNumber = formData.get("creditNoteNumber");
+              const creditNoteAmount = parseFloat(formData.get("creditNoteAmount"));
+              const creditNoteReason = formData.get("creditNoteReason");
+              if (!creditNoteNumber || isNaN(creditNoteAmount) || !creditNoteReason) {
+                alert("Please fill all required fields correctly.");
+                return;
+              }
+              alert(`Credit Note ${creditNoteNumber} created for amount ₹${creditNoteAmount.toFixed(2)}.`);
+              closeModal(id);
+            });
+          }
+          break;
+        case "invoiceUploadModal":
+          {
+            const form = modal.querySelector("#invoiceUploadForm");
+            const cancelBtn = modal.querySelector("#invoiceUploadCancelBtn");
+            cancelBtn.addEventListener("click", () => closeModal(id));
+            form.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const invoiceNumber = formData.get("invoiceNumber");
+              const invoiceAmount = parseFloat(formData.get("invoiceAmount"));
+              const invoiceFile = formData.get("invoiceFile");
+              if (!invoiceNumber || isNaN(invoiceAmount) || !invoiceFile.name) {
+                alert("Please fill all required fields and upload a file.");
+                return;
+              }
+              alert(`Invoice ${invoiceNumber} uploaded successfully for amount ₹${invoiceAmount.toFixed(2)}.`);
+              closeModal(id);
+            });
+          }
+          break;
+        case "rfpBiddingModal":
+          {
+            const form = modal.querySelector("#rfpBiddingForm");
+            const cancelBtn = modal.querySelector("#rfpBiddingCancelBtn");
+            cancelBtn.addEventListener("click", () => closeModal(id));
+            form.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const rfpTitle = formData.get("rfpTitle");
+              const bidAmount = parseFloat(formData.get("bidAmount"));
+              const bidDetails = formData.get("bidDetails");
+              if (!rfpTitle || isNaN(bidAmount) || !bidDetails) {
+                alert("Please fill all required fields correctly.");
+                return;
+              }
+              alert(`Bid submitted for RFP "${rfpTitle}" with amount ₹${bidAmount.toFixed(2)}.`);
+              closeModal(id);
+            });
+          }
+          break;
+      }
+    }
+
+    // Attach event listeners to dashboard buttons to open modals
+    document.querySelectorAll("[data-modal-target]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-modal-target");
+        openModal(target);
+      });
+    });
+  </script>
+</body>
+</html>

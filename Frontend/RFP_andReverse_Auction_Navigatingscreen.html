@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sourcing Navigation - RFP & Reverse Auction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f3f6f9;
+      color: #355571;
+    }
+    .nav-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 24px 0 #eaf3fc, 0 1.5px 6px 0 #d1e0ef;
+      padding: 2.5rem 2rem;
+      margin: 2rem auto;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .nav-btn {
+      background: #0a6ed1;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .nav-btn:hover,
+    .nav-btn:focus {
+      background: #0854a0;
+    }
+    .nav-desc {
+      color: #6a7d94;
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .nav-title {
+      color: #0a6ed1;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f3f6f9]">
+  <main class="flex-grow flex items-center justify-center">
+    <div class="nav-card">
+      <div class="nav-title flex items-center gap-3">
+        <i class="fas fa-gavel text-fuchsia-600"></i>
+        Sourcing Navigation
+      </div>
+      <div class="nav-desc">
+        Please choose an option below to proceed with your sourcing process.
+      </div>
+      <button class="nav-btn" onclick="window.location.href='RFP_creation.html'">
+        <i class="fas fa-file-alt"></i>
+        RFP Creation
+      </button>
+      <button class="nav-btn" onclick="window.location.href='Reverse_Auction.html'">
+        <i class="fas fa-gavel"></i>
+        Reverse Auction
+      </button>
+      <button class="mt-6 text-blue-600 underline text-sm" onclick="window.location.href='Buyer_Homepage.html'">
+        <i class="fas fa-arrow-left mr-1"></i>
+        Back to Dashboard
+      </button>
+    </div>
+  </main>
+</body>
+</html>

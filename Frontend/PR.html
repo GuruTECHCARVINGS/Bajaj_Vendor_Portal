@@ -1,0 +1,546 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Create Purchase Requisition
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-[#f3f7fa] text-[#004aad]">
+  <header class="flex items-center justify-between bg-white border-b border-[#dbe6f4] px-6 py-3">
+    <div class="flex items-center space-x-2">
+      <img
+        alt="Bajaj Finserv"
+        class="h-10 w-auto rounded"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbUAAABzCAMAAAAosmzyAAAAgVBMVEUAcbv///8Ab7pCiMUAabgAZLYAZrcAa7kAbbkAZ7cAbroder+qxeKtyOOHrtbv9vvP3+/f6fPG1+ro8PcYeL5nm80pf8F3pdL3+/2evt6yzOWYutwAYbXX5PFvodC90uhVkslPj8iNs9k3g8MAW7Nfl8xrns8AVrFBh8TC1OmjwN9BNHLvAAAOpklEQVR4nO1dCXeruA4mLtiYNFtDlmZt0ptO2///Ax+ExZJssyQ3gZnn78w5c0uwMP68SLJkPM/BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHhPw3mseS/rmvh0BAsEj7nPouXy5gl/5IidOT1G5Hg/sf2OFsPcqxnx/NFcBF1XTMHC5jYvbzPBgbMfl92wo24HiLi8fvERFmGyW/M3YDrGaLg9GanLMP0FDTjzQ8qUblWhujWxv0EFPv7InnTIs8F46d9HWcp9qegwTzpV/M/me+P24uQoamsGKN7P4w36QgXZZE5pY2IPLUXOeklbSKuHWcF3mK/VlwNa4Wki6EHsAjfNG/YXpA1UoSxvy6yD2AB7ow1ONcOt2asJSM31ro9P5J7tvWdJEVFEz9AZA8Qeo0mR9DYXs0c05S1wWBJOkB40m6JG6mu9iZ+gMgeQH604yzFh6wU2Zw1umAEc+2Wqa5dGGBv4kDXi+8V2T3azY4FzpXv3Zy1wRgNW39ruGXRRHuwNvEDRHaP3WsLrgBGuwqhgLX9iGKD5uMpHLUsNj1qLRtMaLYmfoDI7rGjK3VjHCtoA6xtdz6BDL7XSgxqj2CqfgDz2mv1fHyFrYkfILJzBJtbSRsMNnbaAGvvwvAzmJThwgaaaTCR4FGf9YaxpYmRSB+KrB9sfWUtuHF6zPBqXdtasLZXnZ5JMAYX/Kz+mNVrD+YmRiK/AiiyaoavEtk55E2KiMLYZvdQ1kIBwWMwVY0VqxL0oUTL4+a7LDA3MRS5D5A6ubpRZNcwGDItYfMNEdb4ZQvwDhVMMEFGn+B6YseFF/A3q5vQjE2MRCZzIpwvB9FNIrsGC8HscRvWljcnrBn3fjIAKzsAt43SeRMqEse6ZjM2MRS54X9FZNeAbzCfVMHe6BZzFbEW2D0vs6EarGIFfvBTMtkSXKlz+ZqaGIkM/4rIriEO4AX+qd5Zkd7nZbwxDZmDcXWArAUrQ7GsKVbAoYm8xvkyBlclzZFPYGhiFhpEju4S2TWYgA1Yp6MxFgqfi4Vu3Rm3yRBrtnl44+1AWejine+KOoKyNS5fQxMjkYHhtc+tRXYN2OnqWcvAQinOA4yRyVyFVnaFcTFdliM1OoHrp8I8Qxtj1S5fvYmjF1C43Ka7S2TXYEPUfs1YS8uJkPgYh4Y3B6xV+15WRWtAr/GPqg28XO3y1ZsYln1TZXd3iOwaZM+pMWsJbzvsjv0xvBCcIXeycGVl1pofr8C8l1tNPhzCyQgIebag7qDqXuny1ZoYiRz+FZFdg/pUW7CW9FY0uZqmGbNvhGXwhAdoi7XqJAtYMJ6tM0D9de1XTGi0iZHIX9/jZpFVXuTesebjhm/HGtkEM6xsNR4t+Q4aNP0duXgl46R2BapcvrSJociEG25xuLYR2TWYTyrfjrXwgArrQ6CGNagRzDh28Q6+wtC6TVvh8iVNjBwrK4H+RKCb6VDkV79YC6kNpVjjVqMNqMkSFV5pi0MNawFYVCccu3j3AeNWs77Ci8x/YRMzfw1LVYjcV4hU6m8vWONTUvey6ny+tgB653H5qfZKlLUIuY93sM8k7QGN6cFn5IP5kyJVXiJhQADGZzJ85S8o9B3JGpHMKBKMz1kPWKPRa4A1Q5BFgb2qOVkWNdcuZo3xlzHAGVMukZdpwxnU8TRELPo4jzVsocwjFnnk6E8NIWO1In+aRXU9FGRdGjRjDfQ3gfvugU6RiDUmqkLAxgK6eJMmDMcbAthFjtwbUhEUq3AHn+jVijRHKeBaPosbO3xNoWrJmo8dHhuqiGHvMZ2OIdYSuXjT1glpyAKyNE6RT90zFAKJTN1Wukj4Ai+RqNtorN3VeQL08LWWrEnsH9HcsJA1vqCCIE4hdPHOjRvMyHeYPMsQfQcx9uH95lhvpAAlIncVm0kJzj0Yavqy1po18hNNKUW+kYpdvPWLQE4aS1A/GgpnHzkYNWwCZJtdLCLxcIy+q0Qe2xlGj0Gk20PtWBPUcPgg0TjQe2xX3yZnGSIG3mytg0aXZ7XCU4wDJNLqaUSjKxl7v1SQQnXs57NgmMVbscYkvYku1r5aysze4zQB9TMQzIN2ld0Fj2Il9r4XbI0DePKWzI6egLWzGtGI28So4RaR07HowfToabpECgNr43iIUbapHkP5ShRjFpcYxhoSGzjgfp55+rksMbTHz4WgHikRwqe1S+oXBvK62wdF2r3DYUxESpNILvuSk+7/NGFtJRhBdgczRCtr5kzlmyLzTpNvLUTroUO/taYejUX2AFJXxU2smbtpKHXOcdi3w0PAdTW3IWtMBF+m6b8PDp//Orhu7zRkLR6bTaVeOFf/47iVNea9Wmwvx9rjcfNYY2L3YfQpOtYej9vXtfQwh4thvLl17fG4S4f0QoML/8k6ZL9U8ifB1/0VBtYOAXaTg4B8jTbNXtOc7FiKKKK2yO3CKANeZKHk6QlDIuDkuBKhPyxDZrszclWIEDryVYWZWWrDM0oeB6H73AysTUlerrKc6fkdecgOQHgevRoxOqVSxLb4OSsXHvK/zzBfcJVfHIEoL+EfjtmqvJ5txjEHaQLWR15S2lhMf96OT2FZPvwqfh4hH5g4F7efu6YtvMkPCZyEWgDymLyStO6DXjdQ1cKaPVft963UwFIXVWKTJJnx+0NQPJlbH7lNWWfGvdT9OB+wTHklcaBLebnzzRoUnQ1bz2vIGkp7SHEiHkTDypnDzJry4X+W/OushUu9cpPifCAtFKbE2c5aMmQXeaByWaUJ8PCD7tm5OxInZoDW8xqypnVsutV7O2vr8jhDjbXIHFDyk03dN7KWpo+kxUHUGuiCistj9z47XfVvyRoJYdD2sm9nbTDdac/IWEPBchDf97E22EoPRYiqeAoQJfTS/RmLNPK4NWtEnxlRFfIO1gbv+dCirBn2l67Ik8NvZy1jRIlfl42hXrNBOv/DoUfith1ruAW1HId7WBss8oQNwhqNeshRjM07WLuGDIJxVb4O2GzsWoP0TAtbS9Yktvi0kPG7WMufRFgDEeHjpbdc/OZuuWJJVazNMObXFges5UG5ANdkLmWFvuVTJNDaenF4sKTnXJl8I34IgRQOFMJYviWQXzThOsDxvJkmVsPanKd3EdZEqfQfOEtTV4PPtOuUwTwla/N/OMb1DsXa7+56VVzUO1x5BUGiub4oyxpsehDEivIO7KwJ664u81DhL236UGNNmvaGa1jLDnsirKl7iiT4iH/ONqUtp1gzh9KVrOXREgyEumaXeDn+8vkwKCvU4CCgZ4ATfayFH9IjCX2Dtd5MgDXj02tYu2oYlLVyKZ15hUsj8pVm15Y1uLr/XGvpl7pHFhuvunYfdJEUJOS7HWvEyP7Vp497WRu8hPYZMpmSV15AD01WrP3Bk3JeZ501FSeeuVHB0nddWdUyUtGBnwoyx7VjbYd1DUNoz92srRkjrJEgzvlxFXOoI5Ssrbe/ENuMNgNrKrZuRI2HtBDom91b2DlIQ7VgjZHAOtNKfTdrg30gieavn4Ax23pKe7Vp/rn1pbPGduUDch+jUlNTt4Hy1mrmaIe4jTUmY+JYMd2ldEiVSw92YuysKbtj9IewpicCJdhEmg5JMKGs/e5kCs7VIlEoG6pjfEfAa1eRTvps4Ny+phEIPKbD4t3UEdVYG6EEpHy6srMGXI2LUv0oDn0xOkcu+fMbszbbHFOA20tlQ632I18VqMgmfT6QGlnBWqqusygUvgyGY61p1tzUEW1Wdh6pYGeNgwyCUhkozyQxpkDlZ0I1Zk2HSuAo9ZM1B/ZhT3SRK1DO+p9iDvuj7WWL0IuXL1/j16nJe2vOgrGxtq9jLTKd6Fuq8v7QlDWwrPQe17OmbD4g5FIeJrPu01BLqnjH6bmGN4a4nTVTABk8WtU76+EPV42nsTaiFQesKBPuWLolDYZNl6g4GKApJpZDVm5njRmybVHPENw7bDCzVwOgZG1yWQB85a5gK2s4zalcINblImo6capLRJVJ5k2wtOw63cGap582ovLmMpdi6AfsADyp150WZWXvkP+0WJ3NrB3JR3eEdvi/fsBD1xCVybf1WNhiKW7WRlIfNQ0OKVmT20uh+7CQL8tl9jqcGnu0EKZaSjG9Q3eydo77jqseW30GirVXFOdVq/lfdxaI76VgLe1jI1GODXWGSDvWNsPlUCmj9IhITnZDDE7W7sFNnwNpiK1duQJWtt/Kyr6yxny84OZWdmbLvXtchIkxArTNb7Suzf+QnZrrQ4FvRDIGTrYgJjTNfjYdTdQ9gptpqyDtdo9WtotHFtwra6w86G6/XXx63klpwNk+S9lR9hizV7yXnfqngMpDY17IAQvNvh71dNz2caGaFPM7WcNnMl9ZYwaLIMdbpeafh7Nj1mBq+juuIo71fOvjBJlC3qSSLCr94Pey5gXQcZa2nG8lJY+Es7P2ZmDNA3PkC9I3cGC15dyLHkAYgkNrMFlWT/d3s4ZyCVLWDPHSOfJj+VuyBuZIYnTCmJhJv/wiCJFs6SU5+jXRgfezxsB5rdle9qd5ipzJuthjI2twjsQOHhiZve2lLpKDcVNSmg3rRe13Re9nDR4xkh8ZHowNlTwWA6Uta3A0Y2cq0EduacwnIvQrzrbBeBX1c73KzmjGWjnWQVCRCk4pP4XBV8QJOVNfAbZnZ5i0EQ8fjIximdQo7K0uUoD5caPv5x3jqiOjC4hzYVibP4m9LX7ON5FXm9wMh7J5ftdGTVMh91ajfTbkJtP3z0CJF+eN9lXFrHgWDxlv8kyncuNFlNlPG7QZw8IikpIeNNVDMBnXfo1tNDRup+mgaYU1PxsTDMu7UC1DnwfSiz0ZSBxaas06zN3Hevpg6OvXrrcW9nn/SfPSF5N0CoLYr2STcfYM/D9m+FYg5Gz1Y1j01z8rj3eewuVgQ7oPMjy8/+wnV/LWk/3P+2EY+I6yvuP6ASjOpe/L5H++cIw5ODg4ODg4ODg4ODg4ODg4ODg4ODg4ODgUMHxPxaHv8F4c/n34Hx36BP5rFTUSAAAAAElFTkSuQmCC"
+      />
+      <h1 class="font-semibold text-2xl sm:text-3xl leading-7">
+        Create Purchase Requisition
+      </h1>
+    </div>
+    <div class="relative flex items-center gap-2">
+      <button id="profileMenuButton" aria-label="User profile" class="w-8 h-8 rounded-full bg-[#004aad] flex items-center justify-center text-white text-lg focus:outline-none focus:ring-2 focus:ring-[#004aad]">
+        <i class="fas fa-user"></i>
+      </button>
+      <!-- Profile dropdown -->
+      <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[#dbe6f4] rounded-lg shadow-lg z-50">
+        <div class="p-4 border-b border-[#dbe6f4]">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-[#e6f0ff] flex items-center justify-center text-[#004aad] text-2xl">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <div id="profileName" class="font-semibold text-base">John Doe</div>
+              <div id="profileEmail" class="text-xs text-[#4a4a4a]">john.doe@example.com</div>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 space-y-1 text-sm">
+          <div><span class="font-semibold">User ID:</span> <span id="profileUserId">JD12345</span></div>
+          <div><span class="font-semibold">Company:</span> <span id="profileCompany">Bajaj Finserv</span></div>
+          <div><span class="font-semibold">Role:</span> <span id="profileRole">Buyer</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-5xl mx-auto p-6">
+   <form autocomplete="off" class="bg-white rounded-lg border border-[#dbe6f4] p-6 space-y-6" id="purchaseForm">
+    <button class="inline-flex items-center gap-2 text-[#004aad] border border-[#004aad] rounded px-3 py-1.5 text-sm font-medium hover:bg-[#e6f0ff] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="button" id="backButton">
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+    <fieldset class="space-y-4">
+     <legend class="font-semibold text-sm mb-1">
+      General Data
+     </legend>
+     <div class="flex items-center space-x-6 text-sm">
+      <label class="flex items-center gap-2">
+       <input checked="" class="text-[#004aad] focus:ring-[#004aad]" name="dataType" type="radio" value="opex"/>
+       Opex
+      </label>
+      <label class="flex items-center gap-2">
+       <input class="text-[#004aad] focus:ring-[#004aad]" name="dataType" type="radio" value="capex"/>
+       Capex
+      </label>
+     </div>
+    </fieldset>
+    <div class="space-y-4 text-sm">
+     <div>
+      <label class="block font-semibold mb-1" for="title">
+       Title
+      </label>
+      <input class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#7a7a7a] placeholder-[#7a7a7a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="title" name="title" placeholder="Enter title" type="text" value="Office Equipment Purchase"/>
+     </div>
+     <div>
+      <label class="block font-semibold mb-1" for="date">
+       Date
+      </label>
+      <input class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="date" name="date" type="text" value="24-04-2024"/>
+      <!-- <i class="fas fa-calendar-alt absolute right-3 top-[38px] text-[#004aad] pointer-events-none"> -->
+      </i>
+     </div>
+     <div>
+      <label class="block font-semibold mb-1" for="requestor">
+       Requestor
+      </label>
+      <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="requestor" name="requestor">
+       <option>
+        Priya Sharma
+       </option>
+       <option>
+        Varun Mehta
+       </option>
+       <option>
+        Anjali Singh
+       </option>
+       <option>
+        Rohit Verma
+       </option>
+       <option>
+        Neha Patel
+       </option>
+      </select>
+     </div>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-4">
+      <div>
+       <label class="block font-semibold mb-1" for="purchaseOrg">
+        Purchase Org
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="purchaseOrg" name="purchaseOrg">
+        <option>
+         Select Purchase Org
+        </option>
+        <option>
+         North Region
+        </option>
+        <option>
+         South Region
+        </option>
+        <option>
+         East Region
+        </option>
+        <option>
+         West Region
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="supplier">
+        Supplier
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="supplier" name="supplier">
+        <option>
+         Select Supplier
+        </option>
+        <option>
+         ABC Supplies Ltd.
+        </option>
+        <option>
+         XYZ Traders
+        </option>
+        <option>
+         Global Tech
+        </option>
+        <option>
+         Office Essentials Co.
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="accountCategory">
+        Account Assignment Category
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="accountCategory" name="accountCategory">
+        <option value="">
+         Select Account Assignment Category
+        </option>
+        <option value="costCenter">
+         Cost Center
+        </option>
+        <option value="internalOrder">
+         Internal Order
+        </option>
+        <option value="asset">
+         Asset
+        </option>
+        <option value="project">
+         Project
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="paymentTerms">
+        Payment Terms
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="paymentTerms" name="paymentTerms">
+        <option>
+         Select Payment Terms
+        </option>
+        <option>
+         Net 30
+        </option>
+        <option>
+         Net 45
+        </option>
+        <option>
+         Net 60
+        </option>
+        <option>
+         Advance Payment
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="plant">
+        Plant
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="plant" name="plant">
+        <option>
+         Select Plant
+        </option>
+        <option>
+         Plant A
+        </option>
+        <option>
+         Plant B
+        </option>
+        <option>
+         Plant C
+        </option>
+        <option>
+         Plant D
+        </option>
+       </select>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="companyCode">
+        Company code
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="companyCode" name="companyCode">
+        <option>
+         Select Company Code
+        </option>
+        <option>
+         1001
+        </option>
+        <option>
+         1002
+        </option>
+        <option>
+         1003
+        </option>
+        <option>
+         1004
+        </option>
+       </select>
+      </div>
+     </div>
+     <div id="assetFields" class="hidden space-y-4 border border-[#a9d1ff] rounded p-4 mt-4 bg-[#f0f7ff]">
+      <div>
+       <label class="block font-semibold mb-1" for="assetNumber">
+        Asset Number
+       </label>
+       <input class="w-full border border-[#a9d1ff] rounded bg-[#e0e7ff] px-3 py-2 text-[#4a4a4a] cursor-not-allowed" id="assetNumber" name="assetNumber" readonly type="text"/>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="assetDescription">
+        Asset Description
+       </label>
+       <input class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="assetDescription" name="assetDescription" placeholder="Enter Asset Description" type="text"/>
+      </div>
+      <div>
+       <label class="block font-semibold mb-1" for="assetLocation">
+        Asset Location
+       </label>
+       <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="assetLocation" name="assetLocation">
+        <option>
+         Select Asset Location
+        </option>
+        <option>
+         Warehouse 1
+        </option>
+        <option>
+         Warehouse 2
+        </option>
+        <option>
+         Main Office
+        </option>
+        <option>
+         Remote Site
+        </option>
+       </select>
+      </div>
+     </div>
+     <div>
+      <label class="block font-semibold mb-1" for="procurementType">
+       Procurement Type
+      </label>
+      <select class="w-full border border-[#a9d1ff] rounded px-3 py-2 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" id="procurementType" name="procurementType">
+       <option>
+        Select Procurement Type
+       </option>
+       <option>
+        Standard Purchase
+       </option>
+       <option>
+        Subcontracting
+       </option>
+       <option>
+        Consignment
+       </option>
+       <option>
+        Stock Transfer
+       </option>
+      </select>
+     </div>
+    </div>
+    <div>
+     <label class="block font-semibold text-sm mb-2">
+      Items
+     </label>
+     <div class="overflow-x-auto">
+      <table class="w-full border border-[#dbe6f4] text-sm text-[#004aad]">
+       <thead class="bg-[#dbe6f4]">
+        <tr>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Material
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Type
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Description
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Quantity
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          UoM
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Price
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Delivery Date
+         </th>
+         <th class="border border-[#c3d2f2] px-3 py-2 text-left font-semibold">
+          Cost Center
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr class="even:bg-[#f9fbff]">
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          MAT-001
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center text-gray-600">
+          <i class="fas fa-couch">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-full border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="Desk Chair"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-16 border border-[#a9d1ff] rounded px-2 py-1 text-center text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="number" value="5"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center">
+          Each
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          ₹1,20,000
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 relative">
+          <input class="w-28 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="01-05-2024"/>
+          <i class="fas fa-calendar-alt absolute right-2 top-2.5 text-[#004aad] pointer-events-none">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-20 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="300244"/>
+         </td>
+        </tr>
+        <tr class="even:bg-[#f9fbff]">
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          MAT-002
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center text-gray-600">
+          <i class="fas fa-laptop">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-full border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="Laptop"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-16 border border-[#a9d1ff] rounded px-2 py-1 text-center text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="number" value="3"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center">
+          Each
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          ₹2,00,000
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 relative">
+          <input class="w-28 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="05-05-2024"/>
+          <i class="fas fa-calendar-alt absolute right-2 top-2.5 text-[#004aad] pointer-events-none">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-20 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="300245"/>
+         </td>
+        </tr>
+        <tr class="even:bg-[#f9fbff]">
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          MAT-003
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center text-gray-600">
+          <i class="fas fa-print">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-full border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="Printer"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-16 border border-[#a9d1ff] rounded px-2 py-1 text-center text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="number" value="2"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center">
+          Each
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          ₹80,000
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 relative">
+          <input class="w-28 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="10-05-2024"/>
+          <i class="fas fa-calendar-alt absolute right-2 top-2.5 text-[#004aad] pointer-events-none">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-20 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="300246"/>
+         </td>
+        </tr>
+        <tr class="even:bg-[#f9fbff]">
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          MAT-004
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center text-gray-600">
+          <i class="fas fa-lightbulb">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-full border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="LED Lights"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-16 border border-[#a9d1ff] rounded px-2 py-1 text-center text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="number" value="20"/>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 text-center">
+          Each
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          ₹90,000
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5 relative">
+          <input class="w-28 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="15-05-2024"/>
+          <i class="fas fa-calendar-alt absolute right-2 top-2.5 text-[#004aad] pointer-events-none">
+          </i>
+         </td>
+         <td class="border border-[#c3d2f2] px-3 py-1.5">
+          <input class="w-20 border border-[#a9d1ff] rounded px-2 py-1 text-[#4a4a4a] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="text" value="300247"/>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="flex justify-end items-center space-x-4">
+     <div class="text-right">
+      <p class="font-semibold text-sm">
+       Total (INR)
+      </p>
+      <p class="font-extrabold text-base">
+       ₹31,60,000.00
+      </p>
+     </div>
+     <button class="border border-[#004aad] text-[#004aad] rounded px-4 py-2 text-sm font-medium hover:bg-[#e6f0ff] focus:outline-none focus:ring-2 focus:ring-[#004aad]" type="button">
+      Cancel
+     </button>
+     <button class="bg-[#004aad] text-white rounded px-5 py-2 text-sm font-medium hover:bg-[#003a9a] focus:outline-none focus:ring-2 focus:ring-[#002d7a]" type="submit">
+      Create
+     </button>
+    </div>
+   </form>
+  </main>
+  <footer class="text-center text-xs text-[#4a4a4a] py-4 border-t border-[#dbe6f4] bg-white">
+   © 2025 Developed By Techcarvings Consultancy Technical Team . All rights reserved.
+  </footer>
+  <script>
+  // Profile dropdown toggle
+  const profileMenuButton = document.getElementById("profileMenuButton");
+  const profileDropdown = document.getElementById("profileDropdown");
+  let profileOpen = false;
+
+  profileMenuButton?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    profileOpen = !profileOpen;
+    profileDropdown.classList.toggle("hidden", !profileOpen);
+  });
+
+  document.addEventListener("click", (e) => {
+    if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+      profileDropdown.classList.add("hidden");
+      profileOpen = false;
+    }
+  });
+
+  // Back button navigation
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.location.href = "PR Creation and navigation_buyer.html";
+  });
+
+  // Asset fields logic
+  const accountCategorySelect = document.getElementById('accountCategory');
+  const assetFields = document.getElementById('assetFields');
+  const assetNumberInput = document.getElementById('assetNumber');
+
+  function generateAssetNumber() {
+    const prefix = "ASSET-";
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    return prefix + randomNum;
+  }
+
+  function toggleAssetFields() {
+    if (accountCategorySelect.value === 'asset') {
+      assetFields.classList.remove('hidden');
+      assetNumberInput.value = generateAssetNumber();
+    } else {
+      assetFields.classList.add('hidden');
+      assetNumberInput.value = '';
+    }
+  }
+
+  accountCategorySelect.addEventListener('change', toggleAssetFields);
+  toggleAssetFields();
+
+  // Create button logic
+  document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    // You can fetch profile fields if needed
+    const name = document.getElementById('profileName').textContent;
+    const email = document.getElementById('profileEmail').textContent;
+    const userId = document.getElementById('profileUserId').textContent;
+    const company = document.getElementById('profileCompany').textContent;
+    const role = document.getElementById('profileRole').textContent;
+
+    alert(
+      `Purchase Requisition Created!\n\nProfile:\nName: ${name}\nEmail: ${email}\nUser ID: ${userId}\nCompany: ${company}\nRole: ${role}`
+    );
+  });
+  </script>
+ </body>
+</html>

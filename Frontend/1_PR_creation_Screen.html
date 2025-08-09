@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Purchase Requisition</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f6f9;
+      color: #355571;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid #d1e0ef;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: #0a6ed1;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: #fff;
+      border: 1px solid #d1e0ef;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: #0a6ed1;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: #0854a0;
+    }
+    .fiori-cancel-btn {
+      color: #0a6ed1;
+      border: 1px solid #0a6ed1;
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: #0854a0;
+    }
+    .fiori-form-label {
+      color: #0a6ed1;
+      font-weight: 600;
+    }
+    .fiori-input, .fiori-textarea, .fiori-select {
+      border: 1px solid #b8e0ff;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #355571;
+      background: #fff;
+      font-size: 1rem;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .fiori-input:focus, .fiori-textarea:focus, .fiori-select:focus {
+      outline: none;
+      border-color: #0a6ed1;
+      box-shadow: 0 0 0 2px #0a6ed1;
+    }
+    .fiori-section-title {
+      color: #0a6ed1;
+      font-weight: 600;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: #0a6ed1;
+      font-weight: 700;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid #d1e0ef;
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-table input, .fiori-table select {
+      font-size: 0.95rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #b8e0ff;
+      color: #355571;
+      background: #fff;
+    }
+    .fiori-table input:focus, .fiori-table select:focus {
+      outline: none;
+      border-color: #0a6ed1;
+      box-shadow: 0 0 0 2px #0a6ed1;
+    }
+    .fiori-footer {
+      border-top: 1px solid #d1e0ef;
+      background: #fff;
+      color: #355571;
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="bg-[#f3f6f9] font-sans text-[#355571]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">Create Purchase Requisition</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[#0a6ed1] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[#0a6ed1]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[#d1e0ef] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[#0a6ed1]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[#0a6ed1]">John Doe</div>
+                  <div class="text-sm text-[#355571]">john.doe@company.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[#355571]"><span class="font-semibold">User ID:</span> BUY1001</div>
+              <div class="text-sm text-[#355571]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[#355571]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-4xl mx-auto mt-6 rounded-xl shadow-sm fiori-card">
+    <!-- Back Button -->
+    <button
+      type="button"
+      onclick="window.location.href='PR Creation and navigation_buyer.html';"
+      class="fiori-cancel-btn mb-6 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+    <form id="purchaseForm" class="space-y-8" novalidate>
+      <section>
+        <h2 class="fiori-section-title text-lg mb-3">General Data</h2>
+        <div class="flex items-center space-x-8 mb-6">
+          <label class="inline-flex items-center space-x-2 text-base font-normal cursor-pointer text-[#355571]">
+            <input
+              type="radio"
+              name="capexOpex"
+              value="Opex"
+              checked
+              class="form-radio text-[#0a6ed1] border border-[#d1e0ef] focus:ring-2 focus:ring-[#0a6ed1]"
+              required
+            />
+            <span>Opex</span>
+          </label>
+          <label class="inline-flex items-center space-x-2 text-base font-normal cursor-pointer text-[#355571]">
+            <input
+              type="radio"
+              name="capexOpex"
+              value="Capex"
+              class="form-radio text-[#0a6ed1] border border-[#d1e0ef] focus:ring-2 focus:ring-[#0a6ed1]"
+            />
+            <span>Capex</span>
+          </label>
+        </div>
+
+        <div class="mb-6">
+          <label for="title" class="block fiori-form-label mb-1">Title</label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            required
+            class="fiori-input"
+            placeholder="Enter title"
+          />
+        </div>
+
+        <div class="mb-6">
+          <label for="neededBy" class="block fiori-form-label mb-1">Date</label>
+          <input
+            id="neededBy"
+            name="neededBy"
+            type="date"
+            value="2024-04-24"
+            required
+            class="fiori-input"
+          />
+        </div>
+
+        <div class="mb-6">
+          <label for="requestor" class="block fiori-form-label mb-1">Requestor</label>
+          <input
+            id="requestor"
+            name="requestor"
+            type="text"
+            value="John Doe"
+            required
+            class="fiori-input"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+          <div>
+            <label for="purchaseOrg" class="block fiori-form-label mb-1">Purchase Org</label>
+            <select
+              id="purchaseOrg"
+              name="purchaseOrg"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Purchase Org</option>
+              <option value="1000">1000 - North America</option>
+              <option value="2000">2000 - Europe</option>
+              <option value="3000">3000 - Asia</option>
+            </select>
+          </div>
+          <div>
+            <label for="supplier" class="block fiori-form-label mb-1">Supplier</label>
+            <select
+              id="supplier"
+              name="supplier"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Supplier</option>
+              <option value="SUP001">SUP001 - Acme Corp</option>
+              <option value="SUP002">SUP002 - Global Supplies</option>
+              <option value="SUP003">SUP003 - Office Essentials</option>
+            </select>
+          </div>
+          <div>
+            <label for="accountType" class="block fiori-form-label mb-1">Account Assignment Category</label>
+            <select
+              id="accountType"
+              name="accountType"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Account Assignment Category</option>
+              <option value="K">K - Cost Center</option>
+              <option value="F">F - Order</option>
+              <option value="A">A - Asset</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Asset fields moved here -->
+        <div id="assetFields" class="mb-6 hidden">
+          <label for="assetNumber" class="block fiori-form-label mb-1">Asset Number</label>
+          <select
+            id="assetNumber"
+            name="assetNumber"
+            class="fiori-select"
+          >
+            <option value="">Select Asset Number</option>
+            <option value="AST-1001">AST-1001 - Dell Laptop (Pune HO)</option>
+            <option value="AST-1002">AST-1002 - Office Desk (Mumbai)</option>
+            <option value="AST-1003">AST-1003 - HP Printer (Pune HO)</option>
+            <option value="AST-1004">AST-1004 - Honda City Car (Delhi)</option>
+            <option value="AST-1005">AST-1005 - Server Rack (Data Center)</option>
+          </select>
+
+          <label for="assetLocation" class="block fiori-form-label mb-1 mt-4">Asset Location</label>
+          <input id="assetLocation" name="assetLocation" type="text" class="fiori-input" readonly />
+
+          <label for="assetDesc" class="block fiori-form-label mb-1 mt-4">Asset Description</label>
+          <input id="assetDesc" name="assetDesc" type="text" class="fiori-input" readonly />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+          <div>
+            <label for="paymentTerms" class="block fiori-form-label mb-1">Payment Terms</label>
+            <select
+              id="paymentTerms"
+              name="paymentTerms"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Payment Terms</option>
+              <option value="0001">0001 - Net 30 Days</option>
+              <option value="0002">0002 - Net 60 Days</option>
+              <option value="0003">0003 - Due on Receipt</option>
+            </select>
+          </div>
+          <div>
+            <label for="plant" class="block fiori-form-label mb-1">Plant</label>
+            <select
+              id="plant"
+              name="plant"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Plant</option>
+              <option value="PL01">PL01 - Main Plant</option>
+              <option value="PL02">PL02 - Secondary Plant</option>
+              <option value="PL03">PL03 - Warehouse</option>
+            </select>
+          </div>
+          <div>
+            <label for="companyCode" class="block fiori-form-label mb-1">Company code</label>
+            <select
+              id="companyCode"
+              name="companyCode"
+              required
+              class="fiori-select"
+            >
+              <option value="">Select Company Code</option>
+              <option value="C001">C001 - ABC Ltd.</option>
+              <option value="C002">C002 - XYZ Inc.</option>
+              <option value="C003">C003 - Global Enterprises</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="procurementType" class="block fiori-form-label mb-1">Procurement Type</label>
+          <select
+            id="procurementType"
+            name="procurementType"
+            required
+            class="fiori-select"
+          >
+            <option value="">Select Procurement Type</option>
+            <option value="Standard">Standard</option>
+            <option value="Subcontracting">Subcontracting</option>
+            <option value="Consignment">Consignment</option>
+            <option value="Stock Transfer">Stock Transfer</option>
+          </select>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="fiori-section-title text-lg mb-3">Items</h2>
+        <div class="overflow-x-auto border border-[#d1e0ef] rounded-md">
+          <table class="min-w-full border-collapse fiori-table" id="itemsTable">
+            <thead>
+              <tr>
+                <th>Material</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>UoM</th>
+                <th>Price</th>
+                <th>Delivery Date</th>
+                <th>Cost Center</th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody">
+              <tr>
+                <td>
+                  <input type="text" name="material" value="MAT-001" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td class="text-center text-gray-500">
+                  <i class="fas fa-couch fa-lg"></i>
+                </td>
+                <td>
+                  <input type="text" name="description" value="Desk Chair" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="number" name="quantity" value="5" min="1" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="uom" value="Each" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="price" value="₹1,20,000" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="deliveryDate"
+                    value="2024-05-01"
+                    required
+                    class="w-full fiori-input py-1 px-2 text-sm"
+                  />
+                </td>
+                <td>
+                  <input type="text" name="costCenter" value="300244" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" name="material" value="MAT-002" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td class="text-center text-gray-500">
+                  <i class="fas fa-laptop fa-lg"></i>
+                </td>
+                <td>
+                  <input type="text" name="description" value="Laptop" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="number" name="quantity" value="3" min="1" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="uom" value="Each" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="price" value="₹2,00,000" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="deliveryDate"
+                    value="2024-05-05"
+                    required
+                    class="w-full fiori-input py-1 px-2 text-sm"
+                  />
+                </td>
+                <td>
+                  <input type="text" name="costCenter" value="300245" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" name="material" value="MAT-003" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td class="text-center text-gray-500">
+                  <i class="fas fa-print fa-lg"></i>
+                </td>
+                <td>
+                  <input type="text" name="description" value="Printer" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="number" name="quantity" value="2" min="1" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="uom" value="Each" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="price" value="₹80,000" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="deliveryDate"
+                    value="2024-05-10"
+                    required
+                    class="w-full fiori-input py-1 px-2 text-sm"
+                  />
+                </td>
+                <td>
+                  <input type="text" name="costCenter" value="300246" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="text" name="material" value="MAT-004" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td class="text-center text-gray-500">
+                  <i class="fas fa-lightbulb fa-lg"></i>
+                </td>
+                <td>
+                  <input type="text" name="description" value="LED Lights" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="number" name="quantity" value="20" min="1" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="uom" value="Each" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input type="text" name="price" value="₹90,000" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="deliveryDate"
+                    value="2024-05-15"
+                    required
+                    class="w-full fiori-input py-1 px-2 text-sm"
+                  />
+                </td>
+                <td>
+                  <input type="text" name="costCenter" value="300247" required class="w-full fiori-input py-1 px-2 text-sm" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Move this block BELOW your items table section, just before the Add Item button or section end -->
+      <!-- filepath: d:\Bajaj Finserv Project\Frontend\1_PR_creation_Screen.html -->
+      <div class="flex flex-col items-end mt-4 mb-2">
+        <span class="fiori-section-title text-xl font-bold mb-0.5">Total (INR)</span>
+        <span id="totalAmount" class="text-[#355571] font-bold text-xl tracking-wide">₹31,60,000.00</span>
+      </div>
+
+      <section class="flex justify-end items-center mt-8 space-x-4">
+        <button
+          id="cancelBtn"
+          type="button"
+          class="fiori-cancel-btn px-6 py-2 text-sm"
+        >
+          Cancel
+        </button>
+        <button
+          id="createBtn"
+          type="button"
+          class="fiori-btn px-8 py-2 text-sm"
+        >
+          Create
+        </button>
+      </section>
+
+      <!-- Remove the asset fields block from the end of the form if it still exists there -->
+
+      <!-- The script at the end of your file remains unchanged and will work as expected -->
+    </form>
+  </div>
+
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // PR Table logic
+    const addItemBtn = document.getElementById('addItemBtn');
+    const itemsBody = document.getElementById('itemsBody');
+    const totalAmountEl = document.getElementById('totalAmount');
+    const purchaseForm = document.getElementById('purchaseForm');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const createBtn = document.getElementById('createBtn');
+
+    // Helper to format as Indian Rupees with commas (e.g., 35,000)
+    function formatINR(amount) {
+      return '₹' + Number(amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    // Parse price input (removes commas, ₹, spaces)
+    function parseINR(str) {
+      return parseFloat(String(str).replace(/[^0-9.]/g, '')) || 0;
+    }
+
+    // Update all price fields and total in INR format
+    function calculateTotal() {
+      let total = 0;
+      const rows = itemsBody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const qtyInput = row.querySelector('input[name="quantity"]');
+        const priceInput = row.querySelector('input[name="price"]');
+        let qty = parseFloat(qtyInput.value) || 0;
+        let price = parseINR(priceInput.value);
+        // Format price field as INR with commas and ₹
+        priceInput.value = price ? formatINR(price) : '';
+        total += qty * price;
+      });
+      totalAmountEl.textContent = formatINR(total);
+    }
+
+    // Add event listeners to all price and quantity fields
+    function addRowListeners(row) {
+      const qtyInput = row.querySelector('input[name="quantity"]');
+      const priceInput = row.querySelector('input[name="price"]');
+      qtyInput.addEventListener('input', calculateTotal);
+      priceInput.addEventListener('blur', function() {
+        let price = parseINR(priceInput.value);
+        priceInput.value = price ? formatINR(price) : '';
+        calculateTotal();
+      });
+      priceInput.addEventListener('focus', function() {
+        let price = parseINR(priceInput.value);
+        priceInput.value = price ? price : '';
+      });
+      qtyInput.addEventListener('blur', calculateTotal);
+    }
+
+    // Initial formatting for existing rows
+    itemsBody.querySelectorAll('tr').forEach(addRowListeners);
+
+    // When adding a new row
+    addItemBtn.addEventListener('click', () => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>
+          <input type="text" name="material" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td class="text-center text-gray-500">
+          <i class="fas fa-couch fa-lg"></i>
+        </td>
+        <td>
+          <input type="text" name="description" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td>
+          <input type="number" name="quantity" min="1" value="1" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td>
+          <input type="text" name="uom" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td>
+          <input type="text" name="price" value="" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td>
+          <input type="date" name="deliveryDate" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+        <td>
+          <input type="text" name="costCenter" required class="w-full fiori-input py-1 px-2 text-sm" />
+        </td>
+      `;
+      itemsBody.appendChild(newRow);
+      addRowListeners(newRow);
+      calculateTotal();
+    });
+
+    // Initial calculation
+    calculateTotal();
+
+    // Add event listeners to existing quantity and price inputs
+    itemsBody.querySelectorAll('input[name="quantity"], input[name="price"]').forEach(input => {
+      input.addEventListener('input', calculateTotal);
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to cancel? All data will be lost.')) {
+        purchaseForm.reset();
+        // Reset total
+        calculateTotal();
+      }
+    });
+
+    createBtn.addEventListener('click', () => {
+      if (!purchaseForm.checkValidity()) {
+        purchaseForm.reportValidity();
+        return;
+      }
+      // Gather form data
+      const formData = new FormData(purchaseForm);
+      const data = {};
+      formData.forEach((value, key) => {
+        if (!data[key]) {
+          data[key] = value;
+        } else {
+          // For multiple items with same name (like material, quantity), collect as array
+          if (Array.isArray(data[key])) {
+            data[key].push(value);
+          } else {
+            data[key] = [data[key], value];
+          }
+        }
+      });
+
+      // Show data in console (or send to server)
+      console.log('Purchase Requisition Data:', data);
+      alert('Purchase recquistion created -PR20777');
+      // Redirect to next screen (replace with your actual file name)
+      window.location.href = '3_PR_Approval_Screen.html';
+
+      // Reset form after creation
+      purchaseForm.reset();
+      // Clear items except first row
+      while (itemsBody.children.length > 1) {
+        itemsBody.removeChild(itemsBody.lastChild);
+      }
+      // Reset first row inputs to default
+      const firstRow = itemsBody.querySelector('tr');
+      firstRow.querySelector('input[name="material"]').value = 'MAT-001';
+      firstRow.querySelector('input[name="description"]').value = 'Desk Chair';
+      firstRow.querySelector('input[name="quantity"]').value = '5';
+      firstRow.querySelector('input[name="uom"]').value = 'Each';
+      firstRow.querySelector('input[name="price"]').value = '100.00';
+      firstRow.querySelector('input[name="deliveryDate"]').value = '2024-05-01';
+      firstRow.querySelector('input[name="costCenter"]').value = '300244';
+
+      calculateTotal();
+    });
+
+    // Show/hide Asset fields based on Account Assignment Category
+  // Place this after your other JS, or replace the existing asset fields logic
+
+const accountTypeSelect = document.getElementById('accountType');
+const assetFields = document.getElementById('assetFields');
+const assetNumberSelect = document.getElementById('assetNumber');
+const assetLocationInput = document.getElementById('assetLocation');
+const assetDescInput = document.getElementById('assetDesc');
+
+const assetData = {
+  "AST-1001": { location: "Pune HO", desc: "Dell Laptop" },
+  "AST-1002": { location: "Mumbai", desc: "Office Desk" },
+  "AST-1003": { location: "Pune HO", desc: "HP Printer" },
+  "AST-1004": { location: "Delhi", desc: "Honda City Car" },
+  "AST-1005": { location: "Data Center", desc: "Server Rack" }
+};
+
+function toggleAssetFields() {
+  let selected = accountTypeSelect.value;
+  if (selected === "A") {
+    assetFields.classList.remove('hidden');
+    assetFields.style.display = "";
+    assetNumberSelect.required = true;
+  } else {
+    assetFields.classList.add('hidden');
+    assetFields.style.display = "none";
+    assetNumberSelect.required = false;
+    assetNumberSelect.value = "";
+    assetLocationInput.value = "";
+    assetDescInput.value = "";
+  }
+}
+
+// Initial check on page load
+toggleAssetFields();
+
+// Show/hide asset fields when account assignment changes
+accountTypeSelect.addEventListener('change', toggleAssetFields);
+
+// Update asset info when asset number changes
+assetNumberSelect.addEventListener('change', () => {
+  const selectedAsset = assetNumberSelect.value;
+  if (assetData[selectedAsset]) {
+    assetLocationInput.value = assetData[selectedAsset].location;
+    assetDescInput.value = assetData[selectedAsset].desc;
+  } else {
+    assetLocationInput.value = "";
+    assetDescInput.value = "";
+  }
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Petty Cash and Cash Advance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-btn:hover:not(:disabled) {
+      background-color: var(--fiori-blue-dark);
+    }
+    ::placeholder {
+      color: #b8e0ff;
+      font-style: italic;
+    }
+    .img-preview {
+      max-width: 48px;
+      max-height: 48px;
+      border-radius: 0.5rem;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(10, 110, 209, 0.15);
+    }
+    .overflow-x-auto::-webkit-scrollbar {
+      height: 8px;
+    }
+    .overflow-x-auto::-webkit-scrollbar-track {
+      background: #eaf3fc;
+      border-radius: 4px;
+    }
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+      background: #0a6ed1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img
+          src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg"
+          alt="Bajaj Finserv"
+          class="h-10 w-auto rounded"
+        />
+        <nav class="flex gap-4 ml-4">
+          <a
+            href="Buyer_Homepage.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Home</a
+          >
+          <a
+            href="PR_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >PR Management</a
+          >
+          <a
+            href="PO_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >PO Management</a
+          >
+          <a
+            href="Invoice_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Invoice Management</a
+          >
+          <a
+            href="Reports.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Reports</a
+          >
+          <a
+            href="Notifications.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Notifications</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button
+            id="profileMenuButton"
+            aria-label="Open profile menu"
+            class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]"
+          >
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div
+            id="profileDropdown"
+            class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50"
+          >
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">
+                    Priya Sharma
+                  </div>
+                  <div class="text-sm text-[var(--fiori-gray)]">
+                    priya.sharma@buyer.com
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Buyer ID:</span> BUY123456
+              </div>
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Company:</span> Bajaj Finserv Ltd.
+              </div>
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Role:</span> Buyer
+              </div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h1 class="text-2xl sm:text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-6">
+    Petty Cash &amp; Cash Advance
+  </h1>
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-10 w-full">
+    <!-- Petty Cash Section -->
+    <section class="mb-16" id="petty-cash">
+      <div class="fiori-card">
+        <h2 class="text-xl font-bold mb-6 flex items-center tracking-wide fiori-title">
+          <i class="fas fa-wallet mr-3 text-2xl"></i> Petty Cash
+        </h2>
+        <form class="space-y-8" id="pettyCashForm" novalidate>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block font-semibold mb-2" for="pc-date">Date</label>
+              <input
+                class="w-full rounded-lg p-3 focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+                id="pc-date"
+                name="date"
+                required
+                type="date"
+              />
+            </div>
+            <div>
+              <label class="block font-semibold mb-2" for="pc-amount"
+                >Amount (INR)</label
+              >
+              <input
+                class="w-full rounded-lg p-3 focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+                id="pc-amount"
+                min="0.01"
+                name="amount"
+                placeholder="0.00"
+                required
+                step="0.01"
+                type="number"
+              />
+            </div>
+            <div>
+              <label class="block font-semibold mb-2" for="pc-receipt"
+                >Receipt Image</label
+              >
+              <input
+                accept="image/*"
+                class="w-full text-[var(--fiori-blue)] rounded-lg"
+                id="pc-receipt"
+                name="receipt"
+                type="file"
+                aria-describedby="pc-receipt-desc"
+              />
+              <p id="pc-receipt-desc" class="text-xs text-blue-400 mt-1">
+                Optional. Upload receipt image.
+              </p>
+            </div>
+          </div>
+          <div>
+            <label class="block font-semibold mb-2" for="pc-description"
+              >Description</label
+            >
+            <textarea
+              class="w-full rounded-lg p-3 resize-none focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+              id="pc-description"
+              name="description"
+              placeholder="Enter description of the expense"
+              required
+              rows="4"
+            ></textarea>
+          </div>
+          <button
+            class="fiori-btn px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition"
+            type="submit"
+          >
+            Submit Petty Cash
+          </button>
+        </form>
+        <div class="mt-12">
+          <h3 class="text-lg font-bold mb-5 border-b border-blue-200 pb-2 tracking-wide fiori-title">
+            Recent Petty Cash Entries
+          </h3>
+          <div class="overflow-x-auto rounded-lg shadow-inner">
+            <table class="min-w-full border rounded-lg fiori-table" id="pettyCashTable">
+              <thead>
+                <tr>
+                  <th class="text-left px-6 py-3 border-b">Date</th>
+                  <th class="text-left px-6 py-3 border-b">Amount (INR)</th>
+                  <th class="text-left px-6 py-3 border-b">Description</th>
+                  <th class="text-left px-6 py-3 border-b">Receipt</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-blue-100" id="pettyCashTableBody">
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-10</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹45.00</td>
+                  <td class="px-6 py-4">Office supplies purchase</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Receipt image showing office supplies purchase receipt dated June 10, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/0fa50e44-2209-4104-8c90-204c236a7c6f.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-08</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹30.50</td>
+                  <td class="px-6 py-4">Taxi fare for client meeting</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Receipt image showing taxi fare receipt dated June 8, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/e542132b-ccd2-4fd6-95f1-10c47d5fbfbc.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-05</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹15.75</td>
+                  <td class="px-6 py-4">Coffee and snacks for team</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Receipt image showing coffee and snacks receipt dated June 5, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/c955641b-1c09-4bab-79b9-f1daa8b3ba0e.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-03</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹22.00</td>
+                  <td class="px-6 py-4">Printing documents</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Receipt image showing printing documents receipt dated June 3, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/21d5d1a1-7c97-4292-ab39-031cc207b332.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-01</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹50.00</td>
+                  <td class="px-6 py-4">Stationery purchase</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Receipt image showing stationery purchase receipt dated June 1, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/8816cde4-2727-4c24-0585-8b329dfa5f55.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Cash Advance Section -->
+    <section id="cash-advance">
+      <div class="fiori-card">
+        <h2 class="text-xl font-bold mb-6 flex items-center tracking-wide fiori-title">
+          <i class="fas fa-hand-holding-usd mr-3 text-2xl"></i> Cash Advance
+        </h2>
+        <form class="space-y-8" id="cashAdvanceForm" novalidate>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block font-semibold mb-2" for="ca-date">Date</label>
+              <input
+                class="w-full rounded-lg p-3 focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+                id="ca-date"
+                name="date"
+                required
+                type="date"
+              />
+            </div>
+            <div>
+              <label class="block font-semibold mb-2" for="ca-employee"
+                >Employee Name</label
+              >
+              <input
+                class="w-full rounded-lg p-3 focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+                id="ca-employee"
+                name="employee"
+                placeholder="Enter employee full name"
+                required
+                type="text"
+              />
+            </div>
+            <div>
+              <label class="block font-semibold mb-2" for="ca-amount"
+                >Amount (INR)</label
+              >
+              <input
+                class="w-full rounded-lg p-3 focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+                id="ca-amount"
+                min="0.01"
+                name="amount"
+                placeholder="0.00"
+                required
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="block font-semibold mb-2" for="ca-approval"
+              >Approval Document</label
+            >
+            <input
+              accept="image/*"
+              class="w-full text-[var(--fiori-blue)] rounded-lg"
+              id="ca-approval"
+              name="approval"
+              type="file"
+              aria-describedby="ca-approval-desc"
+            />
+            <p id="ca-approval-desc" class="text-xs text-blue-400 mt-1">
+              Optional. Upload approval document image.
+            </p>
+          </div>
+          <div>
+            <label class="block font-semibold mb-2" for="ca-purpose">Purpose</label>
+            <textarea
+              class="w-full rounded-lg p-3 resize-none focus:ring-4 focus:ring-[var(--fiori-blue)] placeholder-blue-400"
+              id="ca-purpose"
+              name="purpose"
+              placeholder="Enter purpose of cash advance"
+              required
+              rows="4"
+            ></textarea>
+          </div>
+          <button
+            class="fiori-btn px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition"
+            type="submit"
+          >
+            Submit Cash Advance
+          </button>
+        </form>
+        <div class="mt-12">
+          <h3 class="text-lg font-bold mb-5 border-b border-blue-200 pb-2 tracking-wide fiori-title">
+            Recent Cash Advance Requests
+          </h3>
+          <div class="overflow-x-auto rounded-lg shadow-inner">
+            <table class="min-w-full border rounded-lg fiori-table" id="cashAdvanceTable">
+              <thead>
+                <tr>
+                  <th class="text-left px-6 py-3 border-b">Date</th>
+                  <th class="text-left px-6 py-3 border-b">Employee</th>
+                  <th class="text-left px-6 py-3 border-b">Amount (INR)</th>
+                  <th class="text-left px-6 py-3 border-b">Purpose</th>
+                  <th class="text-left px-6 py-3 border-b">Approval</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-blue-100" id="cashAdvanceTableBody">
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-09</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">Jane Doe</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹200.00</td>
+                  <td class="px-6 py-4">Client conference travel expenses</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Approval document image for client conference travel expenses cash advance dated June 9, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/5ad85601-8357-4f41-b387-691c65ead116.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-07</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">John Smith</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹150.00</td>
+                  <td class="px-6 py-4">Office renovation materials</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Approval document image for office renovation materials cash advance dated June 7, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/a3c7717d-b632-4891-1591-374b97fa519e.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-04</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">Emily Johnson</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹300.00</td>
+                  <td class="px-6 py-4">Marketing event expenses</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Approval document image for marketing event expenses cash advance dated June 4, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/3b5c6ae4-503e-4990-4b24-993bec3d20e9.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-06-02</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">Michael Brown</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹100.00</td>
+                  <td class="px-6 py-4">Team building activity</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Approval document image for team building activity cash advance dated June 2, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/95d097c6-e0ce-448e-1a76-1e28678aa2b4.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+                <tr class="hover:bg-blue-50 transition-colors">
+                  <td class="px-6 py-4 font-medium">2024-05-30</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">Sarah Lee</td>
+                  <td class="px-6 py-4 font-semibold text-[var(--fiori-blue)]">₹250.00</td>
+                  <td class="px-6 py-4">Software subscription renewal</td>
+                  <td class="px-6 py-4">
+                    <img
+                      alt="Approval document image for software subscription renewal cash advance dated May 30, 2024"
+                      class="img-preview"
+                      src="https://storage.googleapis.com/a1aa/image/68eb7b95-e2f4-466b-8b27-49b8f356e6e6.jpg"
+                      width="48"
+                      height="48"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Back Button -->
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm mx-auto"
+      aria-label="Go back to Buyer Homepage"
+      style="display: flex; align-items: center; justify-content: center;"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Finance Department. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Utility: format date to YYYY-MM-DD
+    function formatDate(date) {
+      const d = new Date(date);
+      const month = (d.getMonth() + 1).toString().padStart(2, "0");
+      const day = d.getDate().toString().padStart(2, "0");
+      const year = d.getFullYear();
+      return `${year}-${month}-${day}`;
+    }
+
+    // Utility: create image preview URL from File object
+    function createImagePreview(file) {
+      return URL.createObjectURL(file);
+    }
+
+    // Set petty cash minimum and maximum limits
+    const PETTY_CASH_MIN = 1000.00;
+    const PETTY_CASH_MAX = 5000.00;
+
+    // Petty Cash Form Handling
+    const pettyCashForm = document.getElementById("pettyCashForm");
+    const pettyCashTableBody = document.getElementById("pettyCashTableBody");
+
+    pettyCashForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Validate form
+      if (!pettyCashForm.checkValidity()) {
+        pettyCashForm.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(pettyCashForm);
+      const date = formData.get("date");
+      const amount = parseFloat(formData.get("amount")).toFixed(2);
+      const description = formData.get("description").trim();
+      const receiptFile = formData.get("receipt");
+
+      // Check petty cash minimum and maximum amount
+      if (parseFloat(amount) < PETTY_CASH_MIN) {
+        alert(`Petty cash amount should be at least ₹${PETTY_CASH_MIN.toLocaleString()} per transaction.`);
+        return;
+      }
+      if (parseFloat(amount) >= PETTY_CASH_MAX) {
+        alert(`Petty cash amount should be less than ₹${PETTY_CASH_MAX.toLocaleString()} per transaction.`);
+        return;
+      }
+
+      // Create new table row
+      const tr = document.createElement("tr");
+      tr.classList.add("hover:bg-blue-50", "transition-colors");
+
+      // Date cell
+      const tdDate = document.createElement("td");
+      tdDate.className = "px-6 py-4 font-medium";
+      tdDate.textContent = date;
+      tr.appendChild(tdDate);
+
+      // Amount cell
+      const tdAmount = document.createElement("td");
+      tdAmount.className = "px-6 py-4 font-semibold text-[var(--fiori-blue)]";
+      tdAmount.textContent = `₹${parseFloat(amount).toLocaleString()}`;
+      tr.appendChild(tdAmount);
+
+      // Description cell
+      const tdDesc = document.createElement("td");
+      tdDesc.className = "px-6 py-4";
+      tdDesc.textContent = description;
+      tr.appendChild(tdDesc);
+
+      // Receipt cell
+      const tdReceipt = document.createElement("td");
+      tdReceipt.className = "px-6 py-4";
+
+      if (receiptFile && receiptFile.size > 0) {
+        const img = document.createElement("img");
+        img.className = "img-preview";
+        img.alt = `Receipt image for petty cash dated ${date}`;
+        img.src = createImagePreview(receiptFile);
+        tdReceipt.appendChild(img);
+      } else {
+        tdReceipt.textContent = "—";
+        tdReceipt.classList.add("text-gray-400", "italic");
+      }
+      tr.appendChild(tdReceipt);
+
+      // Append row to table body
+      pettyCashTableBody.prepend(tr);
+
+      // Reset form
+      pettyCashForm.reset();
+    });
+
+    // Cash Advance Form Handling
+    const cashAdvanceForm = document.getElementById("cashAdvanceForm");
+    const cashAdvanceTableBody = document.getElementById("cashAdvanceTableBody");
+
+    cashAdvanceForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // Validate form
+      if (!cashAdvanceForm.checkValidity()) {
+        cashAdvanceForm.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(cashAdvanceForm);
+      const date = formData.get("date");
+      const employee = formData.get("employee").trim();
+      const amount = parseFloat(formData.get("amount")).toFixed(2);
+      const purpose = formData.get("purpose").trim();
+      const approvalFile = formData.get("approval");
+
+      // Create new table row
+      const tr = document.createElement("tr");
+      tr.classList.add("hover:bg-blue-50", "transition-colors");
+
+      // Date cell
+      const tdDate = document.createElement("td");
+      tdDate.className = "px-6 py-4 font-medium";
+      tdDate.textContent = date;
+      tr.appendChild(tdDate);
+
+      // Employee cell
+      const tdEmployee = document.createElement("td");
+      tdEmployee.className = "px-6 py-4 font-semibold text-[var(--fiori-blue)]";
+      tdEmployee.textContent = employee;
+      tr.appendChild(tdEmployee);
+
+      // Amount cell
+      const tdAmount = document.createElement("td");
+      tdAmount.className = "px-6 py-4 font-semibold text-[var(--fiori-blue)]";
+      tdAmount.textContent = `₹${amount}`;
+      tr.appendChild(tdAmount);
+
+      // Purpose cell
+      const tdPurpose = document.createElement("td");
+      tdPurpose.className = "px-6 py-4";
+      tdPurpose.textContent = purpose;
+      tr.appendChild(tdPurpose);
+
+      // Approval cell
+      const tdApproval = document.createElement("td");
+      tdApproval.className = "px-6 py-4";
+
+      if (approvalFile && approvalFile.size > 0) {
+        const img = document.createElement("img");
+        img.className = "img-preview";
+        img.alt = `Approval document image for cash advance dated ${date}`;
+        img.src = createImagePreview(approvalFile);
+        tdApproval.appendChild(img);
+      } else {
+        tdApproval.textContent = "—";
+        tdApproval.classList.add("text-gray-400", "italic");
+      }
+      tr.appendChild(tdApproval);
+
+      // Append row to table body
+      cashAdvanceTableBody.prepend(tr);
+
+      // Reset form
+      cashAdvanceForm.reset();
+    });
+  </script>
+</body>
+</html>

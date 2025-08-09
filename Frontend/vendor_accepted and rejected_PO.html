@@ -1,0 +1,690 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Purchase Orders - Vendor Acknowledgement</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img
+          src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg"
+          alt="Bajaj Finserv"
+          class="h-10 w-auto rounded"
+        />
+        <!-- Navigation fields start -->
+        <nav class="flex gap-4 ml-4">
+          <a
+            href="PR_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >PR Management</a
+          >
+          <a
+            href="PO_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >PO Management</a
+          >
+          <a
+            href="Invoice_Management.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Invoice Management</a
+          >
+          <a
+            href="Reports.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Reports</a
+          >
+          <a
+            href="Notifications.html"
+            class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition"
+            >Notifications</a
+          >
+        </nav>
+        <!-- Navigation fields end -->
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button
+            id="profileMenuButton"
+            aria-label="Open profile menu"
+            class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]"
+          >
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div
+            id="profileDropdown"
+            class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50"
+          >
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">
+                    Vendor User
+                  </div>
+                  <div class="text-sm text-[var(--fiori-gray)]">
+                    vendor@company.com
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Vendor ID:</span> VEND1234
+              </div>
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Company:</span> Bajaj Finserv Ltd.
+              </div>
+              <div class="text-sm text-[var(--fiori-gray)]">
+                <span class="font-semibold">Role:</span> Vendor
+              </div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Add heading below header -->
+  <h1 class="text-2xl sm:text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-6">
+    Vendor Acknowledged &amp; Rejected Purchase Orders
+  </h1>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="fiori-card">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+        <div class="flex items-center space-x-2">
+          <label for="filterStatus" class="fiori-form-label">Filter by Status:</label>
+          <select
+            id="filterStatus"
+            class="rounded border border-[var(--fiori-border)] px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] focus:border-[var(--fiori-blue)]"
+          >
+            <option value="all" selected>All</option>
+            <option value="acknowledged">Acknowledged</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="flex items-center space-x-2">
+          <label for="searchInput" class="fiori-form-label">Search PO Number or Vendor:</label>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search..."
+            class="rounded border border-[var(--fiori-border)] px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] focus:border-[var(--fiori-blue)]"
+          />
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table
+          id="poTable"
+          class="min-w-full bg-white rounded-lg shadow divide-y divide-gray-200 fiori-table"
+        >
+          <thead>
+            <tr>
+              <th class="cursor-pointer select-none" scope="col" data-sort="poNumber">
+                PO Number <i class="fas fa-sort ml-1 text-gray-400"></i>
+              </th>
+              <th class="cursor-pointer select-none" scope="col" data-sort="vendor">
+                Vendor <i class="fas fa-sort ml-1 text-gray-400"></i>
+              </th>
+              <th class="cursor-pointer select-none" scope="col" data-sort="orderDate">
+                Order Date <i class="fas fa-sort ml-1 text-gray-400"></i>
+              </th>
+              <th class="cursor-pointer select-none" scope="col" data-sort="totalAmount">
+                Total Amount <i class="fas fa-sort ml-1 text-gray-400"></i>
+              </th>
+              <th scope="col">Status</th>
+              <th scope="col">Vendor Remarks</th>
+              <th class="text-center" scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200" id="poTableBody">
+            <!-- Rows will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back to Buyer Homepage"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Purchase Order Management. All rights reserved.
+  </footer>
+
+  <!-- Modal -->
+  <div
+    id="modalBackdrop"
+    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+    aria-hidden="true"
+  >
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4 p-6 relative"
+    >
+      <button
+        id="modalCloseBtn"
+        aria-label="Close modal"
+        class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        <i class="fas fa-times fa-lg"></i>
+      </button>
+      <h3 id="modalTitle" class="text-lg font-semibold text-gray-900 mb-4">
+        Purchase Order Details
+      </h3>
+      <div id="modalContent" class="space-y-2 text-gray-700 text-sm">
+        <!-- Details inserted dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+  </script>
+  <script>
+    (() => {
+      "use strict";
+
+      // Data for purchase orders
+      const purchaseOrders = [
+        {
+          poNumber: "PO-10001",
+          vendor: "Acme Supplies Inc.",
+          orderDate: "2024-05-10",
+          totalAmount: 12450,
+          status: "acknowledged",
+          remarks: "Confirmed delivery by 2024-05-20",
+        },
+        {
+          poNumber: "PO-10002",
+          vendor: "Global Tech Traders",
+          orderDate: "2024-05-11",
+          totalAmount: 8320,
+          status: "rejected",
+          remarks: "Pricing not acceptable",
+        },
+        {
+          poNumber: "PO-10003",
+          vendor: "Sunrise Manufacturing",
+          orderDate: "2024-05-12",
+          totalAmount: 15000,
+          status: "acknowledged",
+          remarks: "Will ship in two batches",
+        },
+        {
+          poNumber: "PO-10004",
+          vendor: "Evergreen Electronics",
+          orderDate: "2024-05-13",
+          totalAmount: 5750,
+          status: "rejected",
+          remarks: "Stock unavailable",
+        },
+        {
+          poNumber: "PO-10005",
+          vendor: "Blue Horizon Textiles",
+          orderDate: "2024-05-14",
+          totalAmount: 9900,
+          status: "acknowledged",
+          remarks: "Confirmed partial shipment",
+        },
+        {
+          poNumber: "PO-10006",
+          vendor: "Northern Industrial Co.",
+          orderDate: "2024-05-15",
+          totalAmount: 7200,
+          status: "rejected",
+          remarks: "Delivery timeline too long",
+        },
+        {
+          poNumber: "PO-10007",
+          vendor: "Pacific Components Ltd.",
+          orderDate: "2024-05-16",
+          totalAmount: 11500,
+          status: "acknowledged",
+          remarks: "Order accepted, shipping next week",
+        },
+        {
+          poNumber: "PO-10008",
+          vendor: "Metro Packaging",
+          orderDate: "2024-05-17",
+          totalAmount: 6800,
+          status: "rejected",
+          remarks: "Incorrect specifications",
+        },
+        {
+          poNumber: "PO-10009",
+          vendor: "Summit Hardware",
+          orderDate: "2024-05-18",
+          totalAmount: 10200,
+          status: "acknowledged",
+          remarks: "Confirmed with updated delivery date",
+        },
+        {
+          poNumber: "PO-10010",
+          vendor: "Orion Chemicals",
+          orderDate: "2024-05-19",
+          totalAmount: 13750,
+          status: "rejected",
+          remarks: "Safety certifications missing",
+        },
+        {
+          poNumber: "PO-10011",
+          vendor: "Vertex Automotive",
+          orderDate: "2024-05-20",
+          totalAmount: 14300,
+          status: "acknowledged",
+          remarks: "Order accepted, awaiting invoice",
+        },
+        {
+          poNumber: "PO-10012",
+          vendor: "Crestwood Fabrics",
+          orderDate: "2024-05-21",
+          totalAmount: 4900,
+          status: "rejected",
+          remarks: "Order quantity too low",
+        },
+        {
+          poNumber: "PO-10013",
+          vendor: "Summit Hardware",
+          orderDate: "2024-05-22",
+          totalAmount: 9600,
+          status: "acknowledged",
+          remarks: "Confirmed with revised specs",
+        },
+        {
+          poNumber: "PO-10014",
+          vendor: "Evergreen Electronics",
+          orderDate: "2024-05-23",
+          totalAmount: 7850,
+          status: "rejected",
+          remarks: "Payment terms not agreed",
+        },
+        {
+          poNumber: "PO-10015",
+          vendor: "Acme Supplies Inc.",
+          orderDate: "2024-05-24",
+          totalAmount: 16200,
+          status: "acknowledged",
+          remarks: "Confirmed full shipment",
+        },
+      ];
+
+      // State
+      let currentSort = { key: null, asc: true };
+      let filteredOrders = [...purchaseOrders];
+
+      // Elements
+      const poTableBody = document.getElementById("poTableBody");
+      const filterStatus = document.getElementById("filterStatus");
+      const searchInput = document.getElementById("searchInput");
+      const tableHeaders = document.querySelectorAll("th[data-sort]");
+      const modalBackdrop = document.getElementById("modalBackdrop");
+      const modalContent = document.getElementById("modalContent");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+      // Format currency
+      function formatCurrency(amount) {
+        return `₹${amount.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
+      }
+
+      // Format date (YYYY-MM-DD to readable)
+      function formatDate(dateStr) {
+        const d = new Date(dateStr + "T00:00:00");
+        return d.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      // Render table rows
+      function renderTableRows(orders) {
+        poTableBody.innerHTML = "";
+        if (orders.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 7;
+          td.className = "px-6 py-4 text-center text-gray-500";
+          td.textContent = "No purchase orders found.";
+          tr.appendChild(td);
+          poTableBody.appendChild(tr);
+          return;
+        }
+
+        orders.forEach((po) => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-gray-50";
+
+          // PO Number
+          const tdPo = document.createElement("td");
+          tdPo.className = "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900";
+          tdPo.textContent = po.poNumber;
+          tr.appendChild(tdPo);
+
+          // Vendor
+          const tdVendor = document.createElement("td");
+          tdVendor.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-700";
+          tdVendor.textContent = po.vendor;
+          tr.appendChild(tdVendor);
+
+          // Order Date
+          const tdDate = document.createElement("td");
+          tdDate.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-700";
+          tdDate.textContent = formatDate(po.orderDate);
+          tr.appendChild(tdDate);
+
+          // Total Amount
+          const tdAmount = document.createElement("td");
+          tdAmount.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-700";
+          tdAmount.textContent = formatCurrency(po.totalAmount);
+          tr.appendChild(tdAmount);
+
+          // Status
+          const tdStatus = document.createElement("td");
+          tdStatus.className = "px-6 py-4 whitespace-nowrap";
+          const spanStatus = document.createElement("span");
+          spanStatus.className =
+            "inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold " +
+            (po.status === "acknowledged"
+              ? "bg-green-100 text-green-800"
+              : "bg-red-100 text-red-800");
+          const icon = document.createElement("i");
+          icon.className =
+            po.status === "acknowledged"
+              ? "fas fa-check-circle mr-1"
+              : "fas fa-times-circle mr-1";
+          spanStatus.appendChild(icon);
+          spanStatus.appendChild(document.createTextNode(po.status.charAt(0).toUpperCase() + po.status.slice(1)));
+          tdStatus.appendChild(spanStatus);
+          tr.appendChild(tdStatus);
+
+          // Vendor Remarks
+          const tdRemarks = document.createElement("td");
+          tdRemarks.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-600";
+          tdRemarks.textContent = po.remarks;
+          tr.appendChild(tdRemarks);
+
+          // Actions
+          const tdActions = document.createElement("td");
+          tdActions.className = "px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2";
+
+          // View button
+          const btnView = document.createElement("button");
+          btnView.className = "text-blue-600 hover:text-blue-900 focus:outline-none";
+          btnView.setAttribute("aria-label", `View details of ${po.poNumber}`);
+          btnView.innerHTML = '<i class="fas fa-eye"></i>';
+          btnView.addEventListener("click", () => openModal(po));
+          tdActions.appendChild(btnView);
+
+          if (po.status === "rejected") {
+            // Send message button
+            const btnMessage = document.createElement("button");
+            btnMessage.className = "text-green-600 hover:text-green-900 focus:outline-none";
+            btnMessage.setAttribute("aria-label", `Send message to vendor for ${po.poNumber}`);
+            btnMessage.innerHTML = '<i class="fas fa-envelope"></i>';
+            btnMessage.addEventListener("click", () => sendMessage(po));
+            tdActions.appendChild(btnMessage);
+          } else {
+            // Disabled no action button
+            const btnDisabled = document.createElement("button");
+            btnDisabled.className = "text-gray-400 cursor-not-allowed";
+            btnDisabled.setAttribute("aria-label", `No action available for acknowledged order ${po.poNumber}`);
+            btnDisabled.disabled = true;
+            btnDisabled.innerHTML = '<i class="fas fa-ban"></i>';
+            tdActions.appendChild(btnDisabled);
+          }
+
+          tr.appendChild(tdActions);
+
+          poTableBody.appendChild(tr);
+        });
+      }
+
+      // Open modal with PO details
+      function openModal(po) {
+        modalContent.innerHTML = `
+          <p><strong>PO Number:</strong> ${po.poNumber}</p>
+          <p><strong>Vendor:</strong> ${po.vendor}</p>
+          <p><strong>Order Date:</strong> ${formatDate(po.orderDate)}</p>
+          <p><strong>Total Amount:</strong> ${formatCurrency(po.totalAmount)}</p>
+          <p><strong>Status:</strong> ${po.status.charAt(0).toUpperCase() + po.status.slice(1)}</p>
+          <p><strong>Vendor Remarks:</strong> ${po.remarks}</p>
+        `;
+        modalBackdrop.classList.remove("hidden");
+        modalBackdrop.focus();
+      }
+
+      // Close modal
+      function closeModal() {
+        modalBackdrop.classList.add("hidden");
+      }
+
+      // Send message simulation
+      function sendMessage(po) {
+        alert(`Opening message interface to vendor "${po.vendor}" for PO ${po.poNumber}.`);
+      }
+
+      // Filter and search
+      function filterAndSearch() {
+        const statusFilter = filterStatus.value;
+        const searchTerm = searchInput.value.trim().toLowerCase();
+
+        filteredOrders = purchaseOrders.filter((po) => {
+          const matchesStatus =
+            statusFilter === "all" ? true : po.status === statusFilter;
+          const matchesSearch =
+            po.poNumber.toLowerCase().includes(searchTerm) ||
+            po.vendor.toLowerCase().includes(searchTerm);
+          return matchesStatus && matchesSearch;
+        });
+      }
+
+      // Sort function
+      function sortOrders(key) {
+        if (currentSort.key === key) {
+          currentSort.asc = !currentSort.asc;
+        } else {
+          currentSort.key = key;
+          currentSort.asc = true;
+        }
+
+        filteredOrders.sort((a, b) => {
+          let valA = a[key];
+          let valB = b[key];
+
+          // For orderDate, convert to Date for comparison
+          if (key === "orderDate") {
+            valA = new Date(valA);
+            valB = new Date(valB);
+          }
+
+          // For totalAmount, numeric comparison
+          if (key === "totalAmount") {
+            valA = Number(valA);
+            valB = Number(valB);
+          }
+
+          // For poNumber and vendor, string comparison
+          if (typeof valA === "string") {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+          }
+
+          if (valA < valB) return currentSort.asc ? -1 : 1;
+          if (valA > valB) return currentSort.asc ? 1 : -1;
+          return 0;
+        });
+      }
+
+      // Update sort icons
+      function updateSortIcons() {
+        tableHeaders.forEach((th) => {
+          const icon = th.querySelector("i");
+          if (th.dataset.sort === currentSort.key) {
+            icon.classList.remove("fa-sort", "fa-sort-up", "fa-sort-down");
+            icon.classList.add(
+              currentSort.asc ? "fa-sort-up" : "fa-sort-down"
+            );
+            icon.classList.remove("text-gray-400");
+            icon.classList.add("text-blue-600");
+          } else {
+            icon.classList.remove("fa-sort-up", "fa-sort-down");
+            icon.classList.add("fa-sort");
+            icon.classList.remove("text-blue-600");
+            icon.classList.add("text-gray-400");
+          }
+        });
+      }
+
+      // Initial render
+      function render() {
+        filterAndSearch();
+        if (currentSort.key) {
+          sortOrders(currentSort.key);
+        }
+        renderTableRows(filteredOrders);
+        updateSortIcons();
+      }
+
+      // Event listeners
+      filterStatus.addEventListener("change", () => {
+        render();
+      });
+
+      searchInput.addEventListener("input", () => {
+        render();
+      });
+
+      tableHeaders.forEach((th) => {
+        th.addEventListener("click", () => {
+          sortOrders(th.dataset.sort);
+          render();
+        });
+      });
+
+      modalCloseBtn.addEventListener("click", closeModal);
+      modalBackdrop.addEventListener("click", (e) => {
+        if (e.target === modalBackdrop) {
+          closeModal();
+        }
+      });
+
+      // Keyboard accessibility for modal close (Escape key)
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modalBackdrop.classList.contains("hidden")) {
+          closeModal();
+        }
+      });
+
+      // Initial call
+      render();
+    })();
+  </script>
+</body>
+</html>

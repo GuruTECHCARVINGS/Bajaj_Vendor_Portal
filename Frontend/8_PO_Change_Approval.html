@@ -1,0 +1,253 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PO Change Approval</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-form-label {
+      color: var(--fiori-label);
+      font-weight: 600;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">PO Change Approval</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">John Doe</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">john.doe@company.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">User ID:</span> BUY1001</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Approver</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow flex items-start justify-center w-full">
+    <div class="fiori-card max-w-5xl w-full">
+      <!-- Back Button -->
+      <button
+        type="button"
+        onclick="window.location.href='PO_Approval and PO_change_navigation.html';"
+        class="fiori-cancel-btn mb-6 flex items-center gap-2 px-5 py-2 text-sm"
+        aria-label="Go back"
+      >
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <h1 class="text-3xl font-extrabold fiori-title mb-8">
+        PO Change Approval
+      </h1>
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12 text-[var(--fiori-gray)] mb-6">
+        <div>
+          <p class="text-base font-normal">PO Number</p>
+          <p class="text-xl font-normal mt-1">45001234</p>
+        </div>
+        <div>
+          <p class="text-base font-normal">Change Date</p>
+          <p class="text-xl font-normal mt-1">5/1/2024</p>
+        </div>
+      </section>
+      <section class="mb-6">
+        <p class="fiori-form-label mb-2">Change Details</p>
+        <div class="overflow-x-auto border border-[var(--fiori-border)] rounded-md">
+          <table class="min-w-full border-collapse fiori-table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Original Value</th>
+                <th>New Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quantity</td>
+                <td>100</td>
+                <td>120</td>
+              </tr>
+              <tr>
+                <td>Delivery Date</td>
+                <td>10-05-2024</td>
+                <td>20-05-2024</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td>INR 150.00</td>
+                <td>INR 140.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="mb-6">
+        <label for="poChangeComments" class="fiori-form-label mb-2 block">Comments</label>
+        <textarea
+          id="poChangeComments"
+          name="poChangeComments"
+          rows="3"
+          class="w-full border border-[var(--fiori-border)] rounded-md p-3 text-base font-normal text-[var(--fiori-gray)] resize-none"
+        ></textarea>
+      </section>
+      <section class="flex gap-4">
+        <button
+          type="button"
+          class="fiori-btn text-lg font-semibold px-6 py-2"
+          id="approveChangeBtn"
+        >
+          Approve Change
+        </button>
+        <button
+          type="button"
+          class="fiori-cancel-btn text-lg font-normal px-6 py-2"
+          id="rejectChangeBtn"
+        >
+          Reject Change
+        </button>
+      </section>
+    </div>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Approve/Reject button logic with emoji
+    document.getElementById('approveChangeBtn').addEventListener('click', function() {
+      alert('✅ PO Change Approved Successfully!');
+    });
+    document.getElementById('rejectChangeBtn').addEventListener('click', function() {
+      alert('❌ PO Change Rejected.');
+    });
+  </script>
+</body>
+</html>

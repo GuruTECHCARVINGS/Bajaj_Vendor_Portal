@@ -1,0 +1,481 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Credit Note for Invoices
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f3f6f9;
+      color: #355571;
+    }
+    /* Override form background to white */
+    form {
+      background-color: white;
+    }
+    /* Purple focus ring */
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #0a6ed1;
+      border-color: #0a6ed1;
+    }
+    /* Purple border for inputs */
+    input, select, textarea {
+      border-color: #b8e0ff;
+      color: #355571;
+    }
+    /* Placeholder color purple-400 */
+    ::placeholder {
+      color: #b8e0ff;
+    }
+    /* Error messages */
+    .text-red-600 {
+      color: #b91c1c;
+    }
+    /* Scrollbar for attachment list */
+    #attachment-list {
+      scrollbar-width: thin;
+      scrollbar-color: #0a6ed1 #eaf3fc;
+    }
+    #attachment-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    #attachment-list::-webkit-scrollbar-track {
+      background: #eaf3fc;
+    }
+    #attachment-list::-webkit-scrollbar-thumb {
+      background-color: #0a6ed1;
+      border-radius: 3px;
+    }
+  </style>
+ </head>
+ <body class="bg-[#f3f6f9] min-h-screen flex flex-col">
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6" style="color:#0a6ed1; letter-spacing:0.01em;">
+        Create Credit Note
+      </h2>
+      <form autocomplete="off" class="shadow rounded-xl p-8 bg-white border border-[#d1e0ef]" id="credit-note-form" novalidate="">
+        <section class="mb-8">
+          <h3 class="text-xl font-semibold mb-4" style="color:#0a6ed1;">
+            Invoice Details
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block font-medium mb-1" for="invoice-number" style="color:#0a6ed1;">
+               Invoice Number
+              </label>
+              <select class="w-full rounded-md px-3 py-2" id="invoice-number" name="invoice-number" required="">
+               <option disabled="" selected="" value="">
+                Select Invoice
+               </option>
+               <option value="INV-1001">
+                INV-1001 - Acme Corp - ₹1,200.00
+               </option>
+               <option value="INV-1002">
+                INV-1002 - Beta LLC - ₹850.00
+               </option>
+               <option value="INV-1003">
+                INV-1003 - Gamma Inc - ₹2,450.00
+               </option>
+               <option value="INV-1004">
+                INV-1004 - Delta Ltd - ₹1,100.00
+               </option>
+               <option value="INV-1005">
+                INV-1005 - Epsilon Co - ₹3,300.00
+               </option>
+              </select>
+              <p class="mt-1 text-sm text-red-600 hidden" id="invoice-number-error">
+               Please select an invoice.
+              </p>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="invoice-date" style="color:#0a6ed1;">
+               Invoice Date
+              </label>
+              <input class="w-full rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed" disabled="" id="invoice-date" name="invoice-date" placeholder="Select invoice first" type="date"/>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="customer-name" style="color:#0a6ed1;">
+               Customer Name
+              </label>
+              <input class="w-full rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed" disabled="" id="customer-name" name="customer-name" placeholder="Select invoice first" type="text"/>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="invoice-amount" style="color:#0a6ed1;">
+               Invoice Amount
+              </label>
+              <input class="w-full rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed" disabled="" id="invoice-amount" name="invoice-amount" placeholder="Select invoice first" type="text"/>
+             </div>
+            </div>
+           </section>
+           <section class="mb-8">
+            <h3 class="text-xl font-semibold mb-4" style="color:#0a6ed1;">
+             Credit Note Details
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div>
+              <label class="block font-medium mb-1" for="credit-note-number" style="color:#0a6ed1;">
+               Credit Note Number
+              </label>
+              <input aria-describedby="credit-note-number-error" class="w-full rounded-md px-3 py-2" id="credit-note-number" name="credit-note-number" placeholder="Enter credit note number" required="" type="text"/>
+              <p class="mt-1 text-sm text-red-600 hidden" id="credit-note-number-error">
+               Please enter a credit note number.
+              </p>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="credit-note-date" style="color:#0a6ed1;">
+               Credit Note Date
+              </label>
+              <input aria-describedby="credit-note-date-error" class="w-full rounded-md px-3 py-2" id="credit-note-date" name="credit-note-date" required="" type="date"/>
+              <p class="mt-1 text-sm text-red-600 hidden" id="credit-note-date-error">
+               Please select a credit note date.
+              </p>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="credit-amount" style="color:#0a6ed1;">
+               Credit Amount (₹)
+              </label>
+              <input aria-describedby="credit-amount-error" class="w-full rounded-md px-3 py-2" id="credit-amount" min="0.01" name="credit-amount" placeholder="Enter credit amount" required="" step="0.01" type="number"/>
+              <p class="mt-1 text-sm text-red-600 hidden" id="credit-amount-error">
+               Please enter a valid credit amount.
+              </p>
+             </div>
+             <div>
+              <label class="block font-medium mb-1" for="reason" style="color:#0a6ed1;">
+               Reason for Credit
+              </label>
+              <select aria-describedby="reason-error" class="w-full rounded-md px-3 py-2" id="reason" name="reason" required="">
+               <option disabled="" selected="" value="">
+                Select reason
+               </option>
+               <option value="Product Return">
+                Product Return
+               </option>
+               <option value="Pricing Error">
+                Pricing Error
+               </option>
+               <option value="Service Not Rendered">
+                Service Not Rendered
+               </option>
+               <option value="Other">
+                Other
+               </option>
+              </select>
+              <p class="mt-1 text-sm text-red-600 hidden" id="reason-error">
+               Please select a reason.
+              </p>
+             </div>
+             <div class="md:col-span-2">
+              <label class="block font-medium mb-1" for="notes" style="color:#0a6ed1;">
+               Additional Notes
+              </label>
+              <textarea class="w-full rounded-md px-3 py-2 resize-none" id="notes" name="notes" placeholder="Add any additional information here" rows="3"></textarea>
+             </div>
+            </div>
+           </section>
+           <section class="mb-6">
+            <h3 class="text-xl font-semibold mb-4" style="color:#0a6ed1;">
+             Attachments
+            </h3>
+            <label class="border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer transition relative bg-[#eaf3fc] border-[#b8e0ff]" for="attachments">
+             <i class="fas fa-paperclip fa-2x mb-3 text-[#0a6ed1]"></i>
+             <p class="text-[#355571]">Drag and drop files here or click to upload</p>
+             <input aria-describedby="attachments-info" class="absolute inset-0 opacity-0 cursor-pointer" id="attachments" multiple name="attachments" type="file"/>
+            </label>
+            <p class="mt-2 text-sm text-[#355571]" id="attachments-info">
+             You can upload multiple files.
+            </p>
+            <ul class="mt-3 max-h-32 overflow-y-auto list-disc list-inside" id="attachment-list" style="color:#355571;">
+            </ul>
+           </section>
+           <div class="flex justify-end space-x-4">
+            <button id="reset-button" type="reset" class="bg-[#eaf3fc] text-[#0a6ed1] border border-[#b8e0ff] hover:bg-[#d1e0ef] px-6 py-2 rounded font-semibold transition">
+             Reset
+            </button>
+            <button id="submit-button" type="submit" class="bg-[#0a6ed1] hover:bg-[#0854a0] text-white px-6 py-2 rounded font-semibold transition flex items-center gap-2">
+             <i class="fas fa-file-invoice-dollar"></i>
+             <span>Create Credit Note</span>
+            </button>
+           </div>
+          </form>
+          <div class="flex justify-end mt-8">
+            <button
+              onclick="window.location.href='Vendor_Hompage_Screen_1.html'"
+              class="bg-[#eaf3fc] text-[#0a6ed1] border border-[#b8e0ff] hover:bg-[#d1e0ef] px-6 py-2 rounded font-semibold transition flex items-center gap-2"
+              type="button"
+            >
+              <i class="fas fa-arrow-left"></i>
+              <span>Back </span>
+            </button>
+          </div>
+         </div>
+        </main>
+        <footer class="border-t border-[#d1e0ef] text-center py-4 text-sm text-[#355571] bg-white">
+         © 2024 Credit Note App. All rights reserved.
+        </footer>
+        <script>
+         // Invoice data simulation
+          const invoices = {
+            "INV-1001": {
+              date: "2024-05-01",
+              customer: "Acme Corp",
+              amount: 1200.0,
+            },
+            "INV-1002": {
+              date: "2024-05-05",
+              customer: "Beta LLC",
+              amount: 850.0,
+            },
+            "INV-1003": {
+              date: "2024-05-10",
+              customer: "Gamma Inc",
+              amount: 2450.0,
+            },
+            "INV-1004": {
+              date: "2024-05-15",
+              customer: "Delta Ltd",
+              amount: 1100.0,
+            },
+            "INV-1005": {
+              date: "2024-05-20",
+              customer: "Epsilon Co",
+              amount: 3300.0,
+            },
+          };
+
+          const invoiceSelect = document.getElementById("invoice-number");
+          const invoiceDateInput = document.getElementById("invoice-date");
+          const customerNameInput = document.getElementById("customer-name");
+          const invoiceAmountInput = document.getElementById("invoice-amount");
+          const creditAmountInput = document.getElementById("credit-amount");
+
+          // Error message elements
+          const invoiceNumberError = document.getElementById("invoice-number-error");
+          const creditNoteNumberInput = document.getElementById("credit-note-number");
+          const creditNoteNumberError = document.getElementById("credit-note-number-error");
+          const creditNoteDateInput = document.getElementById("credit-note-date");
+          const creditNoteDateError = document.getElementById("credit-note-date-error");
+          const creditAmountError = document.getElementById("credit-amount-error");
+          const reasonSelect = document.getElementById("reason");
+          const reasonError = document.getElementById("reason-error");
+
+          // Attachments list
+          const attachmentsInput = document.getElementById("attachments");
+          const attachmentList = document.getElementById("attachment-list");
+
+          // Update invoice details on invoice selection
+          invoiceSelect.addEventListener("change", () => {
+            const selectedInvoice = invoiceSelect.value;
+            if (invoices[selectedInvoice]) {
+              invoiceDateInput.value = invoices[selectedInvoice].date;
+              customerNameInput.value = invoices[selectedInvoice].customer;
+              invoiceAmountInput.value = `₹${invoices[selectedInvoice].amount.toFixed(2)}`;
+              creditAmountInput.max = invoices[selectedInvoice].amount.toFixed(2);
+              creditAmountInput.placeholder = `Max ₹${invoices[selectedInvoice].amount.toFixed(2)}`;
+            } else {
+              invoiceDateInput.value = "";
+              customerNameInput.value = "";
+              invoiceAmountInput.value = "";
+              creditAmountInput.removeAttribute("max");
+              creditAmountInput.placeholder = "Enter credit amount";
+            }
+            invoiceNumberError.classList.add("hidden");
+          });
+
+          // Show selected attachments
+          attachmentsInput.addEventListener("change", () => {
+            attachmentList.innerHTML = "";
+            const files = attachmentsInput.files;
+            if (files.length === 0) return;
+            for (let i = 0; i < files.length; i++) {
+              const li = document.createElement("li");
+              li.textContent = files[i].name;
+              attachmentList.appendChild(li);
+            }
+          });
+
+          // Form validation helpers
+          function showError(input, errorElement, message) {
+            errorElement.textContent = message;
+            errorElement.classList.remove("hidden");
+            input.classList.add("border-red-600");
+            input.classList.remove("focus:ring-blue-500");
+            input.classList.add("focus:ring-red-600");
+          }
+
+          function clearError(input, errorElement) {
+            errorElement.classList.add("hidden");
+            input.classList.remove("border-red-600");
+            input.classList.remove("focus:ring-red-600");
+            input.classList.add("focus:ring-blue-500");
+          }
+
+          // Validate individual fields
+          function validateInvoiceNumber() {
+            if (!invoiceSelect.value) {
+              showError(invoiceSelect, invoiceNumberError, "Please select an invoice.");
+              return false;
+            }
+            clearError(invoiceSelect, invoiceNumberError);
+            return true;
+          }
+
+          function validateCreditNoteNumber() {
+            if (!creditNoteNumberInput.value.trim()) {
+              showError(
+                creditNoteNumberInput,
+                creditNoteNumberError,
+                "Please enter a credit note number."
+              );
+              return false;
+            }
+            clearError(creditNoteNumberInput, creditNoteNumberError);
+            return true;
+          }
+
+          function validateCreditNoteDate() {
+            if (!creditNoteDateInput.value) {
+              showError(
+                creditNoteDateInput,
+                creditNoteDateError,
+                "Please select a credit note date."
+              );
+              return false;
+            }
+            clearError(creditNoteDateInput, creditNoteDateError);
+            return true;
+          }
+
+          function validateCreditAmount() {
+            const val = creditAmountInput.value;
+            const max = parseFloat(creditAmountInput.max);
+            const numVal = parseFloat(val);
+            if (!val || isNaN(numVal) || numVal <= 0) {
+              showError(
+                creditAmountInput,
+                creditAmountError,
+                "Please enter a valid credit amount."
+              );
+              return false;
+            }
+            if (!isNaN(max) && numVal > max) {
+              showError(
+                creditAmountInput,
+                creditAmountError,
+                `Credit amount cannot exceed invoice amount of ₹${max.toFixed(2)}.`
+              );
+              return false;
+            }
+            clearError(creditAmountInput, creditAmountError);
+            return true;
+          }
+
+          function validateReason() {
+            if (!reasonSelect.value) {
+              showError(reasonSelect, reasonError, "Please select a reason.");
+              return false;
+            }
+            clearError(reasonSelect, reasonError);
+            return true;
+          }
+
+          // Validate all fields on submit
+          const form = document.getElementById("credit-note-form");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const validInvoice = validateInvoiceNumber();
+            const validCreditNoteNumber = validateCreditNoteNumber();
+            const validCreditNoteDate = validateCreditNoteDate();
+            const validCreditAmount = validateCreditAmount();
+            const validReason = validateReason();
+
+            if (
+              !validInvoice ||
+              !validCreditNoteNumber ||
+              !validCreditNoteDate ||
+              !validCreditAmount ||
+              !validReason
+            ) {
+              return;
+            }
+
+            // Gather form data (optional, keep your logic if needed)
+            // ...existing code...
+
+            // Show the required alert
+            alert("Credit note sent to buyer");
+
+            // Reset form and UI (optional, keep your logic if needed)
+            form.reset();
+            invoiceDateInput.value = "";
+            customerNameInput.value = "";
+            invoiceAmountInput.value = "";
+            creditAmountInput.removeAttribute("max");
+            creditAmountInput.placeholder = "Enter credit amount";
+            attachmentList.innerHTML = "";
+            [
+              invoiceNumberError,
+              creditNoteNumberError,
+              creditNoteDateError,
+              creditAmountError,
+              reasonError,
+            ].forEach((el) => el.classList.add("hidden"));
+            [
+              invoiceSelect,
+              creditNoteNumberInput,
+              creditNoteDateInput,
+              creditAmountInput,
+              reasonSelect,
+            ].forEach((input) => {
+              input.classList.remove("border-red-600");
+              input.classList.remove("focus:ring-red-600");
+              input.classList.add("focus:ring-blue-500");
+            });
+          });
+
+          // Reset button clears errors and fields
+          const resetButton = document.getElementById("reset-button");
+          resetButton.addEventListener("click", () => {
+            invoiceDateInput.value = "";
+            customerNameInput.value = "";
+            invoiceAmountInput.value = "";
+            creditAmountInput.removeAttribute("max");
+            creditAmountInput.placeholder = "Enter credit amount";
+            attachmentList.innerHTML = "";
+            [
+              invoiceNumberError,
+              creditNoteNumberError,
+              creditNoteDateError,
+              creditAmountError,
+              reasonError,
+            ].forEach((el) => el.classList.add("hidden"));
+            [
+              invoiceSelect,
+              creditNoteNumberInput,
+              creditNoteDateInput,
+              creditAmountInput,
+              reasonSelect,
+            ].forEach((input) => {
+              input.classList.remove("border-red-600");
+              input.classList.remove("focus:ring-red-600");
+              input.classList.add("focus:ring-blue-500");
+            });
+          });
+
+          // Real-time validation on blur
+          invoiceSelect.addEventListener("blur", validateInvoiceNumber);
+          creditNoteNumberInput.addEventListener("blur", validateCreditNoteNumber);
+          creditNoteDateInput.addEventListener("blur", validateCreditNoteDate);
+          creditAmountInput.addEventListener("blur", validateCreditAmount);
+          reasonSelect.addEventListener("blur", validateReason);
+        </script>
+       </body>
+      </html>

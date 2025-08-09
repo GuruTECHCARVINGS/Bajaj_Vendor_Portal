@@ -1,0 +1,454 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Vendor Invoices</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-btn:hover:not(:disabled) {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <nav class="flex gap-4 ml-4">
+          <a href="PR_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PR Management</a>
+          <a href="PO_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PO Management</a>
+          <a href="Invoice_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Invoice Management</a>
+          <a href="Reports.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Reports</a>
+          <a href="Notifications.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Notifications</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h1 class="text-2xl sm:text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-6">
+    Vendor Invoices
+  </h1>
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="fiori-card">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search by Invoice, PO Number, Supplier..."
+          class="flex-grow w-full sm:w-auto border border-[var(--fiori-border)] rounded-lg py-3 px-4 text-gray-900 text-lg focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]"
+          aria-label="Search invoices"
+        />
+        <button
+          id="proceedBtn"
+          disabled
+          class="fiori-btn text-lg"
+          aria-disabled="true"
+        >
+          Proceed for Verification & Approval
+        </button>
+      </div>
+      <div class="overflow-x-auto border border-[var(--fiori-border)] rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200 fiori-table" id="invoicesTable" role="table" aria-label="Vendor invoices table">
+          <thead>
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                <input type="checkbox" id="selectAll" class="cursor-pointer" aria-label="Select all invoices"/>
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Invoice
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                PO Number
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Date
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Quantity
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Amount
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Delivery Date
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">
+                Supplier
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200" id="tableBody" role="rowgroup">
+            <!-- Rows will be inserted here dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Back Button -->
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back to Buyer Homepage"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back 
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2025 Developed by Techcarvings Consultancy Technical Team. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+  </script>
+  <script>
+    const invoices = [
+      {
+        invoice: "Invoice-001.pdf",
+        poNumber: "PO-1001",
+        date: "2024-06-01",
+        quantity: 150,
+        amount: "INR 12,000",
+        deliveryDate: "2024-06-10",
+        supplier: "Supplier A",
+      },
+      {
+        invoice: "Invoice-002.pdf",
+        poNumber: "PO-1002",
+        date: "2024-06-02",
+        quantity: 200,
+        amount: "INR 18,000",
+        deliveryDate: "2024-06-12",
+        supplier: "Supplier B",
+      },
+      {
+        invoice: "Invoice-003.pdf",
+        poNumber: "PO-1003",
+        date: "2024-06-03",
+        quantity: 100,
+        amount: "INR 7,500",
+        deliveryDate: "2024-06-15",
+        supplier: "Supplier C",
+      },
+      {
+        invoice: "Invoice-004.pdf",
+        poNumber: "PO-1004",
+        date: "2024-06-04",
+        quantity: 250,
+        amount: "INR 22,500",
+        deliveryDate: "2024-06-20",
+        supplier: "Supplier D",
+      },
+    ];
+
+    const tableBody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const proceedBtn = document.getElementById("proceedBtn");
+    const selectAllCheckbox = document.getElementById("selectAll");
+
+    let filteredInvoices = [...invoices];
+    let selectedInvoices = new Set();
+
+    function renderTable(data) {
+      tableBody.innerHTML = "";
+      if (data.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 8;
+        td.className = "px-6 py-4 text-center text-gray-500";
+        td.textContent = "No invoices found.";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+        return;
+      }
+
+      data.forEach((item) => {
+        const tr = document.createElement("tr");
+
+        // Checkbox cell
+        const checkboxTd = document.createElement("td");
+        checkboxTd.className = "px-6 py-4 whitespace-nowrap";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "cursor-pointer";
+        checkbox.setAttribute("aria-label", `Select ${item.invoice}`);
+        checkbox.checked = selectedInvoices.has(item.invoice);
+        checkbox.addEventListener("change", (e) => {
+          if (e.target.checked) {
+            selectedInvoices.add(item.invoice);
+          } else {
+            selectedInvoices.delete(item.invoice);
+          }
+          updateProceedButton();
+          updateSelectAllCheckbox();
+        });
+        checkboxTd.appendChild(checkbox);
+        tr.appendChild(checkboxTd);
+
+        // Invoice cell with icon
+        const invoiceTd = document.createElement("td");
+        invoiceTd.className = "px-6 py-4 whitespace-nowrap flex items-center space-x-3";
+        const img = document.createElement("img");
+        img.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+        img.alt = `PDF icon for ${item.invoice}`;
+        img.className = "w-8 h-10 flex-shrink-0";
+        img.width = 32;
+        img.height = 40;
+        const span = document.createElement("span");
+        span.className = "font-semibold text-gray-900";
+        span.textContent = item.invoice;
+        invoiceTd.appendChild(img);
+        invoiceTd.appendChild(span);
+        tr.appendChild(invoiceTd);
+
+        // PO Number
+        const poTd = document.createElement("td");
+        poTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        poTd.textContent = item.poNumber;
+        tr.appendChild(poTd);
+
+        // Date
+        const dateTd = document.createElement("td");
+        dateTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        dateTd.textContent = item.date;
+        tr.appendChild(dateTd);
+
+        // Quantity
+        const qtyTd = document.createElement("td");
+        qtyTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        qtyTd.textContent = item.quantity;
+        tr.appendChild(qtyTd);
+
+        // Amount
+        const amountTd = document.createElement("td");
+        amountTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        amountTd.textContent = item.amount;
+        tr.appendChild(amountTd);
+
+        // Delivery Date
+        const deliveryTd = document.createElement("td");
+        deliveryTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        deliveryTd.textContent = item.deliveryDate;
+        tr.appendChild(deliveryTd);
+
+        // Supplier
+        const supplierTd = document.createElement("td");
+        supplierTd.className = "px-6 py-4 whitespace-nowrap text-gray-700";
+        supplierTd.textContent = item.supplier;
+        tr.appendChild(supplierTd);
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function filterInvoices(query) {
+      query = query.toLowerCase();
+      return invoices.filter((inv) => {
+        return (
+          inv.invoice.toLowerCase().includes(query) ||
+          inv.poNumber.toLowerCase().includes(query) ||
+          inv.supplier.toLowerCase().includes(query)
+        );
+      });
+    }
+
+    function updateProceedButton() {
+      proceedBtn.disabled = selectedInvoices.size === 0;
+      proceedBtn.setAttribute("aria-disabled", selectedInvoices.size === 0);
+    }
+
+    function updateSelectAllCheckbox() {
+      if (filteredInvoices.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+        return;
+      }
+      const allSelected = filteredInvoices.every(inv => selectedInvoices.has(inv.invoice));
+      const someSelected = filteredInvoices.some(inv => selectedInvoices.has(inv.invoice));
+      selectAllCheckbox.checked = allSelected;
+      selectAllCheckbox.indeterminate = !allSelected && someSelected;
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      filteredInvoices = filterInvoices(e.target.value);
+      // Remove from selectedInvoices any invoice not in filteredInvoices
+      selectedInvoices.forEach(inv => {
+        if (!filteredInvoices.find(fInv => fInv.invoice === inv)) {
+          selectedInvoices.delete(inv);
+        }
+      });
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    selectAllCheckbox.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        filteredInvoices.forEach(inv => selectedInvoices.add(inv.invoice));
+      } else {
+        filteredInvoices.forEach(inv => selectedInvoices.delete(inv.invoice));
+      }
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    proceedBtn.addEventListener("click", () => {
+      if (selectedInvoices.size === 0) return;
+      const selectedList = Array.from(selectedInvoices);
+      if (
+        confirm(
+          "Proceeding invoices for verification and approval:\n" +
+            selectedList.join("\n") +
+            "\n\nClick OK to continue."
+        )
+      ) {
+        window.location.href = "Invoice Approval.html";
+      }
+      // Optionally clear selection after proceeding
+      selectedInvoices.clear();
+      renderTable(filteredInvoices);
+      updateProceedButton();
+      updateSelectAllCheckbox();
+    });
+
+    // Initial render
+    renderTable(invoices);
+    updateProceedButton();
+    updateSelectAllCheckbox();
+  </script>
+</body>
+</html>

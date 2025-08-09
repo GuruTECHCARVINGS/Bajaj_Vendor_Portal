@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procurement Reports Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .report-card {
+            animation: fadeIn 0.3s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        canvas {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen">
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 pt-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-8">Reports</h1>
+        <main class="px-4 pb-8">
+            <!-- Filters -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex flex-wrap items-end gap-4">
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                        <div class="flex gap-2">
+                            <input type="date" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <span class="self-center">to</span>
+                            <input type="date" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                        <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option>All Departments</option>
+                            <option>Finance</option>
+                            <option>Procurement</option>
+                            <option>Operations</option>
+                            <option>IT</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex-1 min-w-[200px]">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option>All Statuses</option>
+                            <option>Pending</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+                    
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
+                        Apply Filters
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Reports Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- PR Creation/Change Report -->
+                <div class="report-card delay-1 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-blue-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">PR Creation/Change (Opex & Capex)</h2>
+                    </div>
+                    <div class="p-4">
+                        <!-- Indicators Row -->
+                        <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                          <div class="p-2 rounded bg-blue-50">
+                            <div class="text-xl font-bold text-blue-700">+8%</div>
+                            <div class="text-xs">PRs Created</div>
+                            <div class="text-xs text-green-600">↑12</div>
+                          </div>
+                          <div class="p-2 rounded bg-blue-100">
+                            <div class="text-xl font-bold text-blue-700">2.1d</div>
+                            <div class="text-xs">Avg. Processing Time</div>
+                            <div class="text-xs text-red-600">↑0.3d</div>
+                          </div>
+                        </div>
+                        <canvas id="prChart"></canvas>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <div class="flex justify-between py-1 border-b border-gray-100">
+                                <span>Opex PRs</span>
+                                <span class="font-medium">142</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-gray-100">
+                                <span>Capex PRs</span>
+                                <span class="font-medium">87</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-gray-100">
+                                <span>Modified PRs</span>
+                                <span class="font-medium">34</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span>Avg. Processing Time</span>
+                                <span class="font-medium">2.1 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- Approval Process Report -->
+                <div class="report-card delay-1 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-green-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">PR/PO Change Approvals</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600">76%</div>
+                                <div class="text-xs text-gray-500 mt-1">Approval Rate</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-gray-600">1.9</div>
+                                <div class="text-xs text-gray-500 mt-1">Avg. Steps</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-gray-600 space-y-2">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-xs font-medium">PR Approvals</span>
+                                    <span class="text-xs">89/112</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 79%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-xs font-medium">PR Change Approvals</span>
+                                    <span class="text-xs">22/34</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-300 h-2 rounded-full" style="width: 64%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-xs font-medium">PO Change Approvals</span>
+                                    <span class="text-xs">14/18</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-400 h-2 rounded-full" style="width: 77%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- PO Process Reports -->
+                <div class="report-card delay-2 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-purple-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">PO Creation & Acknowledgement</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-lg font-medium">Last 30 Days</div>
+                            <div class="text-xs text-gray-500">Compared to previous</div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center mb-4">
+                            <div class="p-2 rounded bg-purple-50">
+                                <div class="text-xl font-bold text-purple-700">58</div>
+                                <div class="text-xs">POs Created</div>
+                                <div class="text-xs text-green-600">↑12%</div>
+                            </div>
+                            <div class="p-2 rounded bg-green-50">
+                                <div class="text-xl font-bold text-green-700">42</div>
+                                <div class="text-xs">POs Confirmed</div>
+                                <div class="text-xs text-green-600">↑8%</div>
+                            </div>
+                            <div class="p-2 rounded bg-blue-50">
+                                <div class="text-xl font-bold text-blue-700">3.2d</div>
+                                <div class="text-xs">Avg. Confirm Time</div>
+                                <div class="text-xs text-red-600">↑0.5d</div>
+                            </div>
+                        </div>
+                        <div class="text-sm">
+                            <div class="font-medium mb-1">Top Suppliers by POs:</div>
+                            <ol class="list-decimal list-inside space-y-1 text-gray-600">
+                                <li>Tech Supplies Inc. (15)</li>
+                                <li>Office World Ltd. (12)</li>
+                                <li>Global Services Co. (8)</li>
+                                <li>Quick Delivery LLC (6)</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- Invoice Processing -->
+                <div class="report-card delay-2 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-orange-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">Invoice Processing</h2>
+                    </div>
+                    <div class="p-4">
+                        <!-- Indicators Row -->
+                        <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                          <div class="p-2 rounded bg-orange-50">
+                            <div class="text-xl font-bold text-orange-700">+6%</div>
+                            <div class="text-xs">Invoices Processed</div>
+                            <div class="text-xs text-green-600">↑7</div>
+                          </div>
+                          <div class="p-2 rounded bg-orange-100">
+                            <div class="text-xl font-bold text-orange-700">1.7d</div>
+                            <div class="text-xs">Avg. Approval Time</div>
+                            <div class="text-xs text-green-600">↓0.2d</div>
+                          </div>
+                        </div>
+                        <canvas id="invoiceChart"></canvas>
+                        <div class="mt-3 text-sm">
+                            <div class="flex items-center justify-between py-1 border-b border-gray-100">
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 rounded-full bg-blue-500 mr-2"></span>
+                                    <span>PO-Based Invoices</span>
+                                </div>
+                                <span class="font-medium">78</span>
+                            </div>
+                            <div class="flex items-center justify-between py-1 border-b border-gray-100">
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 rounded-full bg-orange-500 mr-2"></span>
+                                    <span>Non-PO Invoices</span>
+                                </div>
+                                <span class="font-medium">31</span>
+                            </div>
+                            <div class="flex items-center justify-between py-1">
+                                <div class="flex items-center">
+                                    <span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-2"></span>
+                                    <span>Avg. Approval Time</span>
+                                </div>
+                                <span class="font-medium">1.7 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- Budget Management -->
+                <div class="report-card delay-3 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-indigo-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">Budget Management</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <div class="text-xs text-gray-500">Annual Budget</div>
+                                <div class="text-2xl font-bold">₹4,850,000</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-gray-500">Utilization</div>
+                                <div class="text-2xl font-bold">74%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Q1 Spend</span>
+                                    <span>₹1,120,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-500 h-2.5 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Q2 Spend</span>
+                                    <span>₹980,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-400 h-2.5 rounded-full" style="width: 72%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Q3 Spend</span>
+                                    <span>₹1,450,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 82%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-sm">
+                            <div class="font-medium mb-1">Top Spending Departments:</div>
+                            <ul class="space-y-1 text-gray-600">
+                                <li class="flex justify-between">
+                                    <span>Operations</span>
+                                    <span class="font-medium">₹2.1M</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>IT</span>
+                                    <span class="font-medium">₹1.4M</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>Facilities</span>
+                                    <span class="font-medium">₹850K</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- Payment Methods -->
+                <div class="report-card delay-3 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-teal-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">Advance Payments & Credit Notes</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="border border-teal-100 rounded-lg p-3 bg-teal-50">
+                                <div class="text-xs text-teal-800 mb-1">Advance Payments</div>
+                                <div class="text-xl font-bold text-teal-700">₹248,500</div>
+                                <div class="text-xs text-teal-600 mt-1">12 transactions</div>
+                            </div>
+                            <div class="border border-blue-100 rounded-lg p-3 bg-blue-50">
+                                <div class="text-xs text-blue-800 mb-1">Credit Notes</div>
+                                <div class="text-xl font-bold text-blue-700">₹56,300</div>
+                                <div class="text-xs text-blue-600 mt-1">8 transactions</div>
+                            </div>
+                        </div>
+                        <div class="text-sm space-y-3">
+                            <div>
+                                <div class="font-medium mb-1">Latest Advance Payments:</div>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex justify-between">
+                                        <span>Supplier A - PO#4512</span>
+                                        <span class="font-medium">₹42,000</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Supplier B - Non-PO</span>
+                                        <span class="font-medium">₹18,500</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="font-medium mb-1">Recent Credit Notes:</div>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex justify-between">
+                                        <span>Supplier C - Returns</span>
+                                        <span class="font-medium">₹12,300</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Supplier D - Discount</span>
+                                        <span class="font-medium">₹8,200</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- Petty Cash -->
+                <div class="report-card delay-4 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="bg-amber-600 text-white px-4 py-3">
+                        <h2 class="font-semibold">Petty Cash & Cash Advance</h2>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <div class="text-xs text-gray-500">Monthly Limit</div>
+                                <div class="text-xl font-bold text-amber-700">₹15,000</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-gray-500">Utilized</div>
+                                <div class="text-xl font-bold text-amber-700">₹9,800</div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Cash on Hand</span>
+                                    <span>₹5,200</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-amber-500 h-2.5 rounded-full" style="width: 35%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Pending Reimbursements</span>
+                                    <span>₹3,800</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-amber-400 h-2.5 rounded-full" style="width: 25%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-2 text-right">
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                    </div>
+                </div>
+                
+                <!-- TAT Report -->
+                <div class="report-card delay-4 bg-white rounded-lg shadow-md overflow-hidden">
+                  <div class="bg-pink-600 text-white px-4 py-3">
+                    <h2 class="font-semibold">TAT (Turn Around Time) Report</h2>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                      <div class="text-lg font-medium">Last 30 Days</div>
+                      <div class="text-xs text-gray-500">Compared to previous</div>
+                    </div>
+                    <!-- Indicators Row -->
+                    <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                      <div class="p-2 rounded bg-pink-50">
+                        <div class="text-xl font-bold text-pink-700">2.3d</div>
+                        <div class="text-xs">Avg. PR TAT</div>
+                        <div class="text-xs text-green-600">↓0.4d</div>
+                      </div>
+                      <div class="p-2 rounded bg-pink-100">
+                        <div class="text-xl font-bold text-pink-700">3.1d</div>
+                        <div class="text-xs">Avg. PO TAT</div>
+                        <div class="text-xs text-red-600">↑0.2d</div>
+                      </div>
+                    </div>
+                    <!-- Chart for TAT Trends -->
+                    <canvas id="tatChart" height="120"></canvas>
+                    <div class="mt-4 text-sm">
+                      <div class="font-medium mb-1">Recent TATs by Process:</div>
+                      <ul class="space-y-1 text-gray-600">
+                        <li class="flex justify-between">
+                          <span>Invoice Approval</span>
+                          <span class="font-medium">1.8d</span>
+                        </li>
+                        <li class="flex justify-between">
+                          <span>PR Approval</span>
+                          <span class="font-medium">2.5d</span>
+                        </li>
+                        <li class="flex justify-between">
+                          <span>PO Release</span>
+                          <span class="font-medium">3.0d</span>
+                        </li>
+                        <li class="flex justify-between">
+                          <span>Payment Processing</span>
+                          <span class="font-medium">2.2d</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="bg-gray-50 px-4 py-2 text-right">
+                    <a href="#" class="text-blue-600 text-sm hover:underline">View Full Report →</a>
+                  </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add this modal markup just before </body> -->
+<div id="fullReportModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full p-8 relative">
+    <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-600 hover:text-red-600 text-xl" aria-label="Close">
+      &times;
+    </button>
+    <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-blue-700"></h2>
+    <div id="modalContent" class="text-gray-800 text-base overflow-y-auto max-h-[60vh]"></div>
+  </div>
+</div>
+
+<button
+  type="button"
+  onclick="window.location.href='Buyer_Homepage.html';"
+  class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md flex items-center gap-2 mx-auto mt-8 mb-4"
+  aria-label="Go back to Buyer Homepage"
+  style="display: flex; align-items: center; justify-content: center;"
+>
+  <i class="fas fa-arrow-left"></i>
+  Back
+</button>
+
+<script>
+  // Sample data for each report
+  const reportData = {
+    "pr": {
+      title: "PR Creation/Change (Opex & Capex) - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Total Opex PRs:</strong> 142</li>
+          <li><strong>Total Capex PRs:</strong> 87</li>
+          <li><strong>Modified PRs:</strong> 34</li>
+          <li><strong>Avg. Processing Time:</strong> 2.1 days</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-blue-100">
+              <th class="px-4 py-2 border">PR Number</th>
+              <th class="px-4 py-2 border">Type</th>
+              <th class="px-4 py-2 border">Status</th>
+              <th class="px-4 py-2 border">Created On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">PR-1001</td>
+              <td class="border px-4 py-2">Opex</td>
+              <td class="border px-4 py-2 text-green-600">Approved</td>
+              <td class="border px-4 py-2">2024-06-01</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">PR-1002</td>
+              <td class="border px-4 py-2">Capex</td>
+              <td class="border px-4 py-2 text-yellow-600">Pending</td>
+              <td class="border px-4 py-2">2024-06-03</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "approval": {
+      title: "PR/PO Change Approvals - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Approval Rate:</strong> 76%</li>
+          <li><strong>Avg. Steps:</strong> 1.9</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="px-4 py-2 border">Approval ID</th>
+              <th class="px-4 py-2 border">Type</th>
+              <th class="px-4 py-2 border">Status</th>
+              <th class="px-4 py-2 border">Approver</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">APR-201</td>
+              <td class="border px-4 py-2">PR Approval</td>
+              <td class="border px-4 py-2 text-green-600">Approved</td>
+              <td class="border px-4 py-2">Amit Kumar</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">APR-202</td>
+              <td class="border px-4 py-2">PO Change</td>
+              <td class="border px-4 py-2 text-red-600">Rejected</td>
+              <td class="border px-4 py-2">Neha Singh</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "po": {
+      title: "PO Creation & Acknowledgement - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>POs Created:</strong> 58</li>
+          <li><strong>POs Confirmed:</strong> 42</li>
+          <li><strong>Avg. Confirm Time:</strong> 3.2 days</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-purple-100">
+              <th class="px-4 py-2 border">PO Number</th>
+              <th class="px-4 py-2 border">Supplier</th>
+              <th class="px-4 py-2 border">Status</th>
+              <th class="px-4 py-2 border">Confirmed On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">PO-5001</td>
+              <td class="border px-4 py-2">Tech Supplies Inc.</td>
+              <td class="border px-4 py-2 text-green-600">Confirmed</td>
+              <td class="border px-4 py-2">2024-06-05</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">PO-5002</td>
+              <td class="border px-4 py-2">Office World Ltd.</td>
+              <td class="border px-4 py-2 text-yellow-600">Pending</td>
+              <td class="border px-4 py-2">-</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "invoice": {
+      title: "Invoice Processing - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>PO-Based Invoices:</strong> 78</li>
+          <li><strong>Non-PO Invoices:</strong> 31</li>
+          <li><strong>Avg. Approval Time:</strong> 1.7 days</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-orange-100">
+              <th class="px-4 py-2 border">Invoice No</th>
+              <th class="px-4 py-2 border">Type</th>
+              <th class="px-4 py-2 border">Status</th>
+              <th class="px-4 py-2 border">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">INV-9001</td>
+              <td class="border px-4 py-2">PO-Based</td>
+              <td class="border px-4 py-2 text-green-600">Approved</td>
+              <td class="border px-4 py-2">₹1,20,000</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">INV-9002</td>
+              <td class="border px-4 py-2">Non-PO</td>
+              <td class="border px-4 py-2 text-yellow-600">Pending</td>
+              <td class="border px-4 py-2">₹45,000</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "budget": {
+      title: "Budget Management - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Annual Budget:</strong> ₹4,850,000</li>
+          <li><strong>Utilization:</strong> 74%</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-indigo-100">
+              <th class="px-4 py-2 border">Quarter</th>
+              <th class="px-4 py-2 border">Spend</th>
+              <th class="px-4 py-2 border">Utilization</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">Q1</td>
+              <td class="border px-4 py-2">₹1,120,000</td>
+              <td class="border px-4 py-2">78%</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Q2</td>
+              <td class="border px-4 py-2">₹980,000</td>
+              <td class="border px-4 py-2">72%</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Q3</td>
+              <td class="border px-4 py-2">₹1,450,000</td>
+              <td class="border px-4 py-2">82%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "payment": {
+      title: "Advance Payments & Credit Notes - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Advance Payments:</strong> ₹2,48,500 (12 transactions)</li>
+          <li><strong>Credit Notes:</strong> ₹56,300 (8 transactions)</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-teal-100">
+              <th class="px-4 py-2 border">Type</th>
+              <th class="px-4 py-2 border">Supplier</th>
+              <th class="px-4 py-2 border">Amount</th>
+              <th class="px-4 py-2 border">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">Advance Payment</td>
+              <td class="border px-4 py-2">Supplier A</td>
+              <td class="border px-4 py-2">₹42,000</td>
+              <td class="border px-4 py-2">2024-06-02</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Credit Note</td>
+              <td class="border px-4 py-2">Supplier C</td>
+              <td class="border px-4 py-2">₹12,300</td>
+              <td class="border px-4 py-2">2024-06-05</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "petty": {
+      title: "Petty Cash & Cash Advance - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Monthly Limit:</strong> ₹15,000</li>
+          <li><strong>Utilized:</strong> ₹9,800</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-amber-100">
+              <th class="px-4 py-2 border">Type</th>
+              <th class="px-4 py-2 border">Amount</th>
+              <th class="px-4 py-2 border">Date</th>
+              <th class="px-4 py-2 border">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">Petty Cash</td>
+              <td class="border px-4 py-2">₹2,000</td>
+              <td class="border px-4 py-2">2024-06-01</td>
+              <td class="border px-4 py-2">Office Supplies</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Cash Advance</td>
+              <td class="border px-4 py-2">₹3,500</td>
+              <td class="border px-4 py-2">2024-06-04</td>
+              <td class="border px-4 py-2">Travel Expenses</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample data for demonstration.</p>
+      `
+    },
+    "tat": {
+      title: "TAT (Turn Around Time) - Full Report",
+      content: `
+        <ul class="mb-4">
+          <li><strong>Avg. PR TAT:</strong> 2.3 days</li>
+          <li><strong>Avg. PO TAT:</strong> 3.1 days</li>
+          <li><strong>Avg. Invoice Approval TAT:</strong> 1.8 days</li>
+          <li><strong>Avg. Payment Processing TAT:</strong> 2.2 days</li>
+        </ul>
+        <table class="min-w-full border rounded-lg mb-4">
+          <thead>
+            <tr class="bg-pink-100">
+              <th class="px-4 py-2 border">Process</th>
+              <th class="px-4 py-2 border">Min TAT (d)</th>
+              <th class="px-4 py-2 border">Max TAT (d)</th>
+              <th class="px-4 py-2 border">Avg. TAT (d)</th>
+              <th class="px-4 py-2 border">Last Month (d)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2">PR Approval</td>
+              <td class="border px-4 py-2">1.2</td>
+              <td class="border px-4 py-2">4.0</td>
+              <td class="border px-4 py-2">2.5</td>
+              <td class="border px-4 py-2">2.9</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">PO Release</td>
+              <td class="border px-4 py-2">2.0</td>
+              <td class="border px-4 py-2">4.5</td>
+              <td class="border px-4 py-2">3.0</td>
+              <td class="border px-4 py-2">2.8</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Invoice Approval</td>
+              <td class="border px-4 py-2">1.0</td>
+              <td class="border px-4 py-2">2.5</td>
+              <td class="border px-4 py-2">1.8</td>
+              <td class="border px-4 py-2">2.0</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2">Payment Processing</td>
+              <td class="border px-4 py-2">1.5</td>
+              <td class="border px-4 py-2">3.0</td>
+              <td class="border px-4 py-2">2.2</td>
+              <td class="border px-4 py-2">2.4</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-500">Sample TAT data for demonstration.</p>
+      `
+    }
+  };
+
+  // Attach click handlers to all "View Full Report" links
+  document.querySelectorAll('.report-card .bg-gray-50 a').forEach((link, idx) => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      let key = "";
+      if (idx === 0) key = "pr";
+      else if (idx === 1) key = "approval";
+      else if (idx === 2) key = "po";
+      else if (idx === 3) key = "invoice";
+      else if (idx === 4) key = "budget";
+      else if (idx === 5) key = "payment";
+      else if (idx === 6) key = "petty";
+      else if (idx === 7) key = "tat";
+      if (key && reportData[key]) {
+        document.getElementById('modalTitle').textContent = reportData[key].title;
+        document.getElementById('modalContent').innerHTML = reportData[key].content;
+        document.getElementById('fullReportModal').classList.remove('hidden');
+      }
+    });
+  });
+
+  // Close modal
+  document.getElementById('closeModalBtn').onclick = function () {
+    document.getElementById('fullReportModal').classList.add('hidden');
+  };
+  // Close modal on outside click
+  document.getElementById('fullReportModal').addEventListener('click', function (e) {
+    if (e.target === this) {
+      this.classList.add('hidden');
+    }
+  });
+  // Close modal on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === "Escape") {
+      document.getElementById('fullReportModal').classList.add('hidden');
+    }
+  });
+
+  // TAT Chart (sample data)
+  if (document.getElementById('tatChart')) {
+    new Chart(document.getElementById('tatChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        datasets: [
+          {
+            label: 'PR TAT',
+            data: [2.7, 2.5, 2.3, 2.1],
+            borderColor: '#ec4899',
+            backgroundColor: 'rgba(236,72,153,0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: '#ec4899'
+          },
+          {
+            label: 'PO TAT',
+            data: [2.9, 3.0, 3.1, 3.3],
+            borderColor: '#f472b6',
+            backgroundColor: 'rgba(244,114,182,0.1)',
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: '#f472b6'
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: { display: true }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Days' }
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>

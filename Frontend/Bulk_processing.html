@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAP Fiori Bulk Processing Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/css_variables.css" rel="stylesheet">
+    <link href="https://unpkg.com/@sap-theming/theming-base-content/content/Base/baseLib/sap_fiori_3/fonts.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: '72', Arial, sans-serif;
+            background-color: var(--sapBackgroundColor, #f3f6f9);
+            color: var(--sapTextColor, #355571);
+        }
+        .fiori-card {
+            background-color: var(--sapTile_Background, #fff);
+            border: 1px solid var(--sapTile_BorderColor, #d1e0ef);
+            border-radius: var(--sapTile_BorderCornerRadius, 1rem);
+            box-shadow: 0 2px 8px 0 var(--sapTile_Shadow, #eaf3fc);
+            padding: 1.5rem;
+        }
+        .fiori-header {
+            background-color: var(--sapShell_Background, #fff);
+            border-bottom: 1px solid var(--sapShell_BorderColor, #d1e0ef);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .fiori-title {
+            color: var(--sapTitleColor, #0a6ed1);
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+        .fiori-btn {
+            background-color: var(--sapButton_Background, #0a6ed1);
+            color: var(--sapButton_TextColor, #fff);
+            font-weight: 600;
+            border-radius: var(--sapButton_BorderCornerRadius, 0.5rem);
+            border: 1px solid var(--sapButton_BorderColor, #0a6ed1);
+            padding: 0.5rem 1.25rem;
+            transition: background 0.2s;
+        }
+        .fiori-btn:hover {
+            background-color: var(--sapButton_Hover_Background, #0854a0);
+        }
+        .fiori-table th {
+            background-color: var(--sapList_HeaderBackground, #eaf3fc);
+            color: var(--sapList_HeaderTextColor, #0a6ed1);
+            font-weight: 700;
+            padding: 0.75rem 0.5rem;
+        }
+        .fiori-table th, .fiori-table td {
+            border: 1px solid var(--sapList_BorderColor, #d1e0ef);
+            text-align: left;
+        }
+        .fiori-table td {
+            padding: 0.75rem 0.5rem;
+        }
+        .progress-bar {
+            transition: width 0.3s ease-in-out;
+            background-color: var(--sapHighlightColor, #0a6ed1);
+        }
+        .document-card {
+            background-color: var(--sapTile_Background, #fff);
+            border: 1px solid var(--sapTile_BorderColor, #d1e0ef);
+            border-radius: var(--sapTile_BorderCornerRadius, 1rem);
+            box-shadow: 0 2px 8px 0 var(--sapTile_Shadow, #eaf3fc);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+            border-color: var(--sapHighlightColor, #0a6ed1);
+        }
+        .badge-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-sap-ui-shell-background">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold fiori-title">Bulk Processing Center</h1>
+                <p class="text-gray-600">Manage PR, PO, and Invoice documents in bulk</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input id="searchInput" type="text" placeholder="Search documents..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <script>
+            document.addEventListener('keyup', function(e) {
+                const searchText = document.getElementById('searchInput').value.toLowerCase();
+                document.querySelectorAll('.document-card').forEach(card => {
+                    const cardText = card.textContent.toLowerCase();
+                    if(cardText.includes(searchText)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex border-b-2 border-sap-ui-content-border mb-6">
+            <button id="tab-pending"
+                class="px-4 py-2 font-bold border-b-2 transition-colors focus:outline-none"
+                style="color: var(--sapHighlightColor, #0a6ed1); border-color: var(--sapHighlightColor, #0a6ed1); background: var(--sapList_SelectionBackgroundColor, #eaf3fc);"
+                onclick="setActiveTab(this); filterDocuments('pending')">
+                Pending Review
+            </button>
+            <button id="tab-inprocess"
+                class="px-4 py-2 font-normal border-b-2 border-transparent transition-colors focus:outline-none hover:bg-blue-50"
+                style="color: #1565c0; background: #e3f2fd;"
+                onclick="setActiveTab(this); filterDocuments('in-process')">
+                In Process
+            </button>
+            <button id="tab-completed"
+                class="px-4 py-2 font-normal border-b-2 border-transparent transition-colors focus:outline-none hover:bg-green-50"
+                style="color: #2e7d32; background: #e8f5e9;"
+                onclick="setActiveTab(this); filterDocuments('completed')">
+                Completed
+            </button>
+            <button id="tab-errors"
+                class="px-4 py-2 font-normal border-b-2 border-transparent transition-colors focus:outline-none hover:bg-red-50"
+                style="color: #c62828; background: #ffebee;"
+                onclick="setActiveTab(this); filterDocuments('errors')">
+                Errors
+            </button>
+        </div>
+
+        <!-- Bulk Actions Toolbar -->
+        <div class="fiori-card mb-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <input type="checkbox" class="h-4 w-4 text-blue-600 rounded" id="selectAll" onclick="
+                        document.querySelectorAll('.document-card input[type=checkbox]')
+                            .forEach(item => item.checked = document.getElementById('selectAll').checked); updateBulkAmount();">
+                    <span class="text-gray-700">Select all (<span id="documentCount"></span> documents)</span>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="fiori-btn flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        Export
+                    </button>
+                    <button class="fiori-btn flex items-center"
+                        style="background:var(--sapButton_Reject_Background,#fff);
+                               color:var(--sapButton_Reject_TextColor,#bb0000);
+                               border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Delete
+                    </button>
+                    <button class="fiori-btn flex items-center"
+                        style="background:var(--sapButton_Accept_Background,#107e3e);
+                               color:var(--sapButton_Accept_TextColor,#fff);
+                               border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Approve Selected
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="fiori-card mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="font-medium fiori-title">Batch Processing Status</h3>
+                <span class="text-sm text-gray-500">Updated just now</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="progress-bar h-2.5 rounded-full" style="width: 45%"></div>
+            </div>
+            <div class="flex justify-between mt-1 text-sm text-gray-600">
+                <span>6 of 14 documents processed</span>
+                <span>42% complete</span>
+            </div>
+        </div>
+
+        <!-- Document Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <!-- Sample PR Document -->
+            <div class="document-card">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-600 rounded mr-3 payment-checkbox" data-amount="245000" data-type="PR">
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">PR</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">Submitted: 2 days ago</span>
+                        <div class="w-2 h-2 rounded-full bg-sap-critical-color animate-pulse"></div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Purchase Requisition #PR-2023-05678</h3>
+                    <p class="text-sm text-gray-600 mb-3">Office supplies for Q3 inventory refresh</p>
+                    <div class="flex justify-between text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Amount:</span>
+                            <span class="font-medium text-gray-800 ml-1">₹2,45,000.00</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Supplier:</span>
+                            <span class="font-medium text-gray-800 ml-1">OfficePlus</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <span class="text-gray-500">Requestor:</span>
+                            <span class="font-medium text-gray-800 ml-1">Sarah Johnson</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Department:</span>
+                            <span class="font-medium text-gray-800 ml-1">Marketing</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex justify-between items-center border-t">
+                    <button class="fiori-btn text-sm font-medium" style="background:transparent;color:var(--sapLinkColor,#0a6ed1);border:none;">Details</button>
+                    <div class="flex space-x-2">
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Accept_Background,#107e3e);
+                                   color:var(--sapButton_Accept_TextColor,#fff);
+                                   border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                            Approve
+                        </button>
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Reject_Background,#fff);
+                                   color:var(--sapButton_Reject_TextColor,#bb0000);
+                                   border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                            Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sample PO Document -->
+            <div class="document-card">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-600 rounded mr-3 payment-checkbox" data-amount="875000" data-type="PO">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">PO</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">Submitted: 1 day ago</span>
+                        <div class="w-2 h-2 rounded-full bg-sap-positive-color"></div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Purchase Order #PO-2023-09234</h3>
+                    <p class="text-sm text-gray-600 mb-3">Cloud computing services renewal</p>
+                    <div class="flex justify-between text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Amount:</span>
+                            <span class="font-medium text-gray-800 ml-1">₹8,75,000.00</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Supplier:</span>
+                            <span class="font-medium text-gray-800 ml-1">CloudTech Solutions</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <span class="text-gray-500">Buyer:</span>
+                            <span class="font-medium text-gray-800 ml-1">IT Procurement</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Approved:</span>
+                            <span class="font-medium text-gray-800 ml-1">Mark Williams</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex justify-between items-center border-t">
+                    <button class="fiori-btn text-sm font-medium" style="background:transparent;color:var(--sapLinkColor,#0a6ed1);border:none;">Details</button>
+                    <div class="flex space-x-2">
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Accept_Background,#107e3e);
+                                   color:var(--sapButton_Accept_TextColor,#fff);
+                                   border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                            Approve
+                        </button>
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Reject_Background,#fff);
+                                   color:var(--sapButton_Reject_TextColor,#bb0000);
+                                   border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                            Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sample Invoice Documents (with Pay option) -->
+            <div class="document-card">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-600 rounded mr-3 payment-checkbox" data-amount="1500000" data-type="Invoice">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Invoice</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">Submitted: 3 days ago</span>
+                        <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Invoice #INV-2023-21876</h3>
+                    <p class="text-sm text-gray-600 mb-3">Consulting services - Q3 deliverables</p>
+                    <div class="flex justify-between text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Amount:</span>
+                            <span class="font-medium text-gray-800 ml-1">₹15,00,000.00</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Supplier:</span>
+                            <span class="font-medium text-gray-800 ml-1">Strategy Consultants</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <span class="text-gray-500">PO Number:</span>
+                            <span class="font-medium text-gray-800 ml-1">PO-2023-07231</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Due Date:</span>
+                            <span class="font-medium text-gray-800 ml-1">2023-10-15</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex justify-between items-center border-t">
+                    <button class="fiori-btn text-sm font-medium" style="background:transparent;color:var(--sapLinkColor,#0a6ed1);border:none;">Details</button>
+                    <div class="flex space-x-2">
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Accept_Background,#107e3e);
+                                   color:var(--sapButton_Accept_TextColor,#fff);
+                                   border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                            Approve
+                        </button>
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Reject_Background,#fff);
+                                   color:var(--sapButton_Reject_TextColor,#bb0000);
+                                   border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                            Reject
+                        </button>
+                        <button class="fiori-btn text-sm font-medium pay-btn"
+                            style="background:var(--sapButton_Attention_Background,#f7ca18);
+                                   color:var(--sapButton_Attention_TextColor,#000);
+                                   border-color:var(--sapButton_Attention_BorderColor,#f7ca18);"
+                            data-amount="1500000">
+                            Pay
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- More Invoice Samples -->
+            <div class="document-card">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-600 rounded mr-3 payment-checkbox" data-amount="65000" data-type="Invoice">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Invoice</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">Submitted: 5 days ago</span>
+                        <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Invoice #INV-2023-21877</h3>
+                    <p class="text-sm text-gray-600 mb-3">Hardware supply for new branch</p>
+                    <div class="flex justify-between text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Amount:</span>
+                            <span class="font-medium text-gray-800 ml-1">₹65,000.00</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Supplier:</span>
+                            <span class="font-medium text-gray-800 ml-1">TechMart</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <span class="text-gray-500">PO Number:</span>
+                            <span class="font-medium text-gray-800 ml-1">PO-2023-07232</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Due Date:</span>
+                            <span class="font-medium text-gray-800 ml-1">2023-10-20</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex justify-between items-center border-t">
+                    <button class="fiori-btn text-sm font-medium" style="background:transparent;color:var(--sapLinkColor,#0a6ed1);border:none;">Details</button>
+                    <div class="flex space-x-2">
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Accept_Background,#107e3e);
+                                   color:var(--sapButton_Accept_TextColor,#fff);
+                                   border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                            Approve
+                        </button>
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Reject_Background,#fff);
+                                   color:var(--sapButton_Reject_TextColor,#bb0000);
+                                   border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                            Reject
+                        </button>
+                        <button class="fiori-btn text-sm font-medium pay-btn"
+                            style="background:var(--sapButton_Attention_Background,#f7ca18);
+                                   color:var(--sapButton_Attention_TextColor,#000);
+                                   border-color:var(--sapButton_Attention_BorderColor,#f7ca18);"
+                            data-amount="65000">
+                            Pay
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Another Invoice Sample -->
+            <div class="document-card">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-blue-600 rounded mr-3 payment-checkbox" data-amount="12000" data-type="Invoice">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Invoice</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">Submitted: 7 days ago</span>
+                        <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Invoice #INV-2023-21878</h3>
+                    <p class="text-sm text-gray-600 mb-3">Annual software license renewal</p>
+                    <div class="flex justify-between text-sm mb-3">
+                        <div>
+                            <span class="text-gray-500">Amount:</span>
+                            <span class="font-medium text-gray-800 ml-1">₹12,000.00</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Supplier:</span>
+                            <span class="font-medium text-gray-800 ml-1">SoftServe</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <div>
+                            <span class="text-gray-500">PO Number:</span>
+                            <span class="font-medium text-gray-800 ml-1">PO-2023-07233</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Due Date:</span>
+                            <span class="font-medium text-gray-800 ml-1">2023-10-25</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 flex justify-between items-center border-t">
+                    <button class="fiori-btn text-sm font-medium" style="background:transparent;color:var(--sapLinkColor,#0a6ed1);border:none;">Details</button>
+                    <div class="flex space-x-2">
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Accept_Background,#107e3e);
+                                   color:var(--sapButton_Accept_TextColor,#fff);
+                                   border-color:var(--sapButton_Accept_BorderColor,#107e3e);">
+                            Approve
+                        </button>
+                        <button class="fiori-btn text-sm font-medium"
+                            style="background:var(--sapButton_Reject_Background,#fff);
+                                   color:var(--sapButton_Reject_TextColor,#bb0000);
+                                   border-color:var(--sapButton_Reject_BorderColor,#bb0000);">
+                            Reject
+                        </button>
+                        <button class="fiori-btn text-sm font-medium pay-btn"
+                            style="background:var(--sapButton_Attention_Background,#f7ca18);
+                                   color:var(--sapButton_Attention_TextColor,#000);
+                                   border-color:var(--sapButton_Attention_BorderColor,#f7ca18);"
+                            data-amount="12000">
+                            Pay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bulk Payment Section -->
+        <div class="fiori-card mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <span class="font-semibold text-lg">Bulk Payment</span>
+                    <span class="ml-2 text-gray-600 text-sm">(Select only <b>Invoices</b> to pay in bulk. Only payments over ₹5,000 are allowed.)</span>
+                </div>
+                <form class="flex flex-col md:flex-row md:items-center gap-4 mt-2 md:mt-0">
+                    <div>
+                        <label class="text-gray-700 font-medium mr-2">Payment Method:</label>
+                        <select id="bulkPaymentMethod" class="border rounded px-2 py-1">
+                            <option>Bank Transfer</option>
+                            <option>UPI</option>
+                            <option>Cheque</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-gray-700 font-medium mr-2">Payment Date:</label>
+                        <input type="date" id="bulkPaymentDate" class="border rounded px-2 py-1" value="">
+                    </div>
+                    <div>
+                        <label class="text-gray-700 font-medium mr-2">Remarks:</label>
+                        <input type="text" id="bulkRemarks" class="border rounded px-2 py-1" placeholder="Optional">
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-700">Total Selected Amount: </span>
+                        <span id="bulkAmount" class="font-bold text-blue-700">₹0</span>
+                        <button id="bulkPayBtn" type="button" class="fiori-btn ml-4"
+                            style="background:var(--sapButton_Attention_Background,#f7ca18);color:var(--sapButton_Attention_TextColor,#000);border-color:var(--sapButton_Attention_BorderColor,#f7ca18);" disabled>
+                            Bulk Pay
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Processing Summary -->
+        <div class="fiori-card">
+            <h3 class="font-medium fiori-title mb-4">Bulk Processing Summary</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-sap-ui-shell-container-color rounded p-4 border border-sap-ui-content-border">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-blue-800 font-medium">Purchase Requisitions</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">5 items</span>
+                    </div>
+                    <div class="h-2 bg-blue-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-blue-600 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-blue-700 mt-1">
+                        <span>3 approved</span>
+                        <span>2 pending</span>
+                    </div>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-4 border border-purple-100">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-purple-800 font-medium">Purchase Orders</span>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">4 items</span>
+                    </div>
+                    <div class="h-2 bg-purple-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-purple-600 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-purple-700 mt-1">
+                        <span>3 approved</span>
+                        <span>1 pending</span>
+                    </div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-green-800 font-medium">Invoices</span>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">5 items</span>
+                    </div>
+                    <div class="h-2 bg-green-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-green-600 rounded-full" style="width: 40%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-green-700 mt-1">
+                        <span>2 approved</span>
+                        <span>3 pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home button at the end of the page with previous (primary blue) color -->
+        <div class="flex justify-end mt-12 mb-4">
+            <button onclick="window.location.href='Buyer_Homepage.html'"
+                class="fiori-btn flex items-center"
+                style="background:var(--sapButton_Background,#0a6ed1);color:var(--sapButton_TextColor,#fff);border-color:var(--sapButton_BorderColor,#0a6ed1);">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back
+            </button>
+        </div>
+    </div>
+
+    <!-- Add this modal markup just before the closing </body> tag -->
+<div id="detailsModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+  <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+    <button id="closeDetailsModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+    <h2 class="text-xl font-semibold mb-4 text-blue-700">Document Details</h2>
+    <div id="detailsContent" class="space-y-2 text-sm text-gray-700"></div>
+  </div>
+</div>
+
+<script>
+  // Details button handler
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.document-card .fiori-btn').forEach(btn => {
+      if (btn.textContent.trim() === 'Details') {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          const card = btn.closest('.document-card');
+          let details = [];
+
+          // Try to extract all key fields from the card
+          const title = card.querySelector('h3')?.textContent.trim();
+          if (title) details.push(`<div><span class="font-semibold">Title:</span> ${title}</div>`);
+          const type = card.querySelector('span.px-2')?.textContent.trim();
+          if (type) details.push(`<div><span class="font-semibold">Type:</span> ${type}</div>`);
+          card.querySelectorAll('div.p-4 > div.flex.justify-between.text-sm.mb-3 > div, div.p-4 > div.flex.justify-between.text-sm > div').forEach(div => {
+            details.push(`<div>${div.innerHTML}</div>`);
+          });
+          // Add description if present
+          const desc = card.querySelector('p.text-sm')?.textContent.trim();
+          if (desc) details.push(`<div><span class="font-semibold">Description:</span> ${desc}</div>`);
+          // Add submitted/due date if present
+          const submitted = card.querySelector('.text-xs.text-gray-500')?.textContent.trim();
+          if (submitted) details.push(`<div><span class="font-semibold">Submitted:</span> ${submitted}</div>`);
+
+          // Show modal
+          document.getElementById('detailsContent').innerHTML = details.join('');
+          document.getElementById('detailsModal').classList.remove('hidden');
+        });
+      }
+    });
+
+    // Close modal handler
+    document.getElementById('closeDetailsModal').addEventListener('click', function () {
+      document.getElementById('detailsModal').classList.add('hidden');
+    });
+
+    // Optional: Close modal on background click
+    document.getElementById('detailsModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        this.classList.add('hidden');
+      }
+    });
+  });
+</script>
+    <script>
+        function filterDocuments(status) {
+            document.querySelectorAll('.document-card').forEach(card => {
+                const statusDot = card.querySelector('.rounded-full');
+                let cardStatus = '';
+                
+                if(statusDot.classList.contains('bg-yellow-400') || statusDot.classList.contains('bg-sap-critical-color')) {
+                    cardStatus = 'pending';
+                } else if(statusDot.classList.contains('bg-green-400') || statusDot.classList.contains('bg-sap-positive-color')) {
+                    cardStatus = 'completed';
+                } else if(statusDot.classList.contains('bg-red-400')) {
+                    cardStatus = 'errors';
+                }
+                
+                if(status === 'in-process') {
+                    card.style.display = (cardStatus === 'pending') ? '' : 'none';
+                } else {
+                    card.style.display = (cardStatus === status) ? '' : 'none';
+                }
+            });
+        }
+
+        // Simulate batch processing functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update document count
+            document.getElementById('documentCount').textContent = 
+                document.querySelectorAll('.document-card').length;
+            // Add click handlers for approve/reject buttons
+            document.querySelectorAll('[class*="document-card"]').forEach(card => {
+                const approveBtn = card.querySelector('.text-green-600');
+                const rejectBtn = card.querySelector('.text-red-600');
+                
+                approveBtn.addEventListener('click', () => {
+                    const statusDot = card.querySelector('.rounded-full');
+                    statusDot.classList.remove('bg-yellow-400', 'animate-pulse');
+                    statusDot.classList.add('bg-green-400');
+                    
+                    // Update progress bar
+                    updateProgressBar();
+                    updateSummaryCards();
+                });
+                
+                rejectBtn.addEventListener('click', () => {
+                    const statusDot = card.querySelector('.rounded-full');
+                    statusDot.classList.remove('bg-yellow-400', 'animate-pulse');
+                    statusDot.classList.add('bg-red-400');
+                    
+                    // Update progress bar
+                    updateProgressBar();
+                    updateSummaryCards();
+                });
+            });
+            
+            // Bulk approve handler
+            document.querySelector('.container').addEventListener('click', function(e) {
+                if (e.target.classList.contains('text-blue-600') && e.target.innerHTML === 'Approve Selected') {
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    
+                    checkboxes.forEach(checkbox => {
+                        const card = checkbox.closest('[class*="document-card"]');
+                        if (card) {
+                            const statusDot = card.querySelector('.rounded-full');
+                            const approveBtn = card.querySelector('.text-green-600');
+                            
+                            if (statusDot && approveBtn) {
+                                statusDot.classList.remove('bg-yellow-400', 'animate-pulse');
+                                statusDot.classList.add('bg-green-400');
+                            }
+                        }
+                    });
+                    
+                    // Update progress bar and summary
+                    updateProgressBar();
+                    updateSummaryCards();
+                }
+            });
+            
+            // Update progress bar animation
+            function formatIndianCurrency(num) {
+                    return '₹' + Number(num).toLocaleString('en-IN');
+                }
+
+                function updateProgressBar() {
+                const processedCount = document.querySelectorAll('.rounded-full.bg-green-400, .rounded-full.bg-red-400').length;
+                const totalCount = document.querySelectorAll('[class*="document-card"]').length;
+                const percentage = Math.round((processedCount / totalCount) * 100);
+                
+                const progressBar = document.querySelector('.progress-bar');
+                progressBar.style.width = `${percentage}%`;
+                
+                const progressText = progressBar.parentElement.nextElementSibling;
+                progressText.children[0].textContent = `${processedCount} of ${totalCount} documents processed`;
+                progressText.children[1].textContent = `${percentage}% complete`;
+            }
+            
+            // Update summary cards
+            function updateSummaryCards() {
+                const prCards = document.querySelectorAll('[class*="document-card"] .bg-purple-100');
+                const poCards = document.querySelectorAll('[class*="document-card"] .bg-blue-100');
+                const invCards = document.querySelectorAll('[class*="document-card"] .bg-green-100');
+                
+                updateSummaryCard('.bg-blue-50', prCards);
+                updateSummaryCard('.bg-purple-50', poCards);
+                updateSummaryCard('.bg-green-50', invCards);
+            }
+            
+            function updateSummaryCard(selector, documentCards) {
+                const summaryCard = document.querySelector(selector);
+                const totalItems = documentCards.length;
+                let approvedItems = 0;
+                
+                documentCards.forEach(card => {
+                    const statusDot = card.closest('[class*="document-card"]').querySelector('.rounded-full');
+                    if (statusDot.classList.contains('bg-green-400')) {
+                        approvedItems++;
+                    }
+                });
+                
+                const percentage = Math.round((approvedItems / totalItems) * 100);
+                
+                // Update progress bar
+                const progressBar = summaryCard.querySelector('div > div');
+                progressBar.style.width = `${percentage}%`;
+                
+                // Update counts
+                const countBadge = summaryCard.querySelector('.rounded');
+                countBadge.textContent = `${totalItems} items`;
+                
+                const countText = summaryCard.querySelector('.text-xs');
+                countText.children[0].textContent = `${approvedItems} approved`;
+                countText.children[1].textContent = `${totalItems - approvedItems} pending`;
+            }
+        });
+    </script>
+    <script>
+        // Blue navigation tab highlight logic with color per tab
+    function setActiveTab(tabBtn) {
+        // Reset all tabs
+        document.querySelectorAll('#tab-pending, #tab-inprocess, #tab-completed, #tab-errors').forEach(btn => {
+            btn.classList.remove('font-bold');
+            btn.classList.add('font-normal');
+            btn.style.borderColor = 'transparent';
+            // Reset background and color
+            if (btn.id === 'tab-pending') {
+                btn.style.color = 'var(--sapHighlightColor, #0a6ed1)';
+                btn.style.background = 'transparent';
+            } else if (btn.id === 'tab-inprocess') {
+                btn.style.color = '#1565c0';
+                btn.style.background = 'transparent';
+            } else if (btn.id === 'tab-completed') {
+                btn.style.color = '#2e7d32';
+                btn.style.background = 'transparent';
+            } else if (btn.id === 'tab-errors') {
+                btn.style.color = '#c62828';
+                btn.style.background = 'transparent';
+            }
+        });
+        // Set active tab
+        tabBtn.classList.add('font-bold');
+        tabBtn.classList.remove('font-normal');
+        tabBtn.style.borderColor = 'var(--sapHighlightColor, #0a6ed1)';
+        if (tabBtn.id === 'tab-pending') {
+            tabBtn.style.color = 'var(--sapHighlightColor, #0a6ed1)';
+            tabBtn.style.background = 'var(--sapList_SelectionBackgroundColor, #eaf3fc)';
+        } else if (tabBtn.id === 'tab-inprocess') {
+            tabBtn.style.color = '#1565c0';
+            tabBtn.style.background = '#e3f2fd';
+        } else if (tabBtn.id === 'tab-completed') {
+            tabBtn.style.color = '#2e7d32';
+            tabBtn.style.background = '#e8f5e9';
+        } else if (tabBtn.id === 'tab-errors') {
+            tabBtn.style.color = '#c62828';
+            tabBtn.style.background = '#ffebee';
+        }
+    }
+    </script>
+    <script>
+    // Bulk Payment Calculation: Support >5000 payments at a time
+    function updateBulkAmount() {
+        let total = 0;
+        let count = 0;
+        let allInvoices = true;
+        document.querySelectorAll('.payment-checkbox:checked').forEach(cb => {
+            if (cb.dataset.type === "Invoice") {
+                total += Number(cb.dataset.amount || 0);
+                count++;
+            } else {
+                allInvoices = false;
+            }
+        });
+        document.getElementById('bulkAmount').textContent = '₹' + total.toLocaleString('en-IN');
+        // Enable Bulk Pay if at least one invoice is selected, all selected are invoices, and total > 5000
+        document.getElementById('bulkPayBtn').disabled = !(count > 0 && allInvoices && total > 5000);
+    }
+
+    // Attach event listeners for all checkboxes (including dynamically loaded ones)
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('payment-checkbox')) {
+            updateBulkAmount();
+        }
+        if (e.target.id === 'selectAll') {
+            updateBulkAmount();
+        }
+    });
+
+    // Bulk Pay button alert
+    document.addEventListener('DOMContentLoaded', function() {
+        updateBulkAmount();
+        const bulkPayBtn = document.getElementById('bulkPayBtn');
+        if (bulkPayBtn) {
+            bulkPayBtn.addEventListener('click', function () {
+                const total = document.getElementById('bulkAmount').textContent;
+                alert('Bulk payment of ' + total + ' initiated successfully.');
+            });
+        }
+    });
+    </script>
+    <script>
+  // Details button handler (already present)
+  document.addEventListener('DOMContentLoaded', function () {
+    // Approve/Reject/Pay Button Alerts
+    document.querySelectorAll('.document-card').forEach(card => {
+      // Approve
+      card.querySelectorAll('.fiori-btn').forEach(btn => {
+        if (btn.textContent.trim() === 'Approve') {
+          btn.addEventListener('click', function (e) {
+            alert('Document approved successfully.');
+          });
+        }
+        // Reject
+        if (btn.textContent.trim() === 'Reject') {
+          btn.addEventListener('click', function (e) {
+            alert('Document rejected.');
+          });
+        }
+        // Pay
+        if (btn.classList.contains('pay-btn')) {
+          btn.addEventListener('click', function (e) {
+            const amount = btn.getAttribute('data-amount');
+            alert('Payment of ₹' + Number(amount).toLocaleString('en-IN') + ' initiated successfully.');
+          });
+        }
+      });
+    });
+
+    // Bulk Pay button alert (already present)
+    updateBulkAmount();
+    const bulkPayBtn = document.getElementById('bulkPayBtn');
+    if (bulkPayBtn) {
+      bulkPayBtn.addEventListener('click', function () {
+        const total = document.getElementById('bulkAmount').textContent;
+        alert('Bulk payment of ' + total + ' initiated successfully.');
+      });
+    }
+  });
+</script>
+</body>
+</html>

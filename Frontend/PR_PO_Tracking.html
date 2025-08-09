@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PR & PO Tracking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f3f6f9; color: #355571; }
+    .fiori-header { background: #fff; border-bottom: 1px solid #d1e0ef; box-shadow: 0 2px 8px 0 #eaf3fc; padding: 0.5rem 0; margin-bottom: 2rem; }
+    .fiori-title { color: #0a6ed1; font-weight: 700; letter-spacing: 0.01em; }
+    .fiori-card { background: #fff; border-radius: 1.5rem; box-shadow: 0 4px 24px 0 #eaf3fc, 0 1.5px 6px 0 #d1e0ef; padding: 2rem; }
+    .tracking-step { display: flex; align-items: center; gap: 1rem; }
+    .tracking-dot { width: 2rem; height: 2rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .tracking-dot.done { background: #22c55e; color: #fff; }
+    .tracking-dot.active { background: #fbbf24; color: #fff; }
+    .tracking-dot.pending { background: #e5e7eb; color: #9ca3af; }
+    .tracking-line { flex: 1; height: 4px; background: #e5e7eb; margin: 0 0.5rem; border-radius: 2px; }
+    .tracking-line.done { background: #22c55e; }
+    .tracking-line.active { background: #fbbf24; }
+    .tracking-label { font-weight: 600; }
+    .tracking-date { font-size: 0.85rem; color: #6b7280; }
+    .tracking-table th { background: #eaf3fc; color: #0a6ed1; font-weight: 600; }
+    .tracking-table td, .tracking-table th { padding: 0.75rem 0.5rem; border-bottom: 1px solid #eaf3fc; }
+    .tracking-table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 2rem; }
+    .tracking-status { font-weight: 600; }
+    .status-approved { color: #22c55e; }
+    .status-pending { color: #fbbf24; }
+    .status-rejected { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <header class="fiori-header">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-6">
+      <div class="flex items-center gap-4">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">PR &amp; PO Tracking</span>
+      </div>
+      <button onclick="window.location.href='Buyer_Homepage.html'" class="fiori-btn flex items-center gap-2">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-4">
+    <div class="fiori-card mb-8">
+      <h2 class="text-xl font-semibold mb-6 text-blue-700">Purchase Requisition (PR) Tracking</h2>
+      <div class="mb-6">
+        <label for="prSelect" class="block text-sm font-medium text-gray-700 mb-2">Select PR Number</label>
+        <select id="prSelect" class="fiori-search w-64" onchange="renderPRTracking()">
+          <option value="PR-2024-001">PR-2024-001 - Office Chairs</option>
+          <option value="PR-2024-002">PR-2024-002 - Laptops</option>
+          <option value="PR-2024-003">PR-2024-003 - Printer</option>
+          <option value="PR-2024-004">PR-2024-004 - Server Rack</option>
+          <option value="PR-2024-005">PR-2024-005 - Air Conditioners</option>
+        </select>
+      </div>
+      <div id="prTrackingSteps" class="mb-8"></div>
+      <table class="tracking-table text-sm">
+        <thead>
+          <tr>
+            <th>PR Number</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Status</th>
+            <th>Created Date</th>
+            <th>Approved Date</th>
+            <th>Converted to PO</th>
+          </tr>
+        </thead>
+        <tbody id="prTrackingTable"></tbody>
+      </table>
+    </div>
+    <div class="fiori-card">
+      <h2 class="text-xl font-semibold mb-6 text-blue-700">Purchase Order (PO) Tracking</h2>
+      <div class="mb-6">
+        <label for="poSelect" class="block text-sm font-medium text-gray-700 mb-2">Select PO Number</label>
+        <select id="poSelect" class="fiori-search w-64" onchange="renderPOTracking()">
+          <option value="PO-2024-101">PO-2024-101 - Office Chairs</option>
+          <option value="PO-2024-102">PO-2024-102 - Laptops</option>
+          <option value="PO-2024-103">PO-2024-103 - Printer</option>
+          <option value="PO-2024-104">PO-2024-104 - Server Rack</option>
+          <option value="PO-2024-105">PO-2024-105 - Air Conditioners</option>
+        </select>
+      </div>
+      <div id="poTrackingSteps" class="mb-8"></div>
+      <table class="tracking-table text-sm">
+        <thead>
+          <tr>
+            <th>PO Number</th>
+            <th>Description</th>
+            <th>Supplier</th>
+            <th>Status</th>
+            <th>Approved Date</th>
+            <th>Sent to Supplier</th>
+            <th>Supplier Confirmation</th>
+          </tr>
+        </thead>
+        <tbody id="poTrackingTable"></tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    // Add more PRs with new steps: RFP Sent, Reverse Auction Completed
+    const prData = {
+      "PR-2024-001": {
+        number: "PR-2024-001",
+        description: "Office Chairs",
+        createdBy: "Priya Sharma",
+        status: "Converted to PO",
+        createdDate: "2024-06-01",
+        approvedDate: "2024-06-02",
+        convertedToPO: "PO-2024-101",
+        steps: [
+          { label: "PR Created", date: "2024-06-01", status: "done" },
+          { label: "PR Approval", date: "2024-06-02", status: "done" },
+          { label: "RFP Sent", date: "2024-06-02", status: "done" },
+          { label: "Reverse Auction Completed", date: "2024-06-03", status: "done" },
+          { label: "PR Converted to PO", date: "2024-06-03", status: "done" }
+        ]
+      },
+      "PR-2024-002": {
+        number: "PR-2024-002",
+        description: "Laptops",
+        createdBy: "Amit Verma",
+        status: "Approved",
+        createdDate: "2024-06-05",
+        approvedDate: "2024-06-06",
+        convertedToPO: "",
+        steps: [
+          { label: "PR Created", date: "2024-06-05", status: "done" },
+          { label: "PR Approval", date: "2024-06-06", status: "active" },
+          { label: "RFP Sent", date: "", status: "pending" },
+          { label: "Reverse Auction Completed", date: "", status: "pending" },
+          { label: "PR Converted to PO", date: "", status: "pending" }
+        ]
+      },
+      "PR-2024-003": {
+        number: "PR-2024-003",
+        description: "Printer",
+        createdBy: "Sonal Jain",
+        status: "Pending",
+        createdDate: "2024-06-10",
+        approvedDate: "",
+        convertedToPO: "",
+        steps: [
+          { label: "PR Created", date: "2024-06-10", status: "active" },
+          { label: "PR Approval", date: "", status: "pending" },
+          { label: "RFP Sent", date: "", status: "pending" },
+          { label: "Reverse Auction Completed", date: "", status: "pending" },
+          { label: "PR Converted to PO", date: "", status: "pending" }
+        ]
+      },
+      // Additional PRs
+      "PR-2024-004": {
+        number: "PR-2024-004",
+        description: "Server Rack",
+        createdBy: "Rahul Mehta",
+        status: "Converted to PO",
+        createdDate: "2024-06-12",
+        approvedDate: "2024-06-13",
+        convertedToPO: "PO-2024-104",
+        steps: [
+          { label: "PR Created", date: "2024-06-12", status: "done" },
+          { label: "PR Approval", date: "2024-06-13", status: "done" },
+          { label: "RFP Sent", date: "2024-06-13", status: "done" },
+          { label: "Reverse Auction Completed", date: "2024-06-14", status: "done" },
+          { label: "PR Converted to PO", date: "2024-06-14", status: "done" }
+        ]
+      },
+      "PR-2024-005": {
+        number: "PR-2024-005",
+        description: "Air Conditioners",
+        createdBy: "Meena Joshi",
+        status: "Approved",
+        createdDate: "2024-06-15",
+        approvedDate: "2024-06-16",
+        convertedToPO: "",
+        steps: [
+          { label: "PR Created", date: "2024-06-15", status: "done" },
+          { label: "PR Approval", date: "2024-06-16", status: "active" },
+          { label: "RFP Sent", date: "", status: "pending" },
+          { label: "Reverse Auction Completed", date: "", status: "pending" },
+          { label: "PR Converted to PO", date: "", status: "pending" }
+        ]
+      }
+    };
+
+    // Add more POs
+    const poData = {
+      "PO-2024-101": {
+        number: "PO-2024-101",
+        description: "Office Chairs",
+        supplier: "Acme Corp",
+        status: "Supplier Confirmed",
+        approvedDate: "2024-06-04",
+        sentToSupplier: "2024-06-05",
+        supplierConfirmation: "2024-06-06",
+        steps: [
+          { label: "PO Created", date: "2024-06-03", status: "done" },
+          { label: "PO Approval", date: "2024-06-04", status: "done" },
+          { label: "PO Sent to Supplier", date: "2024-06-05", status: "done" },
+          { label: "Supplier Confirmation", date: "2024-06-06", status: "done" }
+        ]
+      },
+      "PO-2024-102": {
+        number: "PO-2024-102",
+        description: "Laptops",
+        supplier: "Global Supplies",
+        status: "Sent to Supplier",
+        approvedDate: "2024-06-08",
+        sentToSupplier: "2024-06-09",
+        supplierConfirmation: "",
+        steps: [
+          { label: "PO Created", date: "2024-06-07", status: "done" },
+          { label: "PO Approval", date: "2024-06-08", status: "done" },
+          { label: "PO Sent to Supplier", date: "2024-06-09", status: "active" },
+          { label: "Supplier Confirmation", date: "", status: "pending" }
+        ]
+      },
+      "PO-2024-103": {
+        number: "PO-2024-103",
+        description: "Printer",
+        supplier: "Office Essentials",
+        status: "PO Approval",
+        approvedDate: "",
+        sentToSupplier: "",
+        supplierConfirmation: "",
+        steps: [
+          { label: "PO Created", date: "2024-06-12", status: "active" },
+          { label: "PO Approval", date: "", status: "pending" },
+          { label: "PO Sent to Supplier", date: "", status: "pending" },
+          { label: "Supplier Confirmation", date: "", status: "pending" }
+        ]
+      },
+      // Additional POs
+      "PO-2024-104": {
+        number: "PO-2024-104",
+        description: "Server Rack",
+        supplier: "Data Center Solutions",
+        status: "Supplier Confirmed",
+        approvedDate: "2024-06-15",
+        sentToSupplier: "2024-06-16",
+        supplierConfirmation: "2024-06-17",
+        steps: [
+          { label: "PO Created", date: "2024-06-14", status: "done" },
+          { label: "PO Approval", date: "2024-06-15", status: "done" },
+          { label: "PO Sent to Supplier", date: "2024-06-16", status: "done" },
+          { label: "Supplier Confirmation", date: "2024-06-17", status: "done" }
+        ]
+      },
+      "PO-2024-105": {
+        number: "PO-2024-105",
+        description: "Air Conditioners",
+        supplier: "Cooling Experts Ltd.",
+        status: "PO Approval",
+        approvedDate: "",
+        sentToSupplier: "",
+        supplierConfirmation: "",
+        steps: [
+          { label: "PO Created", date: "2024-06-18", status: "active" },
+          { label: "PO Approval", date: "", status: "pending" },
+          { label: "PO Sent to Supplier", date: "", status: "pending" },
+          { label: "Supplier Confirmation", date: "", status: "pending" }
+        ]
+      }
+    };
+
+    function renderPRTracking() {
+      const prNum = document.getElementById('prSelect').value;
+      const pr = prData[prNum];
+      // Tracking steps (Amazon/Flipkart style)
+      let stepsHtml = '<div class="flex items-center justify-between">';
+      pr.steps.forEach((step, idx) => {
+        stepsHtml += `
+          <div class="tracking-step flex-col items-center text-center">
+            <div class="tracking-dot ${step.status}">
+              ${step.status === 'done' ? '<i class="fas fa-check"></i>' : step.status === 'active' ? '<i class="fas fa-spinner fa-spin"></i>' : '<i class="fas fa-circle"></i>'}
+            </div>
+            <div class="tracking-label">${step.label}</div>
+            <div class="tracking-date">${step.date || ''}</div>
+          </div>
+          ${idx < pr.steps.length - 1 ? `<div class="tracking-line ${pr.steps[idx].status === 'done' ? 'done' : pr.steps[idx].status === 'active' ? 'active' : ''}"></div>` : ''}
+        `;
+      });
+      stepsHtml += '</div>';
+      document.getElementById('prTrackingSteps').innerHTML = stepsHtml;
+
+      // Table
+      document.getElementById('prTrackingTable').innerHTML = `
+        <tr>
+          <td>${pr.number}</td>
+          <td>${pr.description}</td>
+          <td>${pr.createdBy}</td>
+          <td class="tracking-status ${pr.status === 'Converted to PO' ? 'status-approved' : pr.status === 'Approved' ? 'status-approved' : pr.status === 'Pending' ? 'status-pending' : ''}">${pr.status}</td>
+          <td>${pr.createdDate}</td>
+          <td>${pr.approvedDate || '-'}</td>
+          <td>${pr.convertedToPO || '-'}</td>
+        </tr>
+      `;
+    }
+
+    function renderPOTracking() {
+      const poNum = document.getElementById('poSelect').value;
+      const po = poData[poNum];
+      // Tracking steps (Amazon/Flipkart style)
+      let stepsHtml = '<div class="flex items-center justify-between">';
+      po.steps.forEach((step, idx) => {
+        stepsHtml += `
+          <div class="tracking-step flex-col items-center text-center">
+            <div class="tracking-dot ${step.status}">
+              ${step.status === 'done' ? '<i class="fas fa-check"></i>' : step.status === 'active' ? '<i class="fas fa-spinner fa-spin"></i>' : '<i class="fas fa-circle"></i>'}
+            </div>
+            <div class="tracking-label">${step.label}</div>
+            <div class="tracking-date">${step.date || ''}</div>
+          </div>
+          ${idx < po.steps.length - 1 ? `<div class="tracking-line ${po.steps[idx].status === 'done' ? 'done' : po.steps[idx].status === 'active' ? 'active' : ''}"></div>` : ''}
+        `;
+      });
+      stepsHtml += '</div>';
+      document.getElementById('poTrackingSteps').innerHTML = stepsHtml;
+
+      // Table
+      document.getElementById('poTrackingTable').innerHTML = `
+        <tr>
+          <td>${po.number}</td>
+          <td>${po.description}</td>
+          <td>${po.supplier}</td>
+          <td class="tracking-status ${po.status === 'Supplier Confirmed' ? 'status-approved' : po.status === 'Sent to Supplier' ? 'status-pending' : po.status === 'PO Approval' ? 'status-pending' : ''}">${po.status}</td>
+          <td>${po.approvedDate || '-'}</td>
+          <td>${po.sentToSupplier || '-'}</td>
+          <td>${po.supplierConfirmation || '-'}</td>
+        </tr>
+      `;
+    }
+
+    // Update PR and PO dropdowns to include new items
+    window.onload = function() {
+      // PR dropdown
+      const prSelect = document.getElementById('prSelect');
+      prSelect.innerHTML = `
+        <option value="PR-2024-001">PR-2024-001 - Office Chairs</option>
+        <option value="PR-2024-002">PR-2024-002 - Laptops</option>
+        <option value="PR-2024-003">PR-2024-003 - Printer</option>
+        <option value="PR-2024-004">PR-2024-004 - Server Rack</option>
+        <option value="PR-2024-005">PR-2024-005 - Air Conditioners</option>
+      `;
+      // PO dropdown
+      const poSelect = document.getElementById('poSelect');
+      poSelect.innerHTML = `
+        <option value="PO-2024-101">PO-2024-101 - Office Chairs</option>
+        <option value="PO-2024-102">PO-2024-102 - Laptops</option>
+        <option value="PO-2024-103">PO-2024-103 - Printer</option>
+        <option value="PO-2024-104">PO-2024-104 - Server Rack</option>
+        <option value="PO-2024-105">PO-2024-105 - Air Conditioners</option>
+      `;
+      renderPRTracking();
+      renderPOTracking();
+    };
+  </script>
+</body>
+</html>

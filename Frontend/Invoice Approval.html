@@ -1,0 +1,696 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Invoice Verification & Approval</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    html, body {
+      font-family: "Inter", sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-btn:hover:not(:disabled) {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      color: #6b7280;
+    }
+    .tooltip-container:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    .tooltip-content {
+      visibility: hidden;
+      opacity: 0;
+      width: 280px;
+      background-color: white;
+      color: #374151;
+      text-align: left;
+      border: 1px solid #d1e0ef;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      position: absolute;
+      z-index: 50;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      white-space: normal;
+    }
+    .tooltip-content::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: white transparent transparent transparent;
+    }
+    .po-based {
+      background-color: #e0f2fe;
+    }
+    .non-po-based {
+      background-color: #fef3c7;
+    }
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .actions input[type="text"], .actions select {
+      flex-grow: 1;
+      min-width: 250px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--fiori-border);
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      outline-offset: 2px;
+      outline-color: var(--fiori-blue);
+      background: #fff;
+      color: var(--fiori-gray);
+    }
+    .actions button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .checkbox-cell {
+      width: 3rem;
+      text-align: center;
+    }
+    .invoice-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      color: #111827;
+    }
+    .invoice-cell img {
+      width: 32px;
+      height: 40px;
+      flex-shrink: 0;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid #d1e0ef;
+      background: white;
+    }
+    tbody tr:hover {
+      background-color: #f3f4f6;
+    }
+    /* Scrollbar styling for webkit */
+    .table-container::-webkit-scrollbar {
+      height: 12px;
+      width: 12px;
+    }
+    .table-container::-webkit-scrollbar-track {
+      background: #f9fafb;
+    }
+    .table-container::-webkit-scrollbar-thumb {
+      background-color: #9ca3af;
+      border-radius: 6px;
+      border: 3px solid #f9fafb;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <nav class="flex gap-4 ml-4">
+          <a href="PR_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PR Management</a>
+          <a href="PO_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">PO Management</a>
+          <a href="Invoice_Management.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Invoice Management</a>
+          <a href="Reports.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Reports</a>
+          <a href="Notifications.html" class="text-gray-700 hover:text-[var(--fiori-blue)] font-semibold px-3 py-1 rounded transition">Notifications</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Heading -->
+  <h1 class="text-2xl sm:text-3xl font-bold fiori-title tracking-tight text-center mt-4 mb-6">
+    Invoice Verification &amp; Approval
+  </h1>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="fiori-card">
+      <div class="actions" role="search">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search by Invoice, PO Number, Supplier, SPOC, Details..."
+          aria-label="Search invoices"
+        />
+        <select id="spocFilter" aria-label="Filter by SPOC" class="actions-select">
+          <option value="">All SPOCs</option>
+        </select>
+        <button
+          id="approveBtn"
+          class="fiori-btn"
+          disabled
+          aria-disabled="true"
+          type="button"
+        >
+          Approve Selected
+        </button>
+        <button
+          id="rejectBtn"
+          class="fiori-cancel-btn"
+          disabled
+          aria-disabled="true"
+          type="button"
+        >
+          Reject Selected
+        </button>
+      </div>
+      <div class="table-container" role="region" aria-labelledby="tableLabel" tabindex="0">
+        <table id="invoicesTable" role="table" aria-label="Invoice verification and approval table" aria-describedby="tableDesc" class="fiori-table min-w-full bg-white rounded-lg shadow divide-y divide-gray-200">
+          <caption id="tableLabel" class="sr-only">Invoice Verification and Approval Table</caption>
+          <thead>
+            <tr>
+              <th class="checkbox-cell" scope="col">
+                <input type="checkbox" id="selectAll" aria-label="Select all invoices">
+              </th>
+              <th scope="col">Invoice</th>
+              <th scope="col">PO Number</th>
+              <th scope="col">Details</th>
+              <th scope="col">Date</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Delivery Date</th>
+              <th scope="col">Supplier</th>
+              <th scope="col">SPOC</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" role="rowgroup">
+            <!-- Rows inserted dynamically -->
+          </tbody>
+        </table>
+        <p id="tableDesc" class="sr-only">Use the search box and SPOC filter to filter invoices. Select invoices to approve or reject.</p>
+      </div>
+    </div>
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back to Buyer Homepage"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+  </script>
+  <script>
+    // Begin original script
+    const invoices = [
+      {
+        invoice: "Invoice-001.pdf",
+        invoicePdfUrl: "https://example.com/invoices/Invoice-001.pdf",
+        poNumber: "PO-1001",
+        date: "2024-06-01",
+        quantity: 150,
+        amount: "INR 12,000",
+        deliveryDate: "2024-06-10",
+        supplier: "Supplier A",
+        spoc: "John Doe",
+        status: "Pending",
+        details: {
+          description: "Office supplies purchase including pens, papers, and folders.",
+          paymentTerms: "Net 30 days from invoice date",
+          tax: "18% GST",
+          currency: "INR",
+          notes: "Urgent processing required for monthly office restock."
+        },
+        isPoBased: true
+      },
+      {
+        invoice: "Invoice-002.pdf",
+        invoicePdfUrl: "https://example.com/invoices/Invoice-002.pdf",
+        poNumber: "Non-PO Invoice",
+        date: "2024-06-02",
+        quantity: null,
+        amount: "INR 18,000",
+        deliveryDate: "2024-06-12",
+        supplier: "Supplier B",
+        spoc: "Jane Smith",
+        status: "Pending",
+        details: {
+          description: "IT equipment purchase including laptops and accessories.",
+          paymentTerms: "Net 45 days with early payment discount",
+          tax: "18% GST",
+          currency: "INR",
+          notes: "Include warranty and support documents with delivery."
+        },
+        isPoBased: false
+      },
+      {
+        invoice: "Invoice-003.pdf",
+        invoicePdfUrl: "https://example.com/invoices/Invoice-003.pdf",
+        poNumber: "PO-1003",
+        date: "2024-06-03",
+        quantity: 100,
+        amount: "INR 7,500",
+        deliveryDate: "2024-06-15",
+        supplier: "Supplier C",
+        spoc: "John Doe",
+        status: "Pending",
+        details: {
+          description: "Furniture purchase including chairs and desks for new office.",
+          paymentTerms: "Net 30 days",
+          tax: "18% GST",
+          currency: "INR",
+          notes: "Delivery expected by end of month, handle with care."
+        },
+        isPoBased: true
+      },
+      {
+        invoice: "Invoice-004.pdf",
+        invoicePdfUrl: "https://example.com/invoices/Invoice-004.pdf",
+        poNumber: "Non-PO Invoice",
+        date: "2024-06-04",
+        quantity: null,
+        amount: "INR 22,500",
+        deliveryDate: "2024-06-20",
+        supplier: "Supplier D",
+        spoc: "Jane Smith",
+        status: "Pending",
+        details: {
+          description: "Annual software licenses for productivity tools.",
+          paymentTerms: "Net 60 days",
+          tax: "18% GST",
+          currency: "INR",
+          notes: "Subscription renewal for all employees."
+        },
+        isPoBased: false
+      },
+    ];
+
+    const tableBody = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const approveBtn = document.getElementById("approveBtn");
+    const rejectBtn = document.getElementById("rejectBtn");
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const spocFilter = document.getElementById("spocFilter");
+
+    let filteredInvoices = [...invoices];
+    let selectedInvoices = new Set();
+
+    // Populate SPOC filter options dynamically
+    function populateSpocFilter() {
+      const spocs = [...new Set(invoices.map(inv => inv.spoc))].sort();
+      spocs.forEach(spoc => {
+        const option = document.createElement("option");
+        option.value = spoc;
+        option.textContent = spoc;
+        spocFilter.appendChild(option);
+      });
+    }
+
+    function createDetailsTooltip(details) {
+      const container = document.createElement("div");
+      container.className = "tooltip-container";
+
+      const infoIcon = document.createElement("i");
+      infoIcon.className = "fas fa-info-circle";
+      container.appendChild(infoIcon);
+
+      const tooltip = document.createElement("div");
+      tooltip.className = "tooltip-content";
+
+      tooltip.innerHTML = `
+        <strong>Description:</strong> ${details.description}<br/>
+        <strong>Payment Terms:</strong> ${details.paymentTerms}<br/>
+        <strong>Tax:</strong> ${details.tax}<br/>
+        <strong>Currency:</strong> ${details.currency}<br/>
+        <strong>Notes:</strong> ${details.notes}
+      `;
+
+      container.appendChild(tooltip);
+      return container;
+    }
+
+    function renderTable(data) {
+      tableBody.innerHTML = "";
+      if (data.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 11;
+        td.className = "px-6 py-4 text-center text-gray-500";
+        td.textContent = "No invoices found.";
+        tr.appendChild(td);
+        tableBody.appendChild(tr);
+        return;
+      }
+
+      data.forEach((item) => {
+        const tr = document.createElement("tr");
+        tr.className = item.isPoBased ? "po-based" : "non-po-based";
+
+        // Checkbox cell
+        const checkboxTd = document.createElement("td");
+        checkboxTd.className = "checkbox-cell";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "cursor-pointer";
+        checkbox.setAttribute("aria-label", `Select ${item.invoice}`);
+        checkbox.checked = selectedInvoices.has(item.invoice);
+        checkbox.addEventListener("change", (e) => {
+          if (e.target.checked) {
+            selectedInvoices.add(item.invoice);
+          } else {
+            selectedInvoices.delete(item.invoice);
+          }
+          updateActionButtons();
+          updateSelectAllCheckbox();
+        });
+        checkboxTd.appendChild(checkbox);
+        tr.appendChild(checkboxTd);
+
+        // Invoice cell with icon and link to PDF
+        const invoiceTd = document.createElement("td");
+        invoiceTd.className = "invoice-cell";
+        const link = document.createElement("a");
+        link.href = item.invoicePdfUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.title = `Open ${item.invoice} PDF`;
+        const img = document.createElement("img");
+        img.src = "https://cdn-icons-png.flaticon.com/512/337/337946.png";
+        img.alt = `PDF icon for ${item.invoice}`;
+        img.width = 32;
+        img.height = 40;
+        link.appendChild(img);
+        const span = document.createElement("span");
+        span.textContent = item.invoice;
+        link.appendChild(span);
+        invoiceTd.appendChild(link);
+        tr.appendChild(invoiceTd);
+
+        // PO Number
+        const poTd = document.createElement("td");
+        poTd.textContent = item.poNumber;
+        tr.appendChild(poTd);
+
+        // Details with tooltip
+        const detailsTd = document.createElement("td");
+        const detailsTooltip = createDetailsTooltip(item.details);
+        detailsTd.appendChild(detailsTooltip);
+        tr.appendChild(detailsTd);
+
+        // Date
+        const dateTd = document.createElement("td");
+        dateTd.textContent = item.date;
+        tr.appendChild(dateTd);
+
+        // Quantity (blank for non-PO invoices)
+        const qtyTd = document.createElement("td");
+        qtyTd.textContent = item.isPoBased ? item.quantity : "";
+        tr.appendChild(qtyTd);
+
+        // Amount
+        const amountTd = document.createElement("td");
+        amountTd.textContent = item.amount;
+        tr.appendChild(amountTd);
+
+        // Delivery Date
+        const deliveryTd = document.createElement("td");
+        deliveryTd.textContent = item.deliveryDate;
+        tr.appendChild(deliveryTd);
+
+        // Supplier
+        const supplierTd = document.createElement("td");
+        supplierTd.textContent = item.supplier;
+        tr.appendChild(supplierTd);
+
+        // SPOC
+        const spocTd = document.createElement("td");
+        spocTd.textContent = item.spoc;
+        tr.appendChild(spocTd);
+
+        // Status
+        const statusTd = document.createElement("td");
+        const statusSpan = document.createElement("span");
+        statusSpan.className = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800";
+        statusSpan.textContent = "Pending";
+        statusTd.appendChild(statusSpan);
+        tr.appendChild(statusTd);
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function filterInvoices(query, spocFilterValue) {
+      query = query.toLowerCase();
+      return invoices.filter((inv) => {
+        const matchesSearch =
+          inv.invoice.toLowerCase().includes(query) ||
+          inv.poNumber.toLowerCase().includes(query) ||
+          inv.supplier.toLowerCase().includes(query) ||
+          inv.spoc.toLowerCase().includes(query) ||
+          (inv.details.description && inv.details.description.toLowerCase().includes(query)) ||
+          (inv.details.notes && inv.details.notes.toLowerCase().includes(query)) ||
+          (inv.details.paymentTerms && inv.details.paymentTerms.toLowerCase().includes(query)) ||
+          (inv.details.tax && inv.details.tax.toLowerCase().includes(query)) ||
+          (inv.details.currency && inv.details.currency.toLowerCase().includes(query));
+
+        const matchesSpoc = spocFilterValue === "" || inv.spoc === spocFilterValue;
+
+        return matchesSearch && matchesSpoc;
+      });
+    }
+
+    function updateActionButtons() {
+      const hasSelection = selectedInvoices.size > 0;
+      approveBtn.disabled = !hasSelection;
+      rejectBtn.disabled = !hasSelection;
+      approveBtn.setAttribute("aria-disabled", !hasSelection);
+      rejectBtn.setAttribute("aria-disabled", !hasSelection);
+    }
+
+    function updateSelectAllCheckbox() {
+      if (filteredInvoices.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+        return;
+      }
+      const allSelected = filteredInvoices.every(inv => selectedInvoices.has(inv.invoice));
+      const someSelected = filteredInvoices.some(inv => selectedInvoices.has(inv.invoice));
+      selectAllCheckbox.checked = allSelected;
+      selectAllCheckbox.indeterminate = !allSelected && someSelected;
+    }
+
+    function applyFilters() {
+      const searchQuery = searchInput.value;
+      const spocValue = spocFilter.value;
+      filteredInvoices = filterInvoices(searchQuery, spocValue);
+      // Remove from selectedInvoices any invoice not in filteredInvoices
+      selectedInvoices.forEach(inv => {
+        if (!filteredInvoices.find(fInv => fInv.invoice === inv)) {
+          selectedInvoices.delete(inv);
+        }
+      });
+      renderTable(filteredInvoices);
+      updateActionButtons();
+      updateSelectAllCheckbox();
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    spocFilter.addEventListener("change", applyFilters);
+
+    selectAllCheckbox.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        filteredInvoices.forEach(inv => selectedInvoices.add(inv.invoice));
+      } else {
+        filteredInvoices.forEach(inv => selectedInvoices.delete(inv.invoice));
+      }
+      renderTable(filteredInvoices);
+      updateActionButtons();
+      updateSelectAllCheckbox();
+    });
+
+    approveBtn.addEventListener("click", () => {
+      if (selectedInvoices.size === 0) return;
+      alert("Selected invoices approved.");
+      selectedInvoices.clear();
+      renderTable(filteredInvoices);
+      updateActionButtons();
+      updateSelectAllCheckbox();
+    });
+
+    rejectBtn.addEventListener("click", () => {
+      if (selectedInvoices.size === 0) return;
+      alert("Selected invoices rejected.");
+      selectedInvoices.clear();
+      renderTable(filteredInvoices);
+      updateActionButtons();
+      updateSelectAllCheckbox();
+    });
+
+    // Populate SPOC filter options dynamically
+    function populateSpocFilter() {
+      const spocs = [...new Set(invoices.map(inv => inv.spoc))].sort();
+      spocs.forEach(spoc => {
+        const option = document.createElement("option");
+        option.value = spoc;
+        option.textContent = spoc;
+        spocFilter.appendChild(option);
+      });
+    }
+
+    // Initial setup
+    populateSpocFilter();
+    renderTable(invoices);
+    updateActionButtons();
+    updateSelectAllCheckbox();
+  </script>
+</body>
+</html>

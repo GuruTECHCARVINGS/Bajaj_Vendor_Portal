@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buyer Dashboard - Functional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f3f6f9;
+      color: #355571;
+    }
+    .fiori-tile {
+      background: #fff;
+      border: 1px solid #d1e0ef;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+      padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 170px;
+      position: relative;
+      overflow: hidden;
+    }
+    .fiori-tile:hover {
+      border-color: #0a6ed1;
+      box-shadow: 0 4px 16px 0 #b8e0ff;
+    }
+    .fiori-tile-icon {
+      background: #eaf3fc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 2rem;
+    }
+    /* Remove any color property from .fiori-tile-icon so icon color is inherited from Font Awesome */
+    .fiori-tile-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #355571;
+      margin-bottom: 0.25rem;
+      transition: color 0.2s;
+    }
+    .fiori-tile:hover .fiori-tile-title {
+      color: #0a6ed1;
+    }
+    .fiori-tile-desc {
+      color: #6a7d94;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+    /* Header styles for Asset Master List */
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid #d1e0ef;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: #0a6ed1;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 24px 0 #eaf3fc, 0 1.5px 6px 0 #d1e0ef;
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background: #0a6ed1;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      transition: background 0.2s;
+      border: none;
+    }
+    .fiori-btn:hover,
+    .fiori-btn:focus {
+      background: #0854a0;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: #0a6ed1;
+      font-weight: 600;
+    }
+    .fiori-table td,
+    .fiori-table th {
+      padding: 0.75rem 0.5rem;
+      border-bottom: 1px solid #eaf3fc;
+    }
+    .fiori-table tr:last-child td {
+      border-bottom: none;
+    }
+    .fiori-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    .fiori-badge {
+      display: inline-block;
+      padding: 0.25em 0.75em;
+      border-radius: 1rem;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+    .badge-active {
+      background: #e0f7fa;
+      color: #009688;
+    }
+    .badge-maintenance {
+      background: #fff3e0;
+      color: #ff9800;
+    }
+    .badge-disposed {
+      background: #ffebee;
+      color: #e53935;
+    }
+    .fiori-search {
+      border: 1px solid #d1e0ef;
+      border-radius: 0.75rem;
+      padding: 0.5rem 1rem;
+      width: 300px;
+    }
+    .fiori-modal-bg {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .fiori-modal {
+      background: #fff;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 2rem;
+      box-shadow: 0 8px 32px 0 #b8e0ff;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16"
+    >
+      <div class="flex items-center space-x-3">
+        <img
+          alt="Bajaj Finserv Limited logo in orange and black colors, stylized text with orange icon"
+          class="h-10 w-auto"
+          height="40"
+          src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg"
+          width="80"
+        />
+        <h1 class="text-xl font-semibold text-gray-800">Buyer Dashboard</h1>
+      </div>
+      <nav
+        class="hidden md:flex space-x-6 text-gray-600 font-medium"
+        aria-label="Primary Navigation"
+      >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./PR Creation and navigation_buyer.html"
+          role="link"
+          tabindex="0"
+          >PR Management</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./PO_creation and PO_change navigation.html"
+          role="link"
+          tabindex="0"
+          >PO Management</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./vendor_invoice_view_buyer.html"
+          role="link"
+          tabindex="0"
+          >Invoice</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./Budget Management.html"
+          role="link"
+          tabindex="0"
+          >Budget</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./Advance Payment.html"
+          role="link"
+          tabindex="0"
+          >Advance Payment</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./RFP and Reverse Auction.html"
+          role="link"
+          tabindex="0"
+          >Sourcing</a
+        >
+        <a
+          class="hover:text-blue-600 transition"
+          href="./Reports_Buyer.html"
+          role="link"
+          tabindex="0"
+          >Reports</a
+        >
+      </nav>
+      <div class="md:hidden">
+        <button
+          aria-label="Open menu"
+          class="text-gray-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 rounded"
+          id="mobile-menu-button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <i class="fas fa-bars fa-lg"></i>
+        </button>
+      </div>
+      <!-- Profile icon and dropdown -->
+      <div class="relative ml-4">
+        <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-600">
+          <i class="fas fa-user-circle fa-2x"></i>
+        </button>
+        <!-- Profile Dropdown -->
+        <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+          <div class="p-4 border-b border-blue-50">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                <i class="fas fa-user fa-2x"></i>
+              </div>
+              <div>
+                <div class="font-semibold text-blue-600">Priya Sharma</div>
+                <div class="text-sm text-gray-700">priya.sharma@bajaj.com</div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 space-y-2">
+            <div class="text-sm text-gray-700"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+            <div class="text-sm text-gray-700"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+            <div class="text-sm text-gray-700"><span class="font-semibold">Role:</span> Buyer</div>
+            <a href="profile_settings.html" class="block text-blue-600 hover:underline text-sm mt-2"><i class="fas fa-user-cog mr-2"></i>Profile Settings</a>
+            <a href="change_password.html" class="block text-blue-600 hover:underline text-sm"><i class="fas fa-key mr-2"></i>Change Password</a>
+          </div>
+          <div class="border-t border-blue-50">
+            <button
+              onclick="window.location.href='login_screen.html'"
+              class="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 font-semibold flex items-center gap-2"
+              type="button"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <nav
+      class="hidden md:hidden bg-white border-t border-gray-200"
+      id="mobile-menu"
+      aria-label="Mobile Navigation"
+    >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#pr"
+        role="link"
+        tabindex="0"
+        >PR Management</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#po"
+        role="link"
+        tabindex="0"
+        >PO Management</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#invoice"
+        role="link"
+        tabindex="0"
+        >Invoice</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#budget"
+        role="link"
+        tabindex="0"
+        >Budget</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#advance"
+        role="link"
+        tabindex="0"
+        >Advance Payment</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#sourcing"
+        role="link"
+        tabindex="0"
+        >Sourcing</a
+      >
+      <a
+        class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium"
+        href="#reports"
+        role="link"
+        tabindex="0"
+        >Reports</a
+      >
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h2 class="text-3xl font-semibold text-gray-900 mb-8">Welcome, Buyer</h2>
+
+    <!-- Grid container for cards -->
+    <section
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+      aria-label="Dashboard Features"
+    >
+      <!-- PR Creation & Change -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./PR Creation and navigation_buyer.html';">
+        <div class="fiori-tile-icon"><i class="fas fa-file-alt text-blue-600"></i></div>
+        <span class="fiori-tile-title">PR Creation &amp; Change</span>
+        <span class="fiori-tile-desc">Opex &amp; Capex Purchase Requisitions</span>
+      </button>
+      <!-- PR Approval and PR Change Approval -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='3_PR_Approval_Screen.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-check-circle text-green-600"></i></div>
+        <span class="fiori-tile-title">PR Approval and PR Change Approval</span>
+        <span class="fiori-tile-desc">Approve Purchase Requisitions &amp; Changes</span>
+      </button>
+      <!-- PO Approval and PO Change Approval -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='PO_Approval and PO_change_navigation.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-edit text-yellow-600"></i></div>
+        <span class="fiori-tile-title">PO Approval and PO Change Approval</span>
+        <span class="fiori-tile-desc">Approve Purchase Orders and their Modifications</span>
+      </button>
+      <!-- PO Creation & Send to Supplier -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='PO_creation and PO_change navigation.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-file-invoice text-indigo-600"></i></div>
+        <span class="fiori-tile-title">PO Creation &amp; Send to Supplier</span>
+        <span class="fiori-tile-desc">Generate and Dispatch Purchase Orders</span>
+      </button>
+      <!-- PR & PO Tracking -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='PR_PO_Tracking.html';">
+        <div class="fiori-tile-icon"><i class="fas fa-route text-pink-600"></i></div>
+        <span class="fiori-tile-title">PR &amp; PO Tracking</span>
+        <span class="fiori-tile-desc">Track PR &amp; PO status, approvals, and supplier actions</span>
+      </button>
+      <!-- PO Confirmation by Supplier -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./vendor_accepted and rejected_PO.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-truck text-purple-600"></i></div>
+        <span class="fiori-tile-title">PO Confirmation by Supplier</span>
+        <span class="fiori-tile-desc">Supplier Acknowledgement of Orders</span>
+      </button>
+      <!-- PO Based Invoice & Approval -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./vendor_invoice_view_buyer.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-file-invoice-dollar text-green-700"></i></div>
+        <span class="fiori-tile-title">PO Based Invoice &amp; Approval</span>
+        <span class="fiori-tile-desc">Invoice Processing &amp; Validation</span>
+      </button>
+      <!-- Budget Management -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./Budget Management.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-wallet text-orange-600"></i></div>
+        <span class="fiori-tile-title">Budget Management</span>
+        <span class="fiori-tile-desc">Track and Control Budgets</span>
+      </button>
+      <!-- Credit Note -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./View credit Note Buyer.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-file-invoice-dollar text-orange-500"></i></div>
+        <span class="fiori-tile-title">Credit Note</span>
+        <span class="fiori-tile-desc">Manage Credit Notes &amp; Adjustments</span>
+      </button>
+      <!-- Petty Cash & Cash Advance -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./Petty Cash and Cash Advance.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-cash-register text-lime-600"></i></div>
+        <span class="fiori-tile-title">Petty Cash &amp; Cash Advance</span>
+        <span class="fiori-tile-desc">Manage Small Cash Transactions</span>
+      </button>
+      <!-- Sourcing – RFP & Reverse Auction -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./RFP_andReverse_Auction_Navigatingscreen.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-gavel text-fuchsia-600"></i></div>
+        <span class="fiori-tile-title">Sourcing – RFP &amp; Reverse Auction</span>
+        <span class="fiori-tile-desc">Manage Requests for Proposal &amp; Auctions</span>
+      </button>
+      <!-- Reports -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./Reports_Buyer.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-chart-bar text-gray-700"></i></div>
+        <span class="fiori-tile-title">Reports</span>
+        <span class="fiori-tile-desc">View and Export Procurement Reports</span>
+      </button>
+      <!-- Asset Master -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='Asset_Master.html';">
+        <div class="fiori-tile-icon"><i class="fas fa-boxes text-cyan-600"></i></div>
+        <span class="fiori-tile-title">Asset Master</span>
+        <span class="fiori-tile-desc">Manage Asset Master Data</span>
+      </button>
+      <!-- Notifications -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="document.getElementById('notificationPanel').classList.toggle('hidden');">
+        <div class="fiori-tile-icon"><i class="fas fa-bell text-red-500"></i></div>
+        <span class="fiori-tile-title">Notifications</span>
+        <span class="fiori-tile-desc">View recent system notifications</span>
+      </button>
+      <!-- Bulk Processing Center -->
+      <button class="fiori-tile group focus:outline-none"
+        onclick="window.location.href='./Bulk_processing.html'">
+        <div class="fiori-tile-icon"><i class="fas fa-layer-group text-blue-700"></i></div>
+        <span class="fiori-tile-title">Bulk Processing Center</span>
+        <span class="fiori-tile-desc">Manage and process PR, PO, and Invoices in bulk</span>
+      </button>
+    </section>
+
+    <!-- Modals container -->
+    <div id="modals-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Notification Panel (sample data) -->
+    <div id="notificationPanel" class="hidden max-w-2xl mx-auto mt-8 bg-white border border-blue-100 rounded-lg shadow-lg p-6">
+      <h3 class="text-xl font-semibold text-blue-700 mb-4 flex items-center gap-2">
+        <i class="fas fa-bell text-red-500"></i>
+        Notifications
+      </h3>
+      <ul class="divide-y divide-blue-50">
+        <li class="py-3 flex items-start gap-3">
+          <span class="inline-block mt-1 text-blue-500"><i class="fas fa-check-circle"></i></span>
+          <div>
+            <div class="font-semibold text-gray-800">PO #1001 Approved</div>
+            <div class="text-sm text-gray-500">Your purchase order #1001 has been approved by the manager.</div>
+            <div class="text-xs text-gray-400 mt-1">2 hours ago</div>
+          </div>
+        </li>
+        <li class="py-3 flex items-start gap-3">
+          <span class="inline-block mt-1 text-yellow-500"><i class="fas fa-exclamation-triangle"></i></span>
+          <div>
+            <div class="font-semibold text-gray-800">Budget Limit Warning</div>
+            <div class="text-sm text-gray-500">Budget for Marketing exceeded 90% utilization.</div>
+            <div class="text-xs text-gray-400 mt-1">Today, 09:15 AM</div>
+          </div>
+        </li>
+        <li class="py-3 flex items-start gap-3">
+          <span class="inline-block mt-1 text-green-500"><i class="fas fa-file-invoice"></i></span>
+          <div>
+            <div class="font-semibold text-gray-800">Invoice #INV-2024 Received</div>
+            <div class="text-sm text-gray-500">A new invoice INV-2024 has been received from Supplier X.</div>
+            <div class="text-xs text-gray-400 mt-1">Yesterday, 5:30 PM</div>
+          </div>
+        </li>
+        <li class="py-3 flex items-start gap-3">
+          <span class="inline-block mt-1 text-purple-500"><i class="fas fa-user-plus"></i></span>
+          <div>
+            <div class="font-semibold text-gray-800">New Supplier Registered</div>
+            <div class="text-sm text-gray-500">Supplier Y has completed registration and is now active.</div>
+            <div class="text-xs text-gray-400 mt-1">Yesterday, 11:00 AM</div>
+          </div>
+        </li>
+      </ul>
+      <div class="mt-4">
+        <button
+          onclick="document.getElementById('notificationPanel').classList.add('hidden');"
+          class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          type="button"
+        >
+          <i class="fas fa-check"></i>
+          Acknowledge All
+        </button>
+      </div>
+    </div>
+  </main>
+  <script>
+    // Add this script at the end of your body if not already present
+    document.getElementById('profileMenuButton').addEventListener('click', function () {
+      var dropdown = document.getElementById('profileDropdown');
+      dropdown.classList.toggle('hidden');
+    });
+    // Optional: Hide dropdown when clicking outside
+    document.addEventListener('click', function (event) {
+      var dropdown = document.getElementById('profileDropdown');
+      var button = document.getElementById('profileMenuButton');
+      if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

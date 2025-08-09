@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vendor Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #eaf3fc 0%, #f3f6f9 100%);
+      min-height: 100vh;
+    }
+    .sap-login-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 24px 0 #eaf3fc, 0 1.5px 6px 0 #d1e0ef;
+      padding: 2.5rem 2rem 2rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      margin: 0 auto;
+      animation: fadeIn 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .sap-title {
+      color: #0a6ed1;
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: 0.01em;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .sap-label {
+      color: #0a6ed1;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      display: block;
+      text-align: left;
+    }
+    .sap-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1e0ef;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      margin-bottom: 1.25rem;
+      background: #f3f6f9;
+      color: #355571;
+      transition: border 0.2s;
+    }
+    .sap-input:focus {
+      border-color: #0a6ed1;
+      outline: none;
+      background: #fff;
+    }
+    .sap-btn {
+      width: 100%;
+      background: #0a6ed1;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 0.75rem 0;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+      border: none;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+    }
+    .sap-btn:hover, .sap-btn:focus {
+      background: #0854a0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-[linear-gradient(135deg,#eaf3fc_0%,#f3f6f9_100%)]">
+  <div class="sap-login-card">
+    <h1 class="sap-title mb-4">Vendor Registration</h1>
+    <form id="vendorRegistrationForm" autocomplete="on">
+      <label for="companyName" class="sap-label">Company Name</label>
+      <input id="companyName" name="companyName" type="text" class="sap-input" required placeholder="Enter company name" />
+
+      <label for="contactPerson" class="sap-label">Contact Person</label>
+      <input id="contactPerson" name="contactPerson" type="text" class="sap-input" required placeholder="Enter contact person name" />
+
+      <label for="email" class="sap-label">Email</label>
+      <input id="email" name="email" type="email" class="sap-input" required placeholder="Enter email address" />
+
+      <label for="phone" class="sap-label">Phone Number</label>
+      <input id="phone" name="phone" type="tel" class="sap-input" required placeholder="Enter phone number" />
+
+      <label for="gst" class="sap-label">GST Number</label>
+      <input id="gst" name="gst" type="text" class="sap-input" required placeholder="Enter GST number" />
+
+      <label for="address" class="sap-label">Company Address</label>
+      <textarea id="address" name="address" class="sap-input" required placeholder="Enter company address"></textarea>
+
+      <label for="bank" class="sap-label">Bank Account Number</label>
+      <input id="bank" name="bank" type="text" class="sap-input" required placeholder="Enter bank account number" />
+
+      <label for="ifsc" class="sap-label">IFSC Code</label>
+      <input id="ifsc" name="ifsc" type="text" class="sap-input" required placeholder="Enter IFSC code" />
+
+      <button type="submit" class="sap-btn">Register</button>
+    </form>
+    <div class="mt-4 text-center">
+      <a href="login_screen.html" class="sap-link text-sm">Back to Login</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById('vendorRegistrationForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Collect form data
+      const formData = {
+        companyName: document.getElementById('companyName').value,
+        contactPerson: document.getElementById('contactPerson').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        gst: document.getElementById('gst').value,
+        address: document.getElementById('address').value,
+        bank: document.getElementById('bank').value,
+        ifsc: document.getElementById('ifsc').value
+      };
+
+      // Send registration data to backend for buyer verification
+      fetch('http://localhost:5000/vendor/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert('Registration successful! Your details will be verified by the buyer. Once approved, your Vendor ID and password will be sent to your email.');
+          window.location.href = "login_screen.html";
+        } else {
+          alert(data.message || 'Registration failed. Please try again.');
+        }
+      })
+      .catch(error => {
+        alert('Registration failed: ' + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

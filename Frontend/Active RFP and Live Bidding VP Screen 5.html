@@ -1,0 +1,378 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Active RFPs - Vendor Entry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f3f6f9;
+      color: #355571;
+    }
+    .fiori-card {
+      background: #fff;
+      border: 1px solid #d1e0ef;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 #eaf3fc;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: #0a6ed1;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-btn {
+      background-color: #0a6ed1;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: #0854a0;
+    }
+    .fiori-section-title {
+      color: #0a6ed1;
+      font-weight: 600;
+    }
+    .fiori-bid {
+      color: #0a6ed1;
+      background: #eaf3fc;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      font-size: 2rem;
+      display: inline-block;
+    }
+    .fiori-timer {
+      background: #0a6ed1;
+      color: #fff;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      font-size: 2rem;
+      padding: 0.5rem 2rem;
+      letter-spacing: 0.05em;
+    }
+    .fiori-history {
+      background: #eaf3fc;
+      border: 1px solid #b8e0ff;
+      border-radius: 0.75rem;
+      padding: 1rem;
+    }
+    .fiori-history-item {
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      border: 1px solid #eaf3fc;
+    }
+    .fiori-footer {
+      border-top: 1px solid #d1e0ef;
+      background: #fff;
+      color: #355571;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6 space-y-6 bg-[#f3f6f9]">
+  <div id="rfpListScreen" class="w-full max-w-3xl fiori-card">
+    <h1 class="text-3xl font-extrabold mb-6 text-center fiori-title">Active RFPs</h1>
+    <ul id="rfpList" class="space-y-4">
+      <!-- RFP items will be rendered here -->
+    </ul>
+  </div>
+
+  <div id="biddingScreen" class="hidden w-full max-w-3xl fiori-card">
+    <header class="flex justify-between items-center mb-6">
+      <div>
+        <h1 id="rfpTitle" class="text-2xl font-extrabold fiori-title">LIVE REVERSE AUCTION</h1>
+        <p id="rfpNumber" class="font-semibold" style="color:#0a6ed1;">RFP #12345</p>
+        <p id="rfpDescription" class="mt-2 text-[#355571] max-w-xl leading-relaxed">
+          This Request for Proposal (RFP) is for the procurement of office supplies including paper, pens, and other stationery items.
+        </p>
+      </div>
+      <div id="timer" class="fiori-timer select-none">
+        05:32
+      </div>
+    </header>
+
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold mb-2 fiori-section-title">Your Current Bid</h2>
+      <div id="currentBid" class="fiori-bid">
+        INR 25,000
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <h2 class="text-lg font-semibold mb-2 fiori-section-title">Place a New Bid</h2>
+      <form id="bidForm" class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
+        <input
+          type="number"
+          id="bidInput"
+          name="bidInput"
+          min="1000"
+          step="100"
+          placeholder="Enter your bid (INR)"
+          class="border border-[#b8e0ff] rounded-lg px-4 py-2 w-full sm:w-48 focus:outline-none focus:ring-2 focus:ring-[#0a6ed1]"
+          required
+        />
+        <button
+          type="submit"
+          class="fiori-btn px-6 py-2"
+        >
+          Submit Bid
+        </button>
+      </form>
+      <p id="bidError" class="text-red-600 mt-2 hidden"></p>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-2 fiori-section-title">Bid History</h2>
+      <ul
+        id="bidHistory"
+        class="max-h-48 overflow-y-auto fiori-history"
+      >
+        <!-- Bid items will appear here -->
+      </ul>
+    </section>
+
+    <button
+      id="backBtn"
+      class="mt-6 bg-[#eaf3fc] text-[#0a6ed1] border border-[#b8e0ff] hover:bg-[#d1e0ef] px-6 py-2 rounded font-semibold transition flex items-center gap-2"
+    >
+      <span>&larr; Back to RFP List</span>
+    </button>
+  </div>
+
+  <!-- Back to Home Button (Fiori style) -->
+  <div class="w-full max-w-3xl flex justify-end mt-4">
+    <button
+      onclick="window.location.href='Vendor_Hompage_Screen_1.html'"
+      class="bg-[#eaf3fc] text-[#0a6ed1] border border-[#b8e0ff] hover:bg-[#d1e0ef] px-6 py-2 rounded font-semibold transition flex items-center gap-2"
+      type="button"
+    >
+      <i class="fas fa-arrow-left"></i>
+      <span>Back</span>
+    </button>
+  </div>
+
+  <footer class="fiori-footer py-6 mt-12 text-center text-sm w-full">
+    © 2024 Vendor Bidding Portal. All rights reserved.
+  </footer>
+
+  <script>
+    const rfpListScreen = document.getElementById("rfpListScreen");
+    const biddingScreen = document.getElementById("biddingScreen");
+    const rfpList = document.getElementById("rfpList");
+    const rfpTitle = document.getElementById("rfpTitle");
+    const rfpNumber = document.getElementById("rfpNumber");
+    const rfpDescription = document.getElementById("rfpDescription");
+    const timerEl = document.getElementById("timer");
+    const currentBidEl = document.getElementById("currentBid");
+    const bidForm = document.getElementById("bidForm");
+    const bidInput = document.getElementById("bidInput");
+    const bidError = document.getElementById("bidError");
+    const bidHistory = document.getElementById("bidHistory");
+    const backBtn = document.getElementById("backBtn");
+
+    // Sample active RFPs data
+    const activeRFPs = [
+      {
+        id: 1,
+        title: "Office Supplies Auction",
+        number: "RFP #12345",
+        description: "Procurement of office supplies including paper, pens, and other stationery items.",
+        timerSeconds: 5 * 60 + 32,
+        startingBid: 25000,
+        bids: [
+          { amount: 26000, time: new Date(Date.now() - 60000 * 5) },
+          { amount: 25500, time: new Date(Date.now() - 60000 * 3) },
+          { amount: 25200, time: new Date(Date.now() - 60000 * 1) },
+          { amount: 25000, time: new Date() },
+        ],
+      },
+      {
+        id: 2,
+        title: "IT Equipment Auction",
+        number: "RFP #12346",
+        description: "Procurement of IT equipment including laptops, monitors, and accessories.",
+        timerSeconds: 10 * 60 + 0,
+        startingBid: 50000,
+        bids: [
+          { amount: 52000, time: new Date(Date.now() - 60000 * 10) },
+          { amount: 51000, time: new Date(Date.now() - 60000 * 7) },
+          { amount: 50500, time: new Date(Date.now() - 60000 * 4) },
+          { amount: 50000, time: new Date() },
+        ],
+      },
+      {
+        id: 3,
+        title: "Furniture Auction",
+        number: "RFP #12347",
+        description: "Procurement of office furniture including desks, chairs, and cabinets.",
+        timerSeconds: 8 * 60 + 15,
+        startingBid: 30000,
+        bids: [
+          { amount: 32000, time: new Date(Date.now() - 60000 * 8) },
+          { amount: 31000, time: new Date(Date.now() - 60000 * 5) },
+          { amount: 30500, time: new Date(Date.now() - 60000 * 2) },
+          { amount: 30000, time: new Date() },
+        ],
+      },
+    ];
+
+    let currentRFP = null;
+    let totalSeconds = 0;
+    let currentBid = 0;
+    let timerInterval;
+
+    // Format time difference as "X min ago"
+    function timeAgo(date) {
+      const diffMs = Date.now() - date.getTime();
+      const diffMins = Math.floor(diffMs / 60000);
+      if (diffMins === 0) return "Just now";
+      if (diffMins === 1) return "1 min ago";
+      return `${diffMins} min ago`;
+    }
+
+    // Format number with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Render RFP list
+    function renderRFPList() {
+      rfpList.innerHTML = "";
+      activeRFPs.forEach((rfp) => {
+        const li = document.createElement("li");
+        li.className = "bg-[#eaf3fc] border border-[#b8e0ff] rounded-lg p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center";
+        li.innerHTML = `
+          <div class="mb-3 sm:mb-0">
+            <h3 class="text-xl font-semibold fiori-title">${rfp.title}</h3>
+            <p class="text-[#0a6ed1]">${rfp.number}</p>
+            <p class="text-[#355571] mt-1 max-w-lg">${rfp.description}</p>
+          </div>
+          <button class="enterBtn fiori-btn px-5 py-2 w-full sm:w-auto mt-2 sm:mt-0" data-id="${rfp.id}">
+            Enter to Bid
+          </button>
+        `;
+        rfpList.appendChild(li);
+      });
+
+      // Add event listeners to all enter buttons
+      document.querySelectorAll(".enterBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const rfpId = Number(btn.getAttribute("data-id"));
+          enterRFP(rfpId);
+        });
+      });
+    }
+
+    // Enter selected RFP bidding screen
+    function enterRFP(rfpId) {
+      currentRFP = activeRFPs.find((r) => r.id === rfpId);
+      if (!currentRFP) return;
+
+      rfpTitle.textContent = currentRFP.title;
+      rfpNumber.textContent = currentRFP.number;
+      rfpDescription.textContent = currentRFP.description;
+      totalSeconds = currentRFP.timerSeconds;
+      currentBid = currentRFP.startingBid;
+      currentBidEl.textContent = `INR ${formatNumber(currentBid)}`;
+
+      renderBidHistory();
+
+      rfpListScreen.classList.add("hidden");
+      biddingScreen.classList.remove("hidden");
+
+      if (timerInterval) clearInterval(timerInterval);
+      updateTimer();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // Render bid history for current RFP
+    function renderBidHistory() {
+      bidHistory.innerHTML = "";
+      if (!currentRFP) return;
+      currentRFP.bids
+        .slice()
+        .reverse()
+        .forEach((bid) => {
+          const li = document.createElement("li");
+          li.className = "fiori-history-item";
+          li.innerHTML = `
+            <span class="font-semibold" style="color:#0a6ed1;">INR ${formatNumber(bid.amount)}</span>
+            <span class="text-[#355571] text-sm">${timeAgo(bid.time)}</span>
+          `;
+          bidHistory.appendChild(li);
+        });
+    }
+
+    // Update timer display and countdown
+    function updateTimer() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      timerEl.textContent =
+        (minutes < 10 ? "0" + minutes : minutes) +
+        ":" +
+        (seconds < 10 ? "0" + seconds : seconds);
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      } else {
+        clearInterval(timerInterval);
+      }
+    }
+
+    // Handle bid submission
+    bidForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      bidError.classList.add("hidden");
+      const newBid = Number(bidInput.value);
+
+      if (isNaN(newBid) || newBid <= 0) {
+        bidError.textContent = "Please enter a valid positive number.";
+        bidError.classList.remove("hidden");
+        return;
+      }
+      if (newBid >= currentBid) {
+        bidError.textContent = "Your bid must be lower than your current bid.";
+        bidError.classList.remove("hidden");
+        return;
+      }
+      if (newBid < 1000) {
+        bidError.textContent = "Minimum bid amount is INR 1,000.";
+        bidError.classList.remove("hidden");
+        return;
+      }
+
+      // Update current bid and add to bids
+      currentBid = newBid;
+      currentBidEl.textContent = `INR ${formatNumber(currentBid)}`;
+      currentRFP.bids.push({ amount: currentBid, time: new Date() });
+      renderBidHistory();
+
+      // Clear input
+      bidInput.value = "";
+    });
+
+    // Back button to RFP list
+    backBtn.addEventListener("click", () => {
+      biddingScreen.classList.add("hidden");
+      rfpListScreen.classList.remove("hidden");
+      if (timerInterval) clearInterval(timerInterval);
+    });
+
+    // Initial render
+    renderRFPList();
+  </script>
+</body>
+</html>

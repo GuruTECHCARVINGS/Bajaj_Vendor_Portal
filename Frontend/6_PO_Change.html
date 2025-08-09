@@ -1,0 +1,365 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Change Purchase Order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-form-label {
+      color: var(--fiori-label);
+      font-weight: 600;
+    }
+    .fiori-table th {
+      background: #eaf3fc;
+      color: var(--fiori-blue);
+      font-weight: 700;
+    }
+    .fiori-table th, .fiori-table td {
+      border: 1px solid var(--fiori-border);
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+    /* Hide default input number arrows */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">Change Purchase Order</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow flex items-center justify-center p-4">
+    <div class="fiori-card max-w-4xl w-full">
+      <!-- Back Button -->
+      <button
+        type="button"
+        onclick="window.location.href='PO_creation and PO_change navigation.html';"
+        class="fiori-cancel-btn mb-6 flex items-center gap-2 px-5 py-2 text-sm"
+        aria-label="Go back"
+      >
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <header class="flex justify-between items-center border-b border-[var(--fiori-border)] px-6 py-4 mb-6">
+        <h1 class="fiori-title text-lg uppercase tracking-wide">Change Purchase Order</h1>
+        <div class="flex gap-3">
+          <button
+            type="button"
+            class="fiori-cancel-btn px-4 py-2 text-sm font-normal"
+            id="cancelBtn"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="fiori-btn px-4 py-2 text-sm font-semibold"
+            id="saveBtn"
+          >
+            Save
+          </button>
+        </div>
+      </header>
+      <form class="px-6 py-6 space-y-6">
+        <section>
+          <h2 class="fiori-title text-base mb-2">General Data</h2>
+          <div class="flex flex-wrap gap-6 text-[var(--fiori-gray)] text-sm mb-6">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="cost-type"
+                value="opex"
+                checked
+                class="text-[var(--fiori-blue)] focus:ring-[var(--fiori-blue)]"
+              />
+              Opex
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="cost-type"
+                value="capex"
+                class="text-[var(--fiori-blue)] focus:ring-[var(--fiori-blue)]"
+              />
+              Capex
+            </label>
+          </div>
+          <div class="mb-6">
+            <label for="po-number" class="block fiori-form-label mb-1">PO Number</label>
+            <input id="po-number" type="text" value="PO-654321" class="fiori-input" />
+          </div>
+          <div class="mb-6">
+            <label for="pr-number" class="block fiori-form-label mb-1">PR Number</label>
+            <input id="pr-number" type="text" value="PR-123456" class="fiori-input" />
+          </div>
+          <div class="mb-6">
+            <label for="title" class="block fiori-form-label mb-1">Title</label>
+            <input id="title" type="text" value="Office Supplies Purchase" class="fiori-input" />
+          </div>
+          <div class="mb-6">
+            <label for="date" class="block fiori-form-label mb-1">Date</label>
+            <div class="relative">
+              <input id="date" type="date" value="2024-04-24" class="fiori-input pr-10" />
+              <i class="fas fa-calendar-alt absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="requestor" class="block fiori-form-label mb-1">Requestor</label>
+            <input id="requestor" type="text" value="John Doe" class="fiori-input" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-6 mb-6 text-sm">
+            <div>
+              <label for="purchase-org" class="block fiori-form-label mb-1">Purchase Org</label>
+              <select id="purchase-org" class="fiori-input">
+                <option>1000 - North America</option>
+              </select>
+            </div>
+            <div>
+              <label for="supplier" class="block fiori-form-label mb-1">Supplier</label>
+              <select id="supplier" class="fiori-input">
+                <option>SUP001 - Acme Corp</option>
+              </select>
+            </div>
+            <div>
+              <label for="account-type" class="block fiori-form-label mb-1">Account Type</label>
+              <select id="account-type" class="fiori-input">
+                <option>K - Cost Center</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-6 mb-6 text-sm">
+            <div>
+              <label for="payment-terms" class="block fiori-form-label mb-1">Payment Terms</label>
+              <select id="payment-terms" class="fiori-input">
+                <option>0001 - Net 30 Days</option>
+              </select>
+            </div>
+            <div>
+              <label for="plant" class="block fiori-form-label mb-1">Plant</label>
+              <select id="plant" class="fiori-input">
+                <option>PL01 - Main Plant</option>
+              </select>
+            </div>
+            <div>
+              <label for="company-code" class="block fiori-form-label mb-1">Company code</label>
+              <select id="company-code" class="fiori-input">
+                <option>C001 - ABC Ltd.</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="procurement-type" class="block fiori-form-label mb-1">Procurement Type</label>
+            <select id="procurement-type" class="fiori-input">
+              <option>Standard</option>
+            </select>
+          </div>
+        </section>
+        <section>
+          <h3 class="fiori-title text-base mb-2">Items</h3>
+          <div class="overflow-x-auto border border-[var(--fiori-border)] rounded-md">
+            <table class="min-w-[700px] w-full text-sm text-left text-[var(--fiori-gray)] fiori-table">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>UoM</th>
+                  <th>Price</th>
+                  <th>Delivery Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" value="MAT-001" class="w-20 fiori-input" />
+                  </td>
+                  <td class="text-center">
+                    <i class="fas fa-couch text-gray-600 text-lg" aria-hidden="true" title="Icon representing furniture type"></i>
+                  </td>
+                  <td>
+                    <input type="text" value="Desk Chair" class="w-28 fiori-input" />
+                  </td>
+                  <td>
+                    <input type="number" value="5" class="w-12 fiori-input" />
+                  </td>
+                  <td>
+                    <input type="text" value="Each" class="w-12 fiori-input" />
+                  </td>
+                  <td>
+                    <input type="number" value="100." class="w-16 fiori-input" />
+                  </td>
+                  <td class="relative">
+                    <input type="date" value="2024-05-01" class="w-28 fiori-input" />
+                    <i class="fas fa-calendar-alt absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex items-center gap-6 mt-4">
+            <button type="button" class="flex items-center gap-2 fiori-cancel-btn px-4 py-2 text-sm font-normal">
+              <i class="fas fa-plus"></i> Add Item
+            </button>
+            <span class="fiori-title text-sm font-normal">Material</span>
+          </div>
+        </section>
+        <section class="flex justify-end items-center mt-6">
+          <span class="fiori-title font-semibold text-sm mr-4">
+            Total (INR)
+          </span>
+          <span class="text-[var(--fiori-gray)] text-sm font-normal">500.00</span>
+        </section>
+      </form>
+    </div>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+    // Profile dropdown toggle
+    const profileMenuButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+    let profileOpen = false;
+
+    profileMenuButton?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileDropdown.classList.toggle("hidden", !profileOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+        profileDropdown.classList.add("hidden");
+        profileOpen = false;
+      }
+    });
+
+    // Save button alert
+    document.getElementById('saveBtn').addEventListener('click', function() {
+      alert('✅ Purchase Order changes saved successfully!');
+    });
+
+    // Cancel button alert
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+      alert('⚠️ Purchase Order change cancelled.');
+    });
+  </script>
+</body>
+</html>

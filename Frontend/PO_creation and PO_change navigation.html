@@ -1,0 +1,330 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Main Screen Navigation - PO Creation and PO Change
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --fiori-blue: #0a6ed1;
+      --fiori-blue-dark: #0854a0;
+      --fiori-bg: #f3f6f9;
+      --fiori-card: #fff;
+      --fiori-border: #d1e0ef;
+      --fiori-shadow: #eaf3fc;
+      --fiori-label: #0a6ed1;
+      --fiori-gray: #355571;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fiori-bg);
+      color: var(--fiori-gray);
+    }
+    .fiori-header {
+      background: #fff;
+      border-bottom: 1px solid var(--fiori-border);
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 0.5rem 0;
+      margin-bottom: 2rem;
+    }
+    .fiori-title {
+      color: var(--fiori-blue);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .fiori-card {
+      background: var(--fiori-card);
+      border: 1px solid var(--fiori-border);
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px 0 var(--fiori-shadow);
+      padding: 2rem;
+    }
+    .fiori-btn {
+      background-color: var(--fiori-blue);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+    }
+    .fiori-btn:hover {
+      background-color: var(--fiori-blue-dark);
+    }
+    .fiori-cancel-btn {
+      color: var(--fiori-blue);
+      border: 1px solid var(--fiori-blue);
+      background: #eaf3fc;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+    }
+    .fiori-cancel-btn:hover {
+      background: #d1e0ef;
+      color: var(--fiori-blue-dark);
+    }
+    .fiori-form-label {
+      color: var(--fiori-label);
+      font-weight: 600;
+    }
+    ::placeholder {
+      color: #b8e0ff;
+    }
+    .fiori-footer {
+      border-top: 1px solid var(--fiori-border);
+      background: #fff;
+      color: var(--fiori-gray);
+      margin-top: 2rem;
+      padding: 1.5rem 0 0.5rem 0;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen flex flex-col bg-[var(--fiori-bg)]">
+  <!-- Fiori Launchpad Header -->
+  <header class="fiori-header w-full">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4">
+      <div class="flex items-center gap-6">
+        <img src="https://www.companieshistory.com/wp-content/uploads/2021/12/Bajaj-Finserv-Limited-logo.jpg" alt="Bajaj Finserv" class="h-10 w-auto rounded" />
+        <span class="text-2xl font-bold fiori-title tracking-tight">PO Creation &amp; Change</span>
+      </div>
+      <div class="flex items-center gap-8">
+        <div class="relative">
+          <button id="profileMenuButton" aria-label="Open profile menu" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#eaf3fc] text-[var(--fiori-blue)] hover:bg-[#d1e0ef] focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)]">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </button>
+          <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white border border-[var(--fiori-border)] rounded-lg shadow-lg z-50">
+            <div class="p-4 border-b border-[#eaf3fc]">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-[#eaf3fc] flex items-center justify-center text-[var(--fiori-blue)]">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <div>
+                  <div class="font-semibold text-[var(--fiori-blue)]">Priya Sharma</div>
+                  <div class="text-sm text-[var(--fiori-gray)]">priya.sharma@buyer.com</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 space-y-2">
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Buyer ID:</span> BUY123456</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Company:</span> Bajaj Finserv Ltd.</div>
+              <div class="text-sm text-[var(--fiori-gray)]"><span class="font-semibold">Role:</span> Buyer</div>
+            </div>
+            <div class="border-t border-[#eaf3fc]">
+              <button
+                onclick="window.location.href='login.html'"
+                class="w-full text-left px-4 py-3 text-[#ab218e] hover:bg-[#f9eafc] font-semibold flex items-center gap-2"
+                type="button"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex-grow flex flex-col items-center justify-center w-full">
+    <div class="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+      <button aria-label="Navigate to PO Creation"
+  class="group relative rounded-3xl bg-white shadow-2xl hover:shadow-3xl transition-shadow duration-500 p-6 flex flex-col items-center text-center transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 cursor-pointer"
+  id="poCreationBtn"
+  type="button"
+  onclick="window.location.href='5_PO_Creation.html';">
+  <div class="w-28 h-28 mb-6 rounded-full bg-gradient-to-tr from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+    <img alt="Icon representing PO Creation, showing a clipboard with a pencil and checkmarks in blue tones" class="w-20 h-20" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/330a46a9-369a-4b30-5b63-7e3f9b03d32b.jpg" width="120"/>
+  </div>
+  <h2 class="text-2xl font-extrabold text-blue-900 mb-1 group-hover:text-blue-800 transition-colors duration-300">
+    PO Creation
+  </h2>
+  <p class="text-blue-700 max-w-xs text-xs font-medium">
+    Create new Purchase Orders quickly and efficiently.
+  </p>
+</button>
+      <button aria-label="Navigate to PO Change"
+  class="group relative rounded-3xl bg-white shadow-2xl hover:shadow-3xl transition-shadow duration-500 p-6 flex flex-col items-center text-center transform hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 cursor-pointer"
+  id="poChangeBtn"
+  type="button"
+  onclick="window.location.href='6_PO_Change.html';">
+  <div class="w-28 h-28 mb-6 rounded-full bg-gradient-to-tr from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+    <img alt="Icon representing PO Change, showing a document with an edit pencil and arrows indicating modification in blue tones" class="w-20 h-20" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/a46a7bd0-b572-45dc-2d09-570153d8b63c.jpg" width="120"/>
+  </div>
+  <h2 class="text-2xl font-extrabold text-blue-900 mb-1 group-hover:text-blue-800 transition-colors duration-300">
+    PO Change
+  </h2>
+  <p class="text-blue-700 max-w-xs text-xs font-medium">
+    Modify existing Purchase Orders with ease and accuracy.
+  </p>
+</button>
+    </div>
+    <section aria-atomic="true" aria-live="polite" class="max-w-4xl w-full fiori-card hidden" id="contentArea" role="region">
+      <button class="mb-6 text-[var(--fiori-blue)] hover:text-[var(--fiori-blue-dark)] font-semibold focus:outline-none focus:ring-2 focus:ring-[var(--fiori-blue)] rounded transition" id="backBtn" type="button">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back
+      </button>
+      <div class="hidden" id="poCreationContent">
+        <h1 class="text-3xl font-extrabold text-[var(--fiori-blue)] mb-6">
+          PO Creation
+        </h1>
+        <form class="space-y-6" id="poCreationForm" novalidate="">
+          <div>
+            <label class="block fiori-form-label mb-2" for="poCreationTitle">
+              PO Title
+            </label>
+            <input autocomplete="off" class="fiori-input" id="poCreationTitle" name="poCreationTitle" required="" type="text"/>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poCreationDescription">
+              Description
+            </label>
+            <textarea autocomplete="off" class="fiori-input" id="poCreationDescription" name="poCreationDescription" required="" rows="4"></textarea>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poCreationAmount">
+              Amount
+            </label>
+            <input autocomplete="off" class="fiori-input" id="poCreationAmount" min="0" name="poCreationAmount" required="" step="0.01" type="number"/>
+          </div>
+          <button class="fiori-btn px-6 py-3" type="submit">
+            Submit PO Creation
+          </button>
+        </form>
+      </div>
+      <div class="hidden" id="poChangeContent">
+        <h1 class="text-3xl font-extrabold text-[var(--fiori-blue)] mb-6">
+          PO Change
+        </h1>
+        <form class="space-y-6" id="poChangeForm" novalidate="">
+          <div>
+            <label class="block fiori-form-label mb-2" for="poChangeId">
+              PO ID
+            </label>
+            <input autocomplete="off" class="fiori-input" id="poChangeId" name="poChangeId" required="" type="text"/>
+          </div>
+          <div>
+            <label class="block fiori-form-label mb-2" for="poChangeDescription">
+              Change Description
+            </label>
+            <textarea autocomplete="off" class="fiori-input" id="poChangeDescription" name="poChangeDescription" required="" rows="4"></textarea>
+          </div>
+          <button class="fiori-btn px-6 py-3" type="submit">
+            Submit PO Change
+          </button>
+        </form>
+      </div>
+    </section>
+    <button
+      type="button"
+      onclick="window.location.href='Buyer_Homepage.html';"
+      class="fiori-cancel-btn mt-8 mb-4 flex items-center gap-2 px-5 py-2 text-sm"
+      aria-label="Go back to Buyer Homepage"
+    >
+      <i class="fas fa-arrow-left"></i>
+      Back 
+    </button>
+  </main>
+  <footer class="fiori-footer">
+    © 2024 Procurement System. All rights reserved.
+  </footer>
+  <script>
+   // Profile dropdown toggle
+   const profileMenuButton = document.getElementById("profileMenuButton");
+   const profileDropdown = document.getElementById("profileDropdown");
+   let profileOpen = false;
+
+   profileMenuButton?.addEventListener("click", (e) => {
+     e.stopPropagation();
+     profileOpen = !profileOpen;
+     profileDropdown.classList.toggle("hidden", !profileOpen);
+   });
+
+   document.addEventListener("click", (e) => {
+     if (profileOpen && !profileDropdown.contains(e.target) && e.target !== profileMenuButton) {
+       profileDropdown.classList.add("hidden");
+       profileOpen = false;
+     }
+   });
+
+   const poCreationBtn = document.getElementById('poCreationBtn');
+   const poChangeBtn = document.getElementById('poChangeBtn');
+   const contentArea = document.getElementById('contentArea');
+   const poCreationContent = document.getElementById('poCreationContent');
+   const poChangeContent = document.getElementById('poChangeContent');
+   const backBtn = document.getElementById('backBtn');
+
+   function showSection(sectionToShow) {
+     poCreationContent.classList.add('hidden');
+     poChangeContent.classList.add('hidden');
+     sectionToShow.classList.remove('hidden');
+     contentArea.classList.remove('hidden');
+     poCreationBtn.parentElement.classList.add('hidden');
+     poChangeBtn.parentElement.classList.add('hidden');
+   }
+
+   poCreationBtn.addEventListener('click', () => {
+     showSection(poCreationContent);
+   });
+
+   poChangeBtn.addEventListener('click', () => {
+     showSection(poChangeContent);
+   });
+
+   backBtn.addEventListener('click', () => {
+     contentArea.classList.add('hidden');
+     poCreationContent.classList.add('hidden');
+     poChangeContent.classList.add('hidden');
+     poCreationBtn.parentElement.classList.remove('hidden');
+     poChangeBtn.parentElement.classList.remove('hidden');
+   });
+
+   // PO Creation form submission
+   document.getElementById('poCreationForm').addEventListener('submit', (e) => {
+     e.preventDefault();
+     const title = e.target.poCreationTitle.value.trim();
+     const description = e.target.poCreationDescription.value.trim();
+     const amount = e.target.poCreationAmount.value.trim();
+
+     if (!title) {
+       alert('Please enter the PO Title.');
+       return;
+     }
+     if (!description) {
+       alert('Please enter the Description.');
+       return;
+     }
+     if (!amount || isNaN(amount) || Number(amount) < 0) {
+       alert('Please enter a valid Amount.');
+       return;
+     }
+
+     alert(`PO Created Successfully!\n\nTitle: ${title}\nDescription: ${description}\nAmount: $${parseFloat(amount).toFixed(2)}`);
+
+     e.target.reset();
+   });
+
+   // PO Change form submission
+   document.getElementById('poChangeForm').addEventListener('submit', (e) => {
+     e.preventDefault();
+     const poId = e.target.poChangeId.value.trim();
+     const changeDescription = e.target.poChangeDescription.value.trim();
+
+     if (!poId) {
+       alert('Please enter the PO ID.');
+       return;
+     }
+     if (!changeDescription) {
+       alert('Please enter the Change Description.');
+       return;
+     }
+
+     alert(`PO Change Submitted!\n\nPO ID: ${poId}\nChange Description: ${changeDescription}`);
+
+     e.target.reset();
+   });
+  </script>
+ </body>
+</html>
